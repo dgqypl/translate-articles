@@ -1,0 +1,108 @@
+---
+name: html-annotate
+description: 在双语 HTML 文章中对指定文本段落添加标注（加粗、下划线、高亮块）。当用户说"给 xxx 加粗"、"对 xxx 这段加下划线"、"高亮 xxx"、"标注这段文字"、"给这一段做标记"时使用此 skill。也适用于用户粘贴了一段文字并要求标注的场景。
+---
+
+# HTML 标注 Skill
+
+为双语 HTML 文章中的指定文本段落添加标注（加粗、下划线、高亮块），并自动提交到 git。
+
+## 工作流程
+
+### 1. 获取标注信息
+
+用户需要提供两个信息：
+- **文本内容**：要标注的原文（可以是完整段落或句子片段）
+- **标注类型**：加粗、下划线、高亮块三选一
+
+如果用户只提供了文本内容但没说明标注类型，主动询问：
+
+> 要对这段文字应用哪种标注？
+> 1. 加粗
+> 2. 下划线  
+> 3. 高亮块
+
+### 2. 定位文件
+
+查看当前目录下的 HTML 文件。如果有多个，根据上下文推断用户指的是哪一个。如果不确定，列出所有 HTML 文件让用户选择。
+
+### 3. 查找并标注文本
+
+读取 HTML 文件，查找用户提供的文本内容：
+
+- **查找策略**：优先精确匹配，如果文本跨越多个 HTML 标签（如 `<p class="en">` 和 `<p class="zh">`），需要处理跨标签的情况
+- **找不到时**：告诉用户"找不到文本：[用户提供的文本前 50 字]..."，询问是否需要调整搜索内容或者手动指定位置
+- **标注实现**：
+  - **加粗**：用 `<strong>` 标签包裹
+  - **下划线**：用 `<u>` 标签包裹
+  - **高亮块**：用 `<mark>` 标签包裹
+
+### 4. 应用标注
+
+使用 Edit 工具修改 HTML 文件，将目标文本包裹在相应的标签中。注意：
+
+- 保持原有的 HTML 结构和缩进
+- 如果文本本身已经包含其他标签（如 `<em>` 或 `<code>`），确保嵌套正确
+- 一次只标注一个文本段落
+
+### 5. Git 提交
+
+标注完成后，自动创建 git commit：
+
+```bash
+git add <修改的文件>
+git commit -m "$(cat <<'EOF'
+annotate: [标注类型] <文件名中的文章标题部分>
+
+对文章中的 "[文本前 30 字]..." 应用 [标注类型]。
+
+Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
+EOF
+)"
+```
+
+Commit message 示例：
+- `annotate: 加粗 Career advice in the age of AI`
+- `annotate: 下划线 A Field Guide to Fable`
+- `annotate: 高亮块 Career advice in the age of AI`
+
+### 6. 确认完成
+
+告诉用户：
+- 标注已应用到哪个文件
+- 标注了什么内容（显示前后对比）
+- Git commit 已创建
+
+## 注意事项
+
+- 这个 skill 针对的是用 `/ai-article-translator` 生成的双语 HTML 文件格式
+- 如果用户连续标注多段，每次标注后都单独提交一个 commit
+- 如果用户想撤销标注，可以用 `git revert` 或 `git reset` 回退
+- 标注是永久性的，会直接修改 HTML 源文件
+
+## 示例用法
+
+**用户**："给 'Time, relationships, and reputation: these are the true limited resources' 这句话加粗"
+
+**Claude**：
+1. 找到包含该文本的 HTML 文件
+2. 读取文件，定位到第 69 行的 `<p class="en">` 标签
+3. 用 `<strong>` 标签包裹该句子
+4. 创建 commit："annotate: 加粗 Career advice in the age of AI"
+5. 告知用户完成
+
+**用户**："对第二大段那个关于 Scale 的经历那段加下划线"
+
+**Claude**：
+1. 识别到文本描述不够明确
+2. 询问："你是指这段吗？'Before joining Scale, I had quant offers with much higher guaranteed cash...'"
+3. 用户确认后，应用下划线标注
+4. 提交 commit
+
+**用户**："高亮'AI models get better at anything you can write a loss function for'这整段"
+
+**Claude**：
+1. 找到该段落（第 52-53 行，包含英文和中文）
+2. 用 `<mark>` 包裹整个段落内的文本
+3. 创建 commit
+4. 确认完成
