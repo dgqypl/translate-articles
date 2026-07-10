@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Understanding is the new bottleneck · 双语</title>
+<style>
+  :root { color-scheme: light; }
+  body {
+    max-width: 760px; margin: 40px auto; padding: 0 20px 80px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    color: #1a1a1a; background: #fafafa; line-height: 1.65;
+  }
+  header { border-bottom: 1px solid #e5e5e5; padding-bottom: 24px; margin-bottom: 32px; }
+  h1.title { font-size: 30px; margin: 0 0 8px; line-height: 1.3; }
+  h1.title .zh { display:block; font-size:22px; color:#555; font-weight:600; margin-top:6px; }
+  .meta { color: #666; font-size: 14px; }
+  h2 { font-size: 22px; margin: 36px 0 10px; border-left: 4px solid #d97757; padding-left: 12px; }
+  h2 .zh { display:block; font-size:17px; color:#555; margin-top:2px; }
+  h3 { font-size: 18px; margin: 28px 0 8px; color:#333; }
+  h3 .zh { display:block; font-size:15px; color:#666; font-weight:600; margin-top:2px; }
+  p.en { margin: 14px 0 4px; color: #222; }
+  p.zh {
+    margin: 0 0 18px; padding: 8px 12px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    color: #0f1419; font-size: 15.5px;
+  }
+  ul.en { margin: 8px 0 4px 22px; }
+  ul.zh {
+    margin: 0 0 18px; padding: 8px 12px 8px 34px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    font-size: 15.5px;
+  }
+  em, i { color: #b4531a; font-style: italic; }
+  strong { color: #000; }
+  code { background: #eee; padding: 1px 6px; border-radius: 3px; font-size: 90%; }
+  a { color: #1d9bf0; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  blockquote { border-left: 3px solid #ccc; margin: 12px 0; padding: 4px 14px; color: #555; }
+  img { max-width: 100%; height: auto; display: block; margin: 20px auto; border: 1px solid #e5e5e5; border-radius: 4px; }
+  .caption { font-size: 13px; color: #888; text-align: center; margin: -12px 0 16px; font-style: italic; }
+  .note { font-size:12px; color:#999; margin-top:60px; text-align:center; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 class="title">
+    Understanding is the new bottleneck
+    <span class="zh">理解，才是新的瓶颈</span>
+  </h1>
+  <div class="meta">作者：Geoffrey Litt（Notion 设计工程师）· 原文：<a href="https://www.geoffreylitt.com/2026/07/02/understanding-is-the-new-bottleneck.html">geoffreylitt.com</a> · Twitter 版：<a href="https://x.com/geoffreylitt/status/2072522251300409556">推特长贴</a> · 中英双语对照 · 译文供个人阅读参考</div>
+</header>
+
+<p class="en" style="color:#888;font-size:14px;">July 2026</p>
+<p class="zh" style="color:#888;font-size:14px;">2026 年 7 月</p>
+
+<p class="en">This is a written version of a talk I gave at the <a href="https://www.ai.engineer/">AI Engineer</a> conference in July 2026, also shared as <a href="https://x.com/geoffreylitt/status/2072522251300409556">a tweet thread</a>.</p>
+<p class="zh">这是我 2026 年 7 月在 <a href="https://www.ai.engineer/">AI Engineer</a> 大会上做的一场演讲的书面版，同时也发成了<a href="https://x.com/geoffreylitt/status/2072522251300409556">一条推特长贴</a>。</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-01.webp" alt="Title slide: Understanding is the new bottleneck. Geoffrey Litt, Design Engineer at Notion.">
+<p class="caption">题图：Understanding is the new bottleneck / Geoffrey Litt · Notion 设计工程师</p>
+
+<p class="en"><strong>Hot take: I think it's still important to understand the code that our agents write!</strong></p>
+<p class="zh"><strong>暴论：我觉得，理解 agent 替我们写的代码，仍然很重要！</strong></p>
+
+<p class="en">In this talk I'll explain why that's the case, and show some ideas for how to efficiently understand code. Alright, let's dive in.</p>
+<p class="zh">这场演讲里，我会解释为什么它重要，并展示几种高效理解代码的思路。好，我们开始。</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-02.webp" alt="Cartoon of a person surrounded by a growing pile of agent-written code.">
+<p class="caption">配图：一个人被 agent 生成的代码堆得越来越高。</p>
+
+<p class="en">Agents are writing more and more code for us, and we all know it's getting harder to keep up.</p>
+<p class="zh">agent 帮我们写的代码越来越多，我们都知道，跟上它的节奏越来越难。</p>
+
+<p class="en">But the good news is: there are many ways to understand code! Reading diffs line by line is not the only way.</p>
+<p class="zh">但好消息是：理解代码的方法有很多种！一行一行读 diff 并不是唯一的路。</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-03.webp" alt="Slide listing techniques: code explainer docs, quizzes, micro-worlds.">
+<p class="caption">配图：三种技巧——代码讲解文档、小测、微世界。</p>
+
+<p class="en">Most of this talk will be about techniques I have found helpful to understand systems my agents are building:</p>
+<p class="zh">这场演讲的大部分内容，会讲我在理解 agent 所构建系统时发现好用的几种技巧：</p>
+
+<ul class="en">
+  <li>Code explainer docs</li>
+  <li>Quizzes to check my understanding</li>
+  <li>Micro-worlds that I can play with to understand the system</li>
+</ul>
+<ul class="zh">
+  <li>代码讲解（explainer）文档</li>
+  <li>用于检查自己是否真正理解的小测（quiz）</li>
+  <li>能亲手把玩、从而理解系统的微世界（micro-worlds）</li>
+</ul>
+
+<p class="en">But first we have to ask a more basic question…</p>
+<p class="zh">但在此之前，我们得先问一个更根本的问题……</p>
+
+<h2>Why understand? <span class="zh">为什么要理解？</span></h2>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-04.webp" alt="Slide reading: Why understand?">
+<p class="caption">配图：这一页只写着「Why understand?」。</p>
+
+<p class="en"><strong>Why? Why understand?</strong></p>
+<p class="zh"><strong>为什么？为什么还要去理解？</strong></p>
+
+<p class="en">Aren't we supposed to be taking ourselves out of the loop now, and letting the agents loop themselves? As the agents get smarter, doesn't it become less important for us to be in the details?</p>
+<p class="zh">现在不都在讲「让人退出循环、让 agent 自己跑循环」吗？agent 越变越聪明，我们是不是就不必扎在细节里了？</p>
+
+<p class="en">I think many people — even those who are pro-understanding — have a slightly incorrect answer to this question!</p>
+<p class="zh">我觉得，很多人——哪怕是那些支持「人要理解代码」的人——对这个问题的答案都稍微有点跑偏！</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-05.webp" alt="Slide: understand to verify.">
+<p class="caption">配图：「understand to verify」——为了验证而理解。</p>
+
+<p class="en">One possible answer: we understand <em>to verify</em>. We check the agent's work, we see if it's correct.</p>
+<p class="zh">一个常见答案：我们理解，是<em>为了验证</em>。我们检查 agent 的工作，看它对不对。</p>
+
+<p class="en">Correct can mean many things: does it match the spec, is it well architected… but it's fundamentally a thumbs-up / thumbs-down question.</p>
+<p class="zh">「对」可以有很多层含义：符不符合 spec、架构好不好……但归根结底，这是一个「点赞 / 点踩」二选一的问题。</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-06.webp" alt="Slide about agents getting better at verifying their own work.">
+<p class="caption">配图：agent 自己验证自己工作的能力，越来越强。</p>
+
+<p class="en">Here's the thing: the agents are getting better and better at verifying their own work. And this is good! I like it when my agent doesn't make mistakes.</p>
+<p class="zh">但事情是这样：agent 在验证自己的工作这件事上，正在越来越擅长。这是好事！我当然希望我的 agent 不出错。</p>
+
+<p class="en">But hmm. Where does that leave us humans?</p>
+<p class="zh">可是，嗯……那我们这些人类，还剩下什么位置？</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-07.webp" alt="Slide: understand to participate.">
+<p class="caption">配图：「understand to participate」——为了参与而理解。</p>
+
+<p class="en"><strong>That's where another answer comes in: we can understand to participate.</strong></p>
+<p class="zh"><strong>另一个答案出场了：我们理解，是为了参与。</strong></p>
+
+<p class="en">You can learn what the agent is doing to make sure you can be an active participant in the creative process. Here's why this matters…</p>
+<p class="zh">你去学 agent 在做什么，是为了确保自己能主动地参与到创作过程里。为什么这一点重要，我来说……</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-08.webp" alt="Diagram of a project as many iterative loops with an agent.">
+<p class="caption">配图：一个项目其实是一连串跟 agent 迭代的循环。</p>
+
+<p class="en">It's never just one loop! A project is many, many loops with the agent.</p>
+<p class="zh">从来就不是一个循环这么简单！一个项目，是与 agent 之间无数个循环。</p>
+
+<p class="en">And the understanding you have of the system is part of your ability to come up with the next idea to evolve it.</p>
+<p class="zh">而你对系统的理解，本身就是你「想出下一步该怎么演进」这项能力的一部分。</p>
+
+<p class="en">You need a rich set of concepts in your mind to think creatively and fluently about how to move something forward. If you're lacking that fluency, your ability to participate in the project is meaningfully limited.</p>
+<p class="zh">要想创造性地、流畅地思考「下一步怎么走」，你脑子里需要有一整套丰富的概念。缺了这份流畅，你参与项目的能力就会实打实地受限。</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-09.webp" alt="Quote from Margaret Storey on cognitive debt: the humans involved may have simply lost the plot.">
+<p class="caption">配图：Margaret Storey 关于 cognitive debt 的引用——「参与其中的人可能只是彻底跟丢了剧情」。</p>
+
+<p class="en">By the way, this relates closely to the idea of <a href="https://margaretstorey.com/blog/2026/02/09/cognitive-debt/">cognitive debt</a>, popularized by Margaret Storey and <a href="https://simonwillison.net/">Simon Willison</a>.</p>
+<p class="zh">顺带一提，这跟 Margaret Storey 和 <a href="https://simonwillison.net/">Simon Willison</a> 推广的<a href="https://margaretstorey.com/blog/2026/02/09/cognitive-debt/">「认知债（cognitive debt）」</a>概念紧密相关。</p>
+
+<p class="en">It's like tech debt: you can get away with not understanding what's going on in the short term, but it'll bite you eventually.</p>
+<p class="zh">它就像技术债：短期里你可以蒙混过去、不去弄懂发生了什么，但迟早会反噬。</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-10.webp" alt="Slide asking: how do we build understanding? Pointing to education for inspiration.">
+<p class="caption">配图：怎么建立理解？向教育学取经。</p>
+
+<p class="en">OK, so fine, understanding matters.</p>
+<p class="zh">好，那就承认吧：理解，重要。</p>
+
+<p class="en">But this raises the next question: <em>how</em>? <strong>How do we build this human understanding when we're working with AI and moving fast?</strong></p>
+<p class="zh">但这带出下一个问题：<em>怎么做</em>？<strong>在跟 AI 协作、且节奏飞快的时候，我们怎么建立起这份属于人类的理解？</strong></p>
+
+<p class="en">Well, turns out this is not the first time anyone has ever thought about how to communicate understanding. I think we can look to education as an inspiration. Can we steal the best ideas ever invented for education and apply them to this problem?</p>
+<p class="zh">好在，思考「怎么把理解传递给别人」这件事，人类并不是第一次做。我觉得可以从教育学里找灵感。能不能把教育史上最好的那些点子偷过来，用到这个问题上？</p>
+
+<h2>Technique 1: Explanations <span class="zh">技巧一：讲解</span></h2>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-11.webp" alt="Slide listing three techniques, with 'explanations' highlighted.">
+<p class="caption">配图：三种技巧列表，「explanations（讲解）」被高亮。</p>
+
+<p class="en">Today I want to share three techniques that show how we can attempt this.</p>
+<p class="zh">今天我想分享三种技巧，用它们示范我们能怎么切入这个问题。</p>
+
+<p class="en">First: explanations. What makes a good explanation?</p>
+<p class="zh">第一种：讲解。什么样的讲解才算好？</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-12.webp" alt="Slide showing a raw code diff.">
+<p class="caption">配图：一段原始的 code diff。</p>
+
+<p class="en">Whenever an agent finishes some work, it's an opportunity for an explanation — an artifact.</p>
+<p class="zh">每当 agent 完成一段工作，都是一次做讲解的机会——一次产出 artifact 的机会。</p>
+
+<p class="en">Most naively, we can read a code diff: the raw material that changed.</p>
+<p class="zh">最朴素的做法：读一遍代码 diff，那是变更的原材料。</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-13.webp" alt="Slide asking: what would the best explanation be?">
+<p class="caption">配图：什么才是「最好的讲解」？</p>
+
+<p class="en">But what if we ask:</p>
+<p class="zh">但如果我们换个问法：</p>
+
+<p class="en"><strong>What would the <em>best</em> explanation be?</strong> If you had a team — human or AI — that really sweat the details of explaining something well to you, how would that feel?</p>
+<p class="zh"><strong><em>最好的</em>那种讲解，会长什么样？</strong>假如你身边有个团队——不管是人还是 AI——为「把一件事讲清楚」这件事真正抠细节，你会有什么样的体验？</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-14.webp" alt="Screenshot of a code explainer doc produced by the /explain-diff skill.">
+<p class="caption">配图：由 /explain-diff 这个 skill 产出的一份代码讲解文档截图。</p>
+
+<p class="en">Here's one answer. I made a skill called <a href="https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524">/explain-diff</a>, which I use every day and many coworkers have found valuable.</p>
+<p class="zh">这是我的一个答案。我做了一个叫 <a href="https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524">/explain-diff</a> 的 skill，自己每天都在用，很多同事也觉得有价值。</p>
+
+<p class="en">It outputs thoughtfully structured code explainers as HTML, markdown, or Notion docs. Notion is a good place for collaborating on and discussing these explainers as a team. (Disclaimer: I work at Notion so I'm biased.)</p>
+<p class="zh">它会把精心结构化的代码讲解，输出成 HTML、markdown 或 Notion 文档。Notion 是个适合团队一起协作、讨论这些讲解的地方。（声明：我在 Notion 工作，所以我有屁股。）</p>
+
+<p class="en">Let's see what's in one of these explainers, using an example of editing the perspective of a video game.</p>
+<p class="zh">咱们看看这样一份讲解里都有什么，以「改动一款视频游戏的视角（perspective）」为例。</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-15.webp" alt="Explainer section teaching background info about the game engine.">
+<p class="caption">配图：讲解文档里，先讲游戏引擎的背景信息。</p>
+
+<p class="en">First principle: <strong>teach me background info!</strong></p>
+<p class="zh">第一条原则：<strong>先把背景讲清楚！</strong></p>
+
+<p class="en">Before we even get to what changed, help me understand what was already there. In this case, teach me about the game engine.</p>
+<p class="zh">在讲改了什么之前，先帮我搞明白原本有什么。放到这个例子里，就是先教我这套游戏引擎。</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-16.webp" alt="Explainer section stating the goal of the change and explaining isometric projection.">
+<p class="caption">配图：讲解文档里说明本次改动的目标，并解释 isometric（等距）投影是什么。</p>
+
+<p class="en">Second principle: <strong>intuition before details.</strong></p>
+<p class="zh">第二条原则：<strong>先建直觉，再进细节。</strong></p>
+
+<p class="en">Before any code, it states the goal — "make the garden feel three-dimensional with 2D drawing tricks" — and explains related concepts, like what isometric projection is.</p>
+<p class="zh">在写任何代码之前，它先把目标说出来——「用 2D 绘制的小把戏，让花园看起来有三维感」——然后解释相关概念，比如什么是 isometric（等距）投影。</p>
+
+<p class="en">All of this builds my intuition for the essence of the change. It's catching me up as the human so I can be an equal participant in understanding.</p>
+<p class="zh">所有这些，都在帮我搭建起「这次改动本质是什么」的直觉。它让作为人类的我跟上进度，好让我能作为一个平等的参与者一起理解。</p>
+
+<p class="en">You can also build intuition with <strong>interactive figures</strong>.</p>
+<p class="zh">你还可以用<strong>交互式插图</strong>来搭建直觉。</p>
+
+<p class="en">Here I'm understanding the isometric perspective by dragging rocks around the garden and watching their coordinates move.</p>
+<p class="zh">这里我通过在花园里拖动石头、观察它们坐标的变化，来理解等距视角。</p>
+
+<p class="en">(This is using a new feature Notion just shipped: you can now embed interactive HTML inside pages.)</p>
+<p class="zh">（用的是 Notion 刚交付的一个新功能：现在可以把交互式 HTML 嵌进页面里。）</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-18.webp" alt="Slide contrasting a raw diff with a literate diff structured as prose.">
+<p class="caption">配图：原始 diff 与「literate diff」的对比，后者以散文形式组织。</p>
+
+<p class="en">We finally get to the code. But a typical diff is a pile of files edited in alphabetical order with no explanation.</p>
+<p class="zh">终于讲到代码了。但典型的 diff，就是一堆按字母序排列、毫无解释的文件改动。</p>
+
+<p class="en">A "literate diff" as I call it is structured as prose — walking through the changes in a sensible order, with surrounding explanation and embedded code snippets. Faster to review than a raw diff.</p>
+<p class="zh">我把它叫做「literate diff（可读的 diff）」——像散文一样组织：按一个合理的顺序把改动带你走一遍，穿插解释和代码片段。审起来比原始 diff 快得多。</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-19.webp" alt="Photo of a printed code explainer packet at a café.">
+<p class="caption">配图：一份打印出来带去咖啡馆读的代码讲解手册。</p>
+
+<p class="en">The end result of all of this is a nice explainer packet. I still read the code diff but I always read this first.</p>
+<p class="zh">最后产出的，是一份漂亮的讲解手册。代码 diff 我照读不误，但我一定先读讲解手册。</p>
+
+<p class="en">Sometimes I'll print these out and take them to the café — less distracting.</p>
+<p class="zh">有时候我会把它们打印出来，带去咖啡馆读——干扰更少。</p>
+
+<p class="en">It's beautifully ironic: AI turns an interactive activity into a static paper report I can focus on deeply :)</p>
+<p class="zh">这里有种漂亮的反讽：AI 反而把一件本来交互式的活动，变成了一份可以沉浸阅读的静态纸质报告 :)</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-20.webp" alt="Slide quoting Andy Matuschak: books don't work. Screenshot of Quantum Country.">
+<p class="caption">配图：引用 Andy Matuschak 名言「books don't work（书不管用）」，配 Quantum Country 截图。</p>
+
+<p class="en">There's only one problem: reading is hard work 😅</p>
+<p class="zh">只有一个问题：读书这件事，其实很辛苦 😅</p>
+
+<p class="en">As <a href="https://andymatuschak.org/books/">Andy Matuschak says: "books don't work"</a>! It's too easy to fool yourself into thinking you did the reading when you really didn't retain or understand.</p>
+<p class="zh">正如 <a href="https://andymatuschak.org/books/">Andy Matuschak 所说：「书不管用」</a>！你太容易骗自己「我读过了」，而其实什么都没记住，也没真正理解。</p>
+
+<p class="en">How do we fix this? I took inspiration from Andy and Michael Nielsen's work on <a href="https://quantum.country/">embedding spaced repetition quizzes in essays</a>.</p>
+<p class="zh">怎么解决？我从 Andy 和 Michael Nielsen 的<a href="https://quantum.country/">「把间隔重复的小测嵌进文章里」</a>那个工作里找到了灵感。</p>
+
+<p class="en">I do something similar with my code explainers now. At the bottom of an explainer there's an interactive quiz — five questions about the change — and I try to answer them.</p>
+<p class="zh">我现在在我的代码讲解里也做类似的事。每份讲解的末尾都有一份交互式小测——五道关于本次改动的问题——我会挨着答一遍。</p>
+
+<p class="en">My rule: I won't send code to others until I can pass the quiz, and I do the same when reviewing others' code.</p>
+<p class="zh">我的规矩：小测过不了，代码就不发给别人；审别人代码的时候，我也用同样的规矩要求自己。</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-22.webp" alt="Slide describing the quiz as a speed regulator on the AI loop.">
+<p class="caption">配图：小测，是 AI 循环上的一个「限速器」。</p>
+
+<p class="en"><strong>A quiz is a speed regulator.</strong> Working with AI, it's easy for the loop to run faster than the speed of human understanding.</p>
+<p class="zh"><strong>小测，是一个限速器。</strong>跟 AI 协作时，循环很容易跑得比人类理解的速度还快。</p>
+
+<p class="en">The quiz is a counterbalancing force: I mechanically ask "do I actually understand?" so that I can remain a full creative participant.</p>
+<p class="zh">小测提供了一股反向的力：我机械地问自己「我是不是真的理解了？」，好让自己能继续以一个完整的创造性参与者身份留在项目里。</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-23.webp" alt="QR code linking to the /explain-diff skill.">
+<p class="caption">配图：指向 /explain-diff skill 的二维码。</p>
+
+<p class="en">OK, so that's explain-diff. <a href="https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524">Here's the skill if you want it</a>: two variants that output either HTML or a Notion page.</p>
+<p class="zh">好，explain-diff 就是这样。<a href="https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524">想用的话在这里</a>：有两个变体，一种输出 HTML，一种输出 Notion 页面。</p>
+
+<h2>Technique 2: Micro-worlds <span class="zh">技巧二：微世界</span></h2>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-24.webp" alt="Slide introducing micro-worlds, with a photo of Seymour Papert.">
+<p class="caption">配图：介绍「微世界」，配 Seymour Papert 的照片。</p>
+
+<p class="en">Next idea: micro-worlds. This one's inspired by the visionary educator Seymour Papert.</p>
+<p class="zh">下一个想法：微世界（micro-worlds）。灵感来自那位有远见的教育家 Seymour Papert。</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-25.webp" alt="Slide about Papert's idea of living in Mathland.">
+<p class="caption">配图：Papert 的「Living in Mathland（住在数学国）」想法。</p>
+
+<p class="en">Papert had this beautiful idea he called <em>living in Mathland</em>: if you want to learn math, live in Mathland — just like if you want to learn French, you go live in France. Could we build an environment where children learn math naturally, as a consequence of their curiosity?</p>
+<p class="zh">Papert 有个漂亮的想法，他叫它<em>「住在数学国（living in Mathland）」</em>：想学数学，就住到数学国去——就像想学法语，你就搬去法国住。我们能不能造一个环境，让孩子出于自己的好奇心，自然而然地学会数学？</p>
+
+<p class="en">So how do we apply that to code? <strong>Can we make worlds you inhabit and naturally intuit how the system works and how it's changing?</strong></p>
+<p class="zh">那这一套怎么套到代码上？<strong>我们能不能造出你可以「住进去」的世界，在里面自然地对系统怎么运作、怎么变化建立起直觉？</strong></p>
+
+<p class="en">Last year I was coding a Prolog interpreter and struggling to intuit what was happening inside.</p>
+<p class="zh">去年我在写一个 Prolog 解释器，怎么都摸不清它内部到底在做什么。</p>
+
+<p class="en">I worked with an agent to build this debugger, which let me step through the execution of my logic language — scrub through time, see what's on the stack and which rules are evaluated at each step. I could even leave comments for myself ("nice, we correctly applied that rule").</p>
+<p class="zh">我跟 agent 一起做了一个调试器，可以一步步跑过我这门逻辑语言的执行过程——沿时间轴拉动，看每一步栈里有什么、评估了哪条规则。我甚至可以留言给自己（「不错，这条规则应用对了」）。</p>
+
+<p class="en">There's a big difference between making a tool <em>for me</em> to debug and letting the agent debug — doing it myself is how I develop understanding along the way.</p>
+<p class="zh">「造一个工具<em>让我自己</em>去调试」和「让 agent 去调试」，是两回事——自己动手，才是我一路上把理解建立起来的方式。</p>
+
+<p class="en">Another example. I was migrating my personal website from one framework to another, and Claude wrote a script that did it. But it was very hard to review: I wasn't familiar with the new framework, and all I could say was "I guess that looks about right."</p>
+<p class="zh">再举个例子。我在把自己的个人网站从一个框架迁到另一个框架，Claude 写了个脚本把这事儿干了。但这份改动很难审：我不熟新框架，只能说一句「嗯，看起来大概是对的吧」。</p>
+
+<p class="en">So I asked Claude to make me a video game — a command center where I do the port myself, step by step, watching the visible effects and the file tree evolve. It produced a UI where I click buttons to run the port step by step, with my old site and new site running side by side.</p>
+<p class="zh">于是我让 Claude 给我做一款视频游戏——一个「指挥中心」，让我自己一步一步做迁移，眼看着效果和文件树同步变化。它给我做了一个 UI：我按按钮，一步步跑迁移，旧站点和新站点并排跑着。</p>
+
+<p class="en">In this command center I watched the new site come to life incrementally. That left me with a similar understanding to doing it by hand — but much faster, because the whole experience was laid out for me.</p>
+<p class="zh">在这个指挥中心里，我看着新站点一步步活了过来。那份理解，跟自己手动做完之后差不多——但快得多，因为整个流程已经被摆好在我面前了。</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-29.webp" alt="Slide reading: agents can write code to help us understand code!">
+<p class="caption">配图：agent 可以写代码，帮我们去理解代码！</p>
+
+<p class="en">The point here is that agents can write bits of code that help us humans understand other code.</p>
+<p class="zh">这里的重点是：agent 可以写一段段小代码，用来帮我们人类去理解另一段代码。</p>
+
+<p class="en">This is a big deal!</p>
+<p class="zh">这件事，意义很大！</p>
+
+<h2>Technique 3: Shared spaces <span class="zh">技巧三：共享空间</span></h2>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-30.webp" alt="Slide introducing shared spaces: understanding together as a team.">
+<p class="caption">配图：介绍「共享空间」——作为团队一起去理解。</p>
+
+<p class="en">Alright, last technique: shared spaces. So far this has all been about understanding solo… but <strong>when you're working on a team, you need to understand together.</strong></p>
+<p class="zh">好，最后一种技巧：共享空间。到目前为止讲的都是一个人如何理解……但<strong>当你在一个团队里工作时，你需要和大家一起去理解。</strong></p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-31.webp" alt="Slide about shared mental models enabling efficient communication.">
+<p class="caption">配图：共享的心智模型，是高效沟通的前提。</p>
+
+<p class="en">When you and someone else hold the same mental model, you can communicate efficiently. You have a shared vocabulary that evokes the same images, so you can jam and riff and have creative conversations. Without those shared structures, those conversations are much harder.</p>
+<p class="zh">当你和另一个人持有同一个心智模型时，沟通会非常高效。你们有一套共同的词汇，唤起的是同一组图像，于是可以即兴发挥、来回抛梗、进行有创造性的对话。缺了这些共享结构，这类对话就难得多。</p>
+
+<p class="en">I'm really excited about creating shared environments where teams build that understanding together. It's kinda what Notion is all about too.</p>
+<p class="zh">我特别兴奋于「造出让团队一起搭建这份理解的共享环境」这件事。这也算是 Notion 一直在做的事。</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-32.webp" alt="Screenshot of Claude and Cursor agents running inside Notion.">
+<p class="caption">配图：Claude 和 Cursor 的 agent 跑在 Notion 里的截图。</p>
+
+<p class="en">Recently in Notion we've been shipping tons of new features for humans and agents to work together, so your whole team develops a shared understanding instead of each working in a silo.</p>
+<p class="zh">最近在 Notion，我们交付了一大批新功能，让人和 agent 能一起工作——这样整个团队能形成共享的理解，而不是各自在孤岛里干活。</p>
+
+<p class="en">One tiny example: you can now run Claude and Cursor agents in Notion. I do a lot of my coding that way now.</p>
+<p class="zh">举个小例子：现在你可以在 Notion 里跑 Claude 和 Cursor 的 agent。我现在很多写代码的活儿都这么干。</p>
+
+<p class="en">And when those agents make a technical plan in Notion, it's in a collaborative page by default, so I can comment on it with my team and discuss immediately. Thinking together, not alone!</p>
+<p class="zh">而当这些 agent 在 Notion 里写技术方案时，它默认就在一个协作页面里——我可以立刻在上面跟团队评论、讨论。一起思考，不是一个人扛！</p>
+
+<h2>The point was always to augment <span class="zh">重点从来都是「增强」</span></h2>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-33.webp" alt="Slide: it's still important for humans to understand how things work.">
+<p class="caption">配图：人类去理解事情的运作原理，仍然重要。</p>
+
+<p class="en">Alright, let's wrap up. Today we've covered some techniques that were about understanding code… but actually I think this is a much bigger issue.</p>
+<p class="zh">好，我们收尾。今天讲的这些技巧都围绕「理解代码」……但其实我觉得，这是一个更大的议题。</p>
+
+<p class="en">It's still important for humans to understand how things work <em>in general</em>! <strong>Not just to verify, but to participate.</strong></p>
+<p class="zh">人类去理解事情<em>整体</em>是怎么运作的，仍然重要！<strong>不是为了验证，而是为了参与。</strong></p>
+
+<p class="en">And surprise surprise, this is not a new idea. It harkens back to the very origins of our field of computing…</p>
+<p class="zh">而且——不出所料——这并不是什么新想法。它可以一路追溯到我们计算机这个学科最初的源头……</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-34.webp" alt="Alan Kay's vision: kids learning physics by playing and editing an interactive simulation.">
+<p class="caption">配图：Alan Kay 的愿景——孩子们通过玩并编辑一个交互式模拟来学物理。</p>
+
+<p class="en">50 years ago Alan Kay envisioned that computers could be a new medium, better than the book, for teaching people — especially kids — how to think about the world.</p>
+<p class="zh">五十年前，Alan Kay 就设想过：计算机可以成为一种新的媒介，一种比书本更好的媒介，用来教人——尤其是小孩——如何思考这个世界。</p>
+
+<p class="en">In this picture, it might look like these kids are watching YouTube on an iPad, but they're not. They're playing an interactive game and editing the code as they play it to get a better understanding of physics. This was 50 years ago!!</p>
+<p class="zh">在这张图片里，这些孩子看上去像是在 iPad 上刷 YouTube，其实不是。他们在玩一个交互式游戏，一边玩一边改代码，好让自己对物理有更深的理解。这可是五十年前！！</p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-35.webp" alt="Astronaut meme: wait, the point of computers is to create new dynamic simulations to help people understand complex concepts? Always has been.">
+<p class="caption">配图：宇航员 meme——「等等，计算机的意义是造出动态模拟来帮人理解复杂概念？」「一直都是啊。」</p>
+
+<p class="en">And now hopefully you understand <a href="https://x.com/geoffreylitt/status/2071362040346955777">this meme</a>.</p>
+<p class="zh">现在，希望你已经能看懂<a href="https://x.com/geoffreylitt/status/2071362040346955777">这个 meme</a> 了。</p>
+
+<p class="en">The point was always to <em>augment</em>, not just automate.</p>
+<p class="zh">重点从来就是<em>增强（augment）</em>，而不只是自动化。</p>
+
+<p class="en">It's beautiful that AI now makes creating simulations so accessible… <mark>Having AI teach us is one of the greatest possibilities computing has ever opened up.</mark></p>
+<p class="zh">AI 让「造模拟」这件事变得如此触手可及，是件很美的事……<mark>让 AI 来教我们，是计算这门学科所打开过的、最了不起的可能性之一。</mark></p>
+
+<img src="https://www.geoffreylitt.com/images/talks/understanding-bottleneck/slide-36.webp" alt="Closing slide: we can get deeper in the loop. It's up to us.">
+<p class="caption">配图：收尾页——我们可以「更深地扎进循环里」。要看我们自己。</p>
+
+<p class="en">This makes me very optimistic about the future!</p>
+<p class="zh">这让我对未来非常乐观！</p>
+
+<p class="en"><strong>If we build the right tools, we can now understand the world better than we ever could before.</strong> We don't have to merely take ourselves out of the loop, we can get <em>deeper in the loop</em> too. It's up to us.</p>
+<p class="zh"><strong>只要我们造对了工具，现在的我们可以比以往任何时候都更好地理解这个世界。</strong>我们不必只是把自己从循环里剥离出去，还可以<em>更深地扎进循环里</em>。这，要看我们自己。</p>
+
+<p class="en"><em>FIN</em></p>
+<p class="zh"><em>—— 完 ——</em></p>
+
+<h2>Related reads <span class="zh">延伸阅读</span></h2>
+
+<p class="en">If you enjoyed this talk, you might like these other posts I've written about human-AI collaboration:</p>
+<p class="zh">如果你喜欢这场演讲，可能也会喜欢我写过的其他几篇关于「人机协作」的文章：</p>
+
+<ul class="en">
+  <li><a href="https://www.geoffreylitt.com/2025/07/27/enough-ai-copilots-we-need-ai-huds">Enough AI copilots! We need AI HUDs</a> — "anyone serious about designing for AI should consider non-copilot form factors that more directly extend the human mind..."</li>
+  <li><a href="https://www.geoffreylitt.com/2024/12/22/making-programming-more-fun-with-an-ai-generated-debugger">AI-generated tools can make programming more fun</a> — "Instead, I used AI to build a custom debugger UI… which made it more fun for me to do the coding myself..."</li>
+  <li><a href="https://www.geoffreylitt.com/2025/10/24/code-like-a-surgeon">Code like a surgeon</a> — "identify and delegate the secondary grunt work tasks, so you can focus on the main thing that matters."</li>
+</ul>
+<ul class="zh">
+  <li><a href="https://www.geoffreylitt.com/2025/07/27/enough-ai-copilots-we-need-ai-huds">AI copilot 够了！我们需要的是 AI HUD</a>——「任何认真为 AI 做设计的人，都应该考虑那些不是 copilot 形态、能更直接延伸人类心智的形态……」</li>
+  <li><a href="https://www.geoffreylitt.com/2024/12/22/making-programming-more-fun-with-an-ai-generated-debugger">AI 生成的工具可以让写代码变得更有趣</a>——「相反，我让 AI 帮我造了一个自定义调试器 UI……结果让『我自己写代码』这件事变得更好玩了……」</li>
+  <li><a href="https://www.geoffreylitt.com/2025/10/24/code-like-a-surgeon">像外科医生一样写代码</a>——「识别出那些次要的、机械劳作的活儿，把它们委托出去，好让自己专注在真正要紧的那件事上。」</li>
+</ul>
+
+<p class="note">中译供个人阅读参考，如与原文有出入以原文为准。</p>
+
+</body>
+</html>
