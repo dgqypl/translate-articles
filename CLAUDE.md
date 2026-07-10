@@ -6,6 +6,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This directory is a personal archive for translated articles in the AI Agent field. Articles are sourced from the web, translated using the `/ai-article-translator` skill, and saved here as bilingual (English-Chinese) HTML files.
 
+## Article Index
+
+Every session loads @ARTICLES.md — a hand-maintained index of every translated article in this directory, each with core points and memory-anchor keywords in Chinese. When the user asks about a past article by fuzzy recall ("我记得有篇文章说……"), match against ARTICLES.md first before searching HTML files. After translating a new article with `/ai-article-translator`, append a new section to ARTICLES.md following the existing structure (元信息 / 核心观点 / 关键词).
+
+@ARTICLES.md
+
 ## Workflow
 
 - **Translation**: Use `/ai-article-translator` skill to translate AI Agent domain articles (e.g., from Anthropic, OpenAI, research blogs)
