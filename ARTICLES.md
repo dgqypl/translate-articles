@@ -1,65 +1,10 @@
 # 文章索引
 
-本目录收录的 AI Agent 领域双语翻译文章。每篇按「核心观点 + 关键词」记录，便于按主题/记忆片段回查文章。
+按记忆片段回查文章：先在下方一行摘要里做模糊匹配（关键词密集覆盖），命中后 Read 对应 `.notes/<slug>.md` 查看核心观点全文，必要时再打开 HTML 原文。
 
-新增文章后，请在此追加一节，保持三块结构：**元信息 / 核心观点 / 关键词**。核心观点要用作者的原话或紧贴原意的中文改写，密集覆盖读者可能记住的表达。
+新翻译一篇文章后：① 在下面追加一行；② 在 `.notes/` 下新建同名详情文件（元信息 + 核心观点）。保持这里**一行一篇**，避免上下文膨胀。
 
----
+## 目录
 
-## Career advice in the age of AI
-
-- **文件**：`Career advice in the age of AI - 双语.html`
-- **作者 / 来源**：Phil Chen · 原文 https://x.com/philhchen/status/2072793818945167475
-- **主题**：AI 时代的职业建议 / agent-native 公司招人 / 早期职业选择
-
-### 核心观点
-
-1. **AI 会打爆一切能写出损失函数的事**，学校里的题目基本都是损失函数；因此未来十年真正值钱的工作，是那些无法在模型训练周期内被打分的事。
-2. **真正稀缺的资源是时间、关系、声誉**，不是资本。花时间把事做好，并让那些也在把事做好的、有声誉的人知道你在做。
-3. **在 agent-native 公司，Leetcode 和系统设计题不再有效**。作者收敛出的访谈方式是：**衡量一个人多快能摸清自己被扔进的这个新环境、能不能识别出值得解决的问题、并且能在这个既有环境的约束下把问题真的解掉**。（★这是文章的标志性观点）
-4. **最重要的能力是「问题选择」和「资源分配」**——识别重要问题，把 token 和时间分配到解决它们上。发现问题比解决问题更重要。
-5. **去做一个问题最有野心的那个版本**（呼应 bitter lesson）；选公司先看「他们做的是不是最有野心的版本」，再看「有没有胜算」。
-6. **最后一公里要冲刺**：AI 拉平了中位数，价值来自独特视角和细节打磨；最后 10% 是 90% 的工作也是 90% 的回报。
-7. **同时提升 xG（机会数量）和转化效率**：站到能看到机会的位置（靠声誉+专业），但也要真的把机会变成进球。
-8. **研究员是一种心态不是职业**：好奇心 + 和基础设施死磕 + 深度理解系统 + 争取算力，这些不进前沿实验室也能做。
-
-### 关键词 / 记忆锚点
-
-AI 时代职业建议、agent-native、找问题比解决问题重要、扔进新环境快速识别值得解决的问题、Leetcode 失效、bitter lesson、最后一公里、xG 和效率、Phil Chen、Anthropic Slackbot demo、Cursor、DeepMind、Scale AI、时间关系声誉是稀缺资源、损失函数、幂律回报、研究员心态。
-
----
-
-## A Field Guide to Fable
-
-- **文件**：`A Field Guide to Fable - 双语.html`
-- **作者 / 来源**：Thariq Shihipar (Anthropic)
-- **主题**：Claude Fable 5 使用指南 / agentic coding 方法论 / 如何和 Claude 协作
-
-### 核心观点
-
-1. **地图不是疆域**：提示词、技能、上下文是地图；代码库和真实约束是疆域。二者之间的差距 = **未知项 (unknowns)**。
-2. **Fable 是第一个瓶颈在「我澄清未知项的能力」而不是模型能力的模型**。产出质量取决于用户对齐未知项的水平。
-3. **未知项的四分类**（Rumsfeld 矩阵变体）：已知的已知 / 已知的未知 / 未知的已知（"见到才知道"）/ 未知的未知（盲点）。
-4. **agentic 编码的核心技艺，是减少未知项并为剩余的未知项预先规划**。顶尖 agentic 编码者（Boris、Jarred）对自己想要什么了如指掌，但也为未知项留空间。
-5. **指令太具体 vs 太模糊都会翻车**；关键是交代**起点**——现在思路走到哪、经验深浅、把 Claude 当思考伙伴。
-6. **实现之前**用的招式：
-   - **Blind Spot Pass 盲点扫查** — 让 Claude 找「未知的未知」
-   - **头脑风暴 + 原型** — 对付「未知的已知」，尤其视觉设计这种"见到才知道"的
-   - **Interviews 访谈** — 让 Claude 就模糊点反过来采访你
-   - **References 参照** — 最好的参照是**源代码**，直接把 Fable 指向目录（Claude Design 同理，可指向喜欢的网站模块让它读底层代码）
-   - **Implementation Plans 实现计划** — 审阅最容易变动的部分（数据模型、类型接口、UX 流程）
-7. **实现之中**：维护 `implementation-notes.md`，让 Claude Code 记录决策，方便下一次尝试吸取教训。
-8. **实现之后**：交付时嵌入 pitch 和讲解性 artifact，帮助拿到认同和批准。
-9. **HTML 是可视化几乎所有这些 artifact 的最佳格式**（呼应作者之前那篇 HTML+Claude 的文章）。
-
-### 关键词 / 记忆锚点
-
-Fable 5、A Field Guide to Fable、地图不是疆域、unknowns 未知项、盲点扫查 blindspot pass、unknown unknowns、未知的已知、agentic coding、Boris、Jarred、implementation-notes.md、Claude Design 指向源代码、参照 references、实现之前 / 之中 / 之后、Thariq Shihipar、Anthropic、Rumsfeld 四象限。
-
----
-
-## 使用说明（给未来会话的 Claude）
-
-- 用户按记忆片段问文章时（例："我记得有篇文章说……"），先在**核心观点**和**关键词**里做模糊匹配，命中即回答文件名和作者。
-- 不确定时，主动去读对应 HTML 里的 `<p class="zh">` 段落确认，再回答。
-- 新文章翻译完成后，主动追加一节。
+- **Career advice in the age of AI** — Phil Chen · agent-native 招人 / 找问题>解问题 / 扔进新环境快速识别值得解决的问题 / Leetcode 失效 / 时间关系声誉稀缺 / xG 与效率 / bitter lesson / 最后一公里 / 研究员是心态 → `.notes/career-advice-age-of-ai.md`
+- **A Field Guide to Fable** — Thariq Shihipar (Anthropic) · Fable 5 使用指南 / 地图不是疆域 / unknowns 未知项 / 盲点扫查 blindspot pass / Rumsfeld 四象限 / agentic coding 核心技艺 / 实现前中后三阶段 / References 用源代码 / implementation-notes.md → `.notes/field-guide-to-fable.md`

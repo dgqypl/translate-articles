@@ -8,7 +8,12 @@ This directory is a personal archive for translated articles in the AI Agent fie
 
 ## Article Index
 
-Every session loads @ARTICLES.md — a hand-maintained index of every translated article in this directory, each with core points and memory-anchor keywords in Chinese. When the user asks about a past article by fuzzy recall ("我记得有篇文章说……"), match against ARTICLES.md first before searching HTML files. After translating a new article with `/ai-article-translator`, append a new section to ARTICLES.md following the existing structure (元信息 / 核心观点 / 关键词).
+Two-tier structure to keep session context small as the archive grows:
+
+- **@ARTICLES.md** (auto-loaded every session): one line per article — title + author + dense Chinese keyword hooks + pointer to detail file.
+- **`.notes/<slug>.md`** (read on demand): per-article detail — 元信息 + 核心观点.
+
+When the user asks about a past article by fuzzy recall ("我记得有篇文章说……"), match against ARTICLES.md keywords first; on a hit, Read the pointed `.notes/<slug>.md` before answering; only open the HTML if the notes aren't enough. After translating a new article with `/ai-article-translator`: append one line to ARTICLES.md AND create `.notes/<slug>.md` — keep ARTICLES.md strictly one-line-per-article.
 
 @ARTICLES.md
 
