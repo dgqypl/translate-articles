@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>A Field Guide to Claude Fable: Finding Your Unknowns · 双语</title>
+<style>
+  :root { color-scheme: light; }
+  body {
+    max-width: 760px; margin: 40px auto; padding: 0 20px 80px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    color: #1a1a1a; background: #fafafa; line-height: 1.65;
+  }
+  header { border-bottom: 1px solid #e5e5e5; padding-bottom: 24px; margin-bottom: 32px; }
+  h1.title { font-size: 30px; margin: 0 0 8px; line-height: 1.3; }
+  h1.title .zh { display:block; font-size:22px; color:#555; font-weight:600; margin-top:6px; }
+  .meta { color: #666; font-size: 14px; }
+  h2 { font-size: 22px; margin: 36px 0 10px; border-left: 4px solid #d97757; padding-left: 12px; }
+  h2 .zh { display:block; font-size:17px; color:#555; margin-top:2px; }
+  h3 { font-size: 18px; margin: 28px 0 8px; color:#333; }
+  h3 .zh { display:block; font-size:15px; color:#666; font-weight:600; margin-top:2px; }
+  p.en { margin: 14px 0 4px; color: #222; }
+  p.zh {
+    margin: 0 0 18px; padding: 8px 12px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    color: #0f1419; font-size: 15.5px;
+  }
+  ul.en { margin: 8px 0 4px 22px; }
+  ul.zh {
+    margin: 0 0 18px; padding: 8px 12px 8px 34px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    font-size: 15.5px;
+  }
+  .prompt-en { font-style: italic; color: #444; background: #f0efe9; padding: 10px 14px; border-radius: 4px; margin: 10px 0 4px; }
+  .prompt-zh { padding: 10px 14px; background: #eef7ff; border-left: 3px solid #1d9bf0; border-radius: 4px; margin: 0 0 18px; }
+  em, i { color: #b4531a; font-style: italic; }
+  strong { color: #000; }
+  code { background: #eee; padding: 1px 6px; border-radius: 3px; font-size: 90%; }
+  a { color: #1d9bf0; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .note { font-size:12px; color:#999; margin-top:60px; text-align:center; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 class="title">
+    A Field Guide to Claude Fable: Finding Your Unknowns
+    <span class="zh">Claude Fable 实战手册:找出你的未知项</span>
+  </h1>
+  <div class="meta">作者:Thariq Shihipar (Anthropic) · 中英双语对照 · 译文供个人阅读参考</div>
+</header>
+
+<p class="en">Working with Claude Fable 5 keeps re-teaching me an old lesson: <em>the map is not the territory</em>.</p>
+<p class="zh">使用 Claude Fable 5 让我一次又一次地重温同一个老道理:<em>地图不是疆域</em>。</p>
+
+<p class="en">The map, a representation of the work to be done, is my prompts and skills and context, it's what I give Claude. The territory is where the work needs to happen, the codebase, the real world, its actual constraints.</p>
+<p class="zh">地图是对待完成工作的一种表征——也就是我的提示词、技能与上下文,是我交给 Claude 的东西。而疆域是工作真正发生的地方:代码库、真实世界,以及它实际存在的种种约束。</p>
+
+<p class="en">The difference between the map and the territory is what I call <strong>unknowns</strong>. When Claude runs into an unknown, it needs to make a decision based on its best guess of what I want. The more work being done, the more unknowns Claude might run into.</p>
+<p class="zh">地图与疆域之间的差距,就是我所说的<strong>未知项(unknowns)</strong>。当 Claude 撞上一个未知项时,它必须基于对我意图的最佳猜测来做决定。工作量越大,Claude 遇到的未知项也就可能越多。</p>
+
+<p class="en">Fable is the first model where I find the quality of the work is bottlenecked by my ability to clarify its unknowns.</p>
+<p class="zh">Fable 是我用过的第一个模型,其产出质量的瓶颈来自我澄清它未知项的能力。</p>
+
+<p class="en">Importantly, just planning ahead isn't always enough. You can find unknowns deep in implementation, or your unknowns may point you to the fact that you should actually be solving the problem in a different way altogether.</p>
+<p class="zh">重要的是,仅仅提前规划并不总是够用。未知项可能在实现深处才浮现;甚至,你的未知项可能反过来提示你——其实应该换一种完全不同的方式来解决这个问题。</p>
+
+<p class="en">I've found that working with Fable is an iterative process of discovering my unknowns before, during, and after implementation.</p>
+<p class="zh">我的体会是:使用 Fable 是一个在<strong>实现之前、之中、之后</strong>不断迭代地发现自身未知项的过程。</p>
+
+<p class="en">I've made some <a href="#">example artifacts for finding unknowns here</a>, but be sure to come back to build the intuition for when to use them.</p>
+<p class="zh">我做了一些<a href="#">用于发现未知项的示例工件</a>放在这里,但读完文章后请务必回来对照,建立起「什么时候用哪个工件」的直觉。</p>
+
+<h2>Knowing your unknowns <span class="zh">认清你的未知项</span></h2>
+
+<p class="en">What are your unknowns? When I come to Claude with a problem I tend to break it down in 4 ways:</p>
+<p class="zh">你的未知项都有哪些?当我带着一个问题去找 Claude 时,我习惯把它拆成 4 类:</p>
+
+<ul class="en">
+  <li><strong>Known Knowns:</strong> This is essentially what is in my prompt. What do I tell the agent that I want?</li>
+  <li><strong>Known Unknowns:</strong> What haven't I figured out yet, but I'm aware that I haven't?</li>
+  <li><strong>Unknown Knowns:</strong> What's so obvious I'd never write it down, but would recognize it if I saw it?</li>
+  <li><strong>Unknown Unknowns:</strong> What haven't I considered at all? What knowledge am I not aware of? Do I know how good something can be?</li>
+</ul>
+<ul class="zh">
+  <li><strong>已知的已知(Known Knowns):</strong>本质上就是我提示词里写的东西。我告诉 agent 我想要什么?</li>
+  <li><strong>已知的未知(Known Unknowns):</strong>我还没想明白、但我意识到自己没想明白的部分?</li>
+  <li><strong>未知的已知(Unknown Knowns):</strong>显而易见到我从不会写下来、但一见到就能认出来的东西?</li>
+  <li><strong>未知的未知(Unknown Unknowns):</strong>我完全没考虑过的东西?我没意识到自己不知道的知识?我知道一件事能做到多好吗?</li>
+</ul>
+
+<p class="en">The best agentic coders are good have relatively few unknowns. Watching someone like Boris or Jarred prompt, it is obvious to me that they know what they want in-detail. They are deeply in-sync with both the codebase and the model behaviors.</p>
+<p class="zh">最好的 agentic 编码者,恰恰是那些未知项相对较少的人。看 Boris 或 Jarred 这样的人写提示词,你能一眼看出他们对自己想要的细节了如指掌。他们与代码库和模型行为都处于深度同步中。</p>
+
+<p class="en">But they also assume unknowns. In many ways, reducing and planning for your unknowns is the <strong>skill</strong> of agentic coding. But luckily, this is a skill you can improve at, by working with Claude.</p>
+<p class="zh">但他们同样会为未知项预留空间。在很多层面上,减少并为未知项预先规划,就是 agentic 编码的<strong>核心技艺</strong>。好消息是,这项技艺你完全可以在与 Claude 的协作中不断精进。</p>
+
+<h2>Help Claude help you <span class="zh">帮 Claude 帮你</span></h2>
+
+<p class="en">Instructing Claude is a delicate balance. If you are too specific, Claude will follow your instructions even when a pivot may be more appropriate. If you are too vague, Claude will often make choices and assumptions based on industry best practices that may not be a fit for your task.</p>
+<p class="zh">给 Claude 下指令是一件讲究平衡的事。指令太具体,Claude 会一根筋照做,哪怕这时候该转向;指令太模糊,Claude 就常常会依据行业最佳实践做选择和假设,而那些未必贴合你的任务。</p>
+
+<p class="en">When you don't account for your unknowns you fail both ways. You don't know when the path will be filled with obstacles and you don't know when the path will be clear, but you still want Claude to veer.</p>
+<p class="zh">当你没为自己的未知项做打算时,两种情况都会翻车:你既不知道路上什么时候会撞墙,也不知道什么时候路本是通的——但你仍希望 Claude 该拐时会拐。</p>
+
+<p class="en">Claude can help you discover your unknowns faster. It can search through your codebase and the internet extremely quickly and it knows much more about the average topic than you. It can also iterate from failure faster.</p>
+<p class="zh">Claude 可以帮你更快地发现未知项。它检索代码库和互联网的速度极快,对大多数话题的了解都比你多。它从失败中迭代的速度也更快。</p>
+
+<p class="en">The most important part of this process is to give Claude context about your starting point. For example, tell it where you are in your thought process; disclose your experience with the problem and codebase; and let it work with you like a thought partner.</p>
+<p class="zh">这个过程最关键的一步,是把你的<strong>起点</strong>交代给 Claude。比如:告诉它你目前的思路走到了哪里;坦白你对这个问题和这段代码库的经验深浅;把它当作一个思考伙伴与你并肩协作。</p>
+
+<p class="en">I've previously written about using <a href="#">HTML with Claude</a>, in almost all of these cases, a HTML artifact is the best way to visualize and represent it.</p>
+<p class="zh">我之前写过一篇<a href="#">关于配合 Claude 使用 HTML</a>的文章——几乎在所有这些场景里,HTML 工件都是可视化并呈现它们的最佳方式。</p>
+
+<p class="en">In this article I detail some of the patterns I use to uncover these unknowns. I don't use every technique each time, but it's a useful collection of techniques to have.</p>
+<p class="zh">本文中,我会详细讲解我用来揭开这些未知项的一些套路。我不会每次都全都用上,但这是一份值得收在手边的技巧清单。</p>
+
+<h2>Pre-implementation <span class="zh">实现之前</span></h2>
+
+<h3>Blind Spot Pass <span class="zh">盲点扫查</span></h3>
+
+<p class="en">When starting work, one of the most useful things you can do is understand your blindspots. For example, if you're writing a feature in a new part of the codebase or using Claude to help you with unfamiliar work like iterating on a design, you're likely to have a lot of <strong>unknown unknowns</strong>.</p>
+<p class="zh">开工时,你能做的最有用的事情之一,就是搞清楚自己的盲点在哪里。举例来说,如果你在代码库的一块陌生区域写新功能,或者请 Claude 帮你迭代设计这类你并不熟悉的活儿,那你很可能有一大堆<strong>未知的未知</strong>。</p>
+
+<p class="en">You may not know what questions to ask, what good looks like, what historical work has been done or what potholes to avoid.</p>
+<p class="zh">你可能不知道该问什么问题,不知道好的标准长什么样,不知道之前做过哪些相关工作,也不知道有哪些坑要绕开。</p>
+
+<p class="en">To do this, you can ask Claude to help you find your unknown unknowns and explain them to you. I like to use the literal words "blindspot pass" and "unknown unknowns". Giving it context on who you are and what you know is usually important for good results.</p>
+<p class="zh">为此,你可以让 Claude 帮你找出未知的未知,并把它们向你解释一遍。我喜欢直接使用「blindspot pass」和「unknown unknowns」这两个字面表达。把「你是谁、你已经知道什么」的背景交代给它,通常对拿到好结果非常关键。</p>
+
+<div class="prompt-en"><strong>Example Prompts:</strong><br>
+"I'm working on adding a new auth provider but I know nothing about the auth modules in this codebase. Can you do a blindspot pass to help me figure out my relevant unknown unknowns and help me prompt you better."<br><br>
+"I don't know what color grading is but I need to grade this video. Can you teach me to understand my unknown unknowns about color grading, so that I can prompt better?"
+</div>
+<div class="prompt-zh"><strong>示例提示词:</strong><br>
+「我正在接入一个新的鉴权 provider,但对这个代码库里的鉴权模块一无所知。你能不能做一次 blindspot pass,帮我梳理出相关的未知的未知,并帮我把提示词写得更好?」<br><br>
+「我不知道调色(color grading)是什么,但我需要给这段视频调色。你能教我理解一下自己关于调色的未知的未知吗,好让我之后写出更好的提示词?」
+</div>
+
+<h3>Brainstorms and prototypes <span class="zh">头脑风暴与原型</span></h3>
+
+<p class="en">When I'm working in an area with a lot of <strong>unknown knowns</strong>, involving criteria I only know to define when I see it, I like to ask Claude to brainstorm and prototype with me.</p>
+<p class="zh">当我所处的领域充斥着大量<strong>未知的已知</strong>——那些「见到才知道怎么定义」的判断标准——我喜欢请 Claude 陪我一起做头脑风暴和原型。</p>
+
+<p class="en">It's extremely valuable to identify and verbalize unknown knowns early during prototyping, because finding them out during implementation can be (relatively) expensive. Small changes in a feature or spec can cause drastically different implementations in code and it can be more difficult for your agent to revert previous changes.</p>
+<p class="zh">在原型阶段就把未知的已知识别出来并用语言表达清楚,价值极高。因为等到实现阶段再发现它们,代价(相对)就贵得多了:功能或规格上的细微改动,可能在代码里引发天差地别的实现走向,而让 agent 回滚之前的改动往往更加困难。</p>
+
+<p class="en">For example, you may just want to see how a button added to a frame looks without having to wire up a backend route or maintaining additional state in the frontend.</p>
+<p class="zh">举个例子:你可能只想看一下往框里加一个按钮长什么样,并不需要真的去接后端路由,也不必在前端里额外维护一堆状态。</p>
+
+<p class="en">Visual design is something that for me is difficult to articulate, but I know what I want when I see it. In these cases, I'll ask for several design approaches to an artifact.</p>
+<p class="zh">视觉设计对我来说是很难用语言描述的东西,但我一见到就知道自己想要什么。碰到这种情况,我会针对同一个工件请 Claude 给出几种不同的设计方案。</p>
+
+<p class="en">I also start almost every coding session with an exploration or brainstorming phase. This helps me start with intent to define the project's scope. Claude often finds high-value approaches I would have missed and sometimes misses the forest through the trees. Brainstorming prevents me from setting too narrow or too wide a scope.</p>
+<p class="zh">我几乎每次编码会话都以探索或头脑风暴阶段开场。这能帮我带着<strong>意图</strong>开始,从而框定项目的边界。Claude 常常能发现我原本会漏掉的高价值方案,有时也会「见树不见林」。头脑风暴能防止我把范围划得过窄或过宽。</p>
+
+<div class="prompt-en"><strong>Example prompts:</strong><br>
+"I want a dashboard for this data but I have no visual taste and don't know what's possible. Make me an HTML page with 4 wildly different design directions so I can react to them."<br><br>
+"Before wiring anything up, make a single HTML file mocking the new editor toolbar with fake data. I want to react to the layout before you touch the real app."<br><br>
+"Here's my rough problem: users churn after onboarding. Search the codebase and brainstorm 10 places we could intervene, from cheapest to most ambitious. I'll tell you which ones resonate."
+</div>
+<div class="prompt-zh"><strong>示例提示词:</strong><br>
+「我想为这份数据做一个仪表盘,但我没什么审美,也不知道有哪些可能性。给我做一个 HTML 页面,里面放 4 种风格差异极大的设计方向,让我针对它们表态。」<br><br>
+「先别接任何东西,用一个 HTML 文件把新的编辑器工具栏和假数据 mock 出来。我想在你动真实应用之前先对布局做出反馈。」<br><br>
+「我的问题大致如下:用户过完 onboarding 就流失了。检索一下代码库,帮我头脑风暴出 10 个可以干预的位置,按从最便宜到最激进的顺序排。我会告诉你哪些戳中我。」
+</div>
+
+<h3>Interviews <span class="zh">访谈</span></h3>
+
+<p class="en">Once I've done sufficient brainstorming, I likely still have unknowns.</p>
+<p class="zh">在做完足够多的头脑风暴之后,我大概率仍然存在未知项。</p>
+
+<p class="en">In this case, I ask Claude to interview me about any unknowns or ambiguities. When asking Claude to interview you, try and give it context about your problem to guide its questions. Here are some examples.</p>
+<p class="zh">这种情况下,我会请 Claude 就任何未知或含糊之处对我做访谈。当你请 Claude 来访谈你时,尽量给它足够的问题背景,好引导它的提问方向。以下是一些示例。</p>
+
+<div class="prompt-en"><strong>Example prompts:</strong><br>
+"Interview me one question at a time about anything ambiguous, prioritize questions where my answer would change the architecture."
+</div>
+<div class="prompt-zh"><strong>示例提示词:</strong><br>
+「一次一个问题地对我进行访谈,覆盖所有含糊之处;优先问那些一旦回答就会改变架构走向的问题。」
+</div>
+
+<h3>References <span class="zh">参照</span></h3>
+
+<p class="en">Sometimes you can't describe what you want in detail. For example, you might not have the language or it might be so complicated that it would take you quite a while.</p>
+<p class="zh">有时候,你没办法把想要的东西讲得很细。比如你可能缺少相应的词汇,或者内容复杂到你要讲清楚得花上一大段时间。</p>
+
+<p class="en">In this case, the best answer is a reference. While you can include diagrams, documentation or pictures, the absolute best reference is <strong>source code</strong>.</p>
+<p class="zh">这种情况下,最好的答案是一份<strong>参照(reference)</strong>。虽然你可以塞进图表、文档或图片,但绝佳的参照永远是<strong>源代码</strong>。</p>
+
+<p class="en">If you have a library that implements something in a certain way or a design component you really like, just point Fable at the folder and tell it what to look for, even if it's in a different language.</p>
+<p class="zh">如果有一个库以某种特定方式实现了你想要的东西,或者有一个你非常喜欢的设计组件,那就直接把 Fable 指向那个目录,告诉它去找什么——哪怕语言不一样也没关系。</p>
+
+<p class="en">This is also the way Claude Design works. You don't have to hand it a file (although you can do that too). You can point it at a module on a website you like, and it reads the underlying code, not just the screenshot. This provides much richer detail around the markup, structure, and how the component is actually built.</p>
+<p class="zh">Claude Design 的工作方式也是如此。你并不非得递给它一份文件(当然你也可以那么做)。你可以把它指向某个你喜欢的网站上的某个模块,它会去读底层代码,而不只是截图。这样它就能获得关于标记、结构以及组件实际如何搭建的更丰富细节。</p>
+
+<div class="prompt-en"><strong>Example prompts:</strong><br>
+"This Rust crate in vendor/rate-limiter implements the exact backoff behavior I want. Read it and reimplement the same semantics in our TypeScript API client."
+</div>
+<div class="prompt-zh"><strong>示例提示词:</strong><br>
+「vendor/rate-limiter 里的这个 Rust crate 实现了我想要的退避(backoff)行为。读一遍,然后在我们的 TypeScript API 客户端里把同样的语义重新实现一次。」
+</div>
+
+<h3>Implementation Plans <span class="zh">实现计划</span></h3>
+
+<p class="en">When I think I'm ready to implement, I tend to ask Claude to put together an implementation plan for me to review that focuses on the parts that might be most likely to change, for example to review data models, type interfaces or UX flows. This allows Claude to surface things I might actually need to alter.</p>
+<p class="zh">当我觉得可以动手实现了,我倾向于让 Claude 出一份实现计划让我审阅,重点放在最有可能变动的部分——比如复审数据模型、类型接口或 UX 流程。这样 Claude 就能把那些我可能真的需要改动的东西暴露出来。</p>
+
+<div class="prompt-en"><strong>Example Prompts:</strong><br>
+"Write an implementation plan in HTML, but lead with the decisions I'm most likely to tweak with: data model changes, new type interfaces, and anything user-facing. Bury the mechanical refactoring at the bottom, I trust you on that part."
+</div>
+<div class="prompt-zh"><strong>示例提示词:</strong><br>
+「用 HTML 写一份实现计划,但要把我最有可能拨动的那些决策放在最前面:数据模型改动、新的类型接口、以及所有面向用户的部分。把机械式的重构埋到最后,那部分我信你。」
+</div>
+
+<h2>During implementation <span class="zh">实现之中</span></h2>
+
+<h3>Implementation notes <span class="zh">实现笔记</span></h3>
+
+<p class="en">Once I am satisfied with my plan, I make a new session and pass any artifacts to the prompt. For example, I might pass in a spec file and a prototype and ask an agent to implement it.</p>
+<p class="zh">对计划满意之后,我会开一个新的会话,把所有工件都塞进提示词里。比如,我可能会把一份 spec 文件加一份原型一起丢给 agent,请它去实现。</p>
+
+<p class="en">But the truth is that no matter how much planning you do, there are always unknown unknowns lurking. The agent may find during its work that it needs to take a different tack due to an edge case it found in the code.</p>
+<p class="zh">但事实是:无论你计划得多周全,未知的未知总在暗中潜伏。agent 有可能在动手过程中发现,因为代码里的某个边界情况,它必须换一条路线走。</p>
+
+<p class="en">I ask Claude Code to keep a temporary '<code>implementation-notes.md</code>' (or .html) file where it keeps track of decisions it makes so we can learn from our next attempt.</p>
+<p class="zh">我会让 Claude Code 维护一份临时的「<code>implementation-notes.md</code>」(或 .html)文件,把它做过的决策记录下来,方便我们从下一次尝试中吸取教训。</p>
+
+<div class="prompt-en"><strong>Example prompts:</strong><br>
+"Keep an <code>implementation-notes.md</code> file. If you hit an edge case that forces you to deviate from the plan, pick the conservative option, log it under 'Deviations', and keep going."
+</div>
+<div class="prompt-zh"><strong>示例提示词:</strong><br>
+「维护一份 <code>implementation-notes.md</code>。如果你遇到迫使自己偏离计划的边界情况,请选保守方案,把它记在『Deviations』一节下,然后继续推进。」
+</div>
+
+<h2>Post implementation <span class="zh">实现之后</span></h2>
+
+<h3>Pitches and explainers <span class="zh">推介与讲解</span></h3>
+
+<p class="en">One of the most important parts of shipping something is getting buy-in and approvals. Building pitch and explainer artifacts in the final document helps:</p>
+<p class="zh">交付一件东西时,最关键的环节之一是拿到认同和批准。在最终交付物里嵌入推介(pitch)和讲解性工件能够:</p>
+
+<ul class="en">
+  <li>Accelerate understanding when reviewers start with the same unknowns you did</li>
+  <li>Accelerate approvals when experts want to see you accounted for the unknowns and common failure points they would have anticipated</li>
+</ul>
+<ul class="zh">
+  <li>加快审阅者的理解速度——当他们和你一开始一样面对同样的未知项时;</li>
+  <li>加快审批速度——当专家们想看到你已经把他们本会预见的那些未知项与常见失败点都考虑周全时。</li>
+</ul>
+
+<div class="prompt-en"><strong>Example prompts:</strong><br>
+"Package the prototype, the spec, and the implementation notes into a single doc I can drop in Slack to get buy-in. Lead with the demo GIF."
+</div>
+<div class="prompt-zh"><strong>示例提示词:</strong><br>
+「把原型、spec 和实现笔记打包成一份文档,让我能直接扔进 Slack 求认同。开头就放演示 GIF。」
+</div>
+
+<h3>Quizzes <span class="zh">小测</span></h3>
+
+<p class="en">After a long working session, Claude might have accomplished a lot more than I realized. Reading the code diffs can only give me a light understanding of what happened, since much of the behavior will depend on existing code paths.</p>
+<p class="zh">一次长时间的工作会话之后,Claude 完成的事情可能远比我意识到的要多。光看代码 diff 只能给我一个粗略的理解,因为很多行为都依赖于既有的代码路径。</p>
+
+<p class="en">Asking Claude to quiz me about the change after giving me a bunch of context helps me understand what happens. I only merge after I pass the quiz perfectly.</p>
+<p class="zh">在给我提供充足的上下文之后,再让 Claude 就本次改动对我做一份小测,能帮我真正搞懂发生了什么。我只有在小测拿到满分之后才合并。</p>
+
+<div class="prompt-en"><strong>Example prompts:</strong><br>
+"I want to make sure I understand everything that's happened in this change. Give me a HTML report on the changes for me to read and understand with context, intuition, what was done, etc. and a quiz at the bottom on the changes that I must pass."
+</div>
+<div class="prompt-zh"><strong>示例提示词:</strong><br>
+「我想确保自己完全理解这次改动里发生的一切。给我一份关于本次改动的 HTML 报告,便于我阅读理解,涵盖背景、直觉、做了什么等等;末尾附一份关于这些改动的小测,我必须全部答对。」
+</div>
+
+<h2>How this comes together: launching Fable <span class="zh">综合演练:Fable 上线视频是怎么做出来的</span></h2>
+
+<p class="en">The <a href="#">launch video for Fable</a> was edited entirely by Claude Code. This was a new domain for me and I'm by no means an expert.</p>
+<p class="zh">Fable 的<a href="#">上线视频</a>完全是用 Claude Code 剪出来的。这对我来说是一个全新的领域,我远远算不上专家。</p>
+
+<p class="en">So I started with what I did know. I knew that Claude could use code to edit videos and transcribe them, but I wasn't sure if it was accurate enough. I then asked Claude to explain to me how transcription like Whisper worked, and whether I would be able to accurately cut out things like ums or large pauses using ffmpeg.</p>
+<p class="zh">所以我从「我确实知道的东西」开始。我知道 Claude 能用代码剪辑视频、能做转录,但不确定精度是否足够。于是我请 Claude 给我讲讲 Whisper 这类转录是怎么工作的,以及我能否借助 ffmpeg 精确地剪掉「呃」这样的语气词或较长的停顿。</p>
+
+<p class="en">I wanted Claude to create a UI that was timed with the words I was saying, but wasn't sure if it would be able to so I asked Claude to create a prototype video using Remotion and a transcription to see if it would work.</p>
+<p class="zh">我希望 Claude 做一个 UI,让画面节奏能跟我说话的字句对齐;但不确定它能不能做到,于是我让 Claude 先用 Remotion 加一份转录做出一段原型视频,先看能不能跑通。</p>
+
+<p class="en">Finally, the video itself looked a bit muted, which I knew was the result of color grading but I didn't really know what color grading was. My first pass attempt was to try and get Claude to do a few variations to pick, but I realized that I didn't know what "good" looked like when it came to color grading. So instead, I asked Claude to teach me about color grading to discover my unknowns.</p>
+<p class="zh">最后,视频本身看起来有点发闷,我知道这是调色的问题,但我并不真的了解调色到底是什么。第一轮我试着让 Claude 做几个变体供我挑选,但很快意识到:在调色这件事上,我压根不知道「好」长什么样。于是我改而请 Claude 给我讲解调色,借此挖掘出我的未知项。</p>
+
+<p class="en">You can watch a more <a href="#">in-depth explanation on that here</a>.</p>
+<p class="zh">你可以在<a href="#">这里</a>看一段更深入的讲解。</p>
+
+<h2>Matching the Map and Territory <span class="zh">让地图与疆域对上</span></h2>
+
+<p class="en">The better models get, the more you can achieve with the right approach. When a long-horizon task comes back wrong, it's likely you need to spend more time defining your unknowns or creating an implementation plan that allows for Claude to improvise through them.</p>
+<p class="zh">模型越强,只要方法对路,你能达成的事就越多。一个长跨度的任务如果结果不对,八成是你需要花更多时间去界定未知项,或者构建一份能让 Claude 在这些未知项上灵活应变的实现计划。</p>
+
+<p class="en">Every explainer, brainstorm, interview, prototype, and reference is a cheap way to find out what you didn't know before it gets expensive to fix.</p>
+<p class="zh">每一次讲解、头脑风暴、访谈、原型和参照,都是在事情变得代价高昂之前,用低成本方式挖出你之前不知道的东西。</p>
+
+<p class="en">So start your next project by asking Claude to help you find your unknowns.</p>
+<p class="zh">所以,下一个项目开工时,请先让 Claude 帮你找出你的未知项。</p>
+
+<p class="note">原文:Thariq Shihipar · claude.com/blog · 中译供个人阅读参考</p>
+
+</body>
+</html>
