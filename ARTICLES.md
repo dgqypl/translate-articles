@@ -8,3 +8,4 @@
 
 - **Career advice in the age of AI** — Phil Chen · agent-native 招人 / 找问题>解问题 / 扔进新环境快速识别值得解决的问题 / Leetcode 失效 / 时间关系声誉稀缺 / xG 与效率 / bitter lesson / 最后一公里 / 研究员是心态 → `.notes/career-advice-age-of-ai.md`
 - **A Field Guide to Fable** — Thariq Shihipar (Anthropic) · Fable 5 使用指南 / 地图不是疆域 / unknowns 未知项 / 盲点扫查 blindspot pass / Rumsfeld 四象限 / agentic coding 核心技艺 / 实现前中后三阶段 / References 用源代码 / implementation-notes.md → `.notes/field-guide-to-fable.md`
+- **Understanding is the new bottleneck** — Geoffrey Litt (Notion) · AI Engineer 演讲书面版 / 理解不是为了验证是为了参与 / 认知债 cognitive debt / explain-diff skill / literate diff / 讲解两原则 背景先行 直觉先于细节 / quiz 是限速器 books don't work / 微世界 micro-worlds Seymour Papert Mathland / 让 agent 造工具给自己用 / Prolog 调试器 迁移指挥中心 / 共享空间 shared spaces Notion 协作 / augment not automate / Alan Kay 50 年前愿景 / deeper in the loop → `.notes/understanding-is-the-new-bottleneck.md`
