@@ -83,9 +83,18 @@ description: 把 AI Agent 领域的英文文章翻成中英双语对照 HTML，�
 - BODY 里每个原文段落 → `<p class="en">...</p>` + `<p class="zh">...</p>`；标题 → `<h2>英 <span class="zh">中</span></h2>`；列表同理。
 - 用 `Write` 工具写到确认的输出路径。
 
-### 8. 交付
+### 8. 写原始链接旁车文件
 
-告知用户输出路径，提示他双击 HTML 用浏览器打开。若他用的是 SingleFile 走 Case B，再告知他：如果想还原原始 HTML 文件，不必——本 skill 从不改动原文件，只新建输出。
+在与输出 HTML **同目录**下，新建一个 `<原文标题>.link.txt`（注意：不带 ` - 双语` 后缀，仅 `<标题>.link.txt`），内容为**单行原始链接**（无前缀、无引号、无换行注释）。
+
+- Case A（URL 输入）：写用户提供的 URL。
+- Case B（SingleFile HTML 输入）：优先从 HTML 里挖 canonical / og:url / twitter:url；挖不到就问用户要一次；用户明确说没有再省略此文件。
+
+用途：以后回查文章时能一键跳原文，避免每次去翻 ARTICLES.md 或浏览器历史。
+
+### 9. 交付
+
+告知用户输出路径（HTML + `.link.txt`），提示他双击 HTML 用浏览器打开。若他用的是 SingleFile 走 Case B，再告知他：如果想还原原始 HTML 文件，不必——本 skill 从不改动原文件，只新建输出。
 
 ## 反面样例（务必先读）
 
