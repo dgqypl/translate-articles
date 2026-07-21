@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Interviewing Engineers in the AI Era: Lessons from a Year of Rebuilding · 双语</title>
+<style>
+  :root { color-scheme: light; }
+  body {
+    max-width: 760px; margin: 40px auto; padding: 0 20px 80px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    color: #1a1a1a; background: #fafafa; line-height: 1.65;
+  }
+  header { border-bottom: 1px solid #e5e5e5; padding-bottom: 24px; margin-bottom: 32px; }
+  h1.title { font-size: 30px; margin: 0 0 8px; line-height: 1.3; }
+  h1.title .zh { display:block; font-size:22px; color:#555; font-weight:600; margin-top:6px; }
+  .meta { color: #666; font-size: 14px; }
+  h2 { font-size: 22px; margin: 36px 0 10px; border-left: 4px solid #d97757; padding-left: 12px; }
+  h2 .zh { display:block; font-size:17px; color:#555; margin-top:2px; }
+  h3 { font-size: 18px; margin: 28px 0 8px; color:#333; }
+  h3 .zh { display:block; font-size:15px; color:#666; font-weight:600; margin-top:2px; }
+  p.en { margin: 14px 0 4px; color: #222; }
+  p.zh {
+    margin: 0 0 18px; padding: 8px 12px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    color: #0f1419; font-size: 15.5px;
+  }
+  ul.en { margin: 8px 0 4px 22px; }
+  ul.zh {
+    margin: 0 0 18px; padding: 8px 12px 8px 34px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    font-size: 15.5px;
+  }
+  .prompt-en { font-style: italic; color: #444; background: #f0efe9; padding: 10px 14px; border-radius: 4px; margin: 10px 0 4px; }
+  .prompt-zh { padding: 10px 14px; background: #eef7ff; border-left: 3px solid #1d9bf0; border-radius: 4px; margin: 0 0 18px; }
+  em, i { color: #b4531a; font-style: italic; }
+  strong { color: #000; }
+  code { background: #eee; padding: 1px 6px; border-radius: 3px; font-size: 90%; }
+  pre { background: #f4f4f4; padding: 12px 14px; border-radius: 4px; overflow-x: auto; }
+  pre code { background: transparent; padding: 0; }
+  a { color: #1d9bf0; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  blockquote { border-left: 3px solid #ccc; margin: 12px 0; padding: 4px 14px; color: #555; }
+  img { max-width: 100%; height: auto; display: block; margin: 16px 0; }
+  .note { font-size:12px; color:#999; margin-top:60px; text-align:center; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 class="title">
+    Interviewing Engineers in the AI Era: Lessons from a Year of Rebuilding
+    <span class="zh">AI 时代的工程师面试：重建一年的经验教训</span>
+  </h1>
+  <div class="meta">作者：Coinbase · 2026-07-13 · 原文：<a href="https://www.coinbase.com/zh-sg/blog/interviewing-engineers-in-the-ai-era-lessons-from-a-year-of-rebuilding">https://www.coinbase.com/zh-sg/blog/interviewing-engineers-in-the-ai-era-lessons-from-a-year-of-rebuilding</a> · 中英双语对照 · 译文供个人阅读参考</div>
+</header>
+
+<p class="en"><strong>TL;DR:</strong> Now that nearly all of our new code is AI generated and overseen by humans, we've rebuilt our engineering interview loop to keep pace, testing how candidates direct AI, evaluate its output, and apply judgment where models fall short. This post documents three phases of that work: what changed, what the data showed, and what we're still figuring out.</p>
+<p class="zh"><strong>TL;DR：</strong>如今我们几乎所有的新代码都由 AI 生成、由人类审阅，为跟上节奏，我们重建了工程师面试流程，考察候选人如何指挥 AI、评估其产出、以及在模型不足之处如何运用判断力。本文记录了这项工作的三个阶段：改了什么、数据显示了什么、以及还有哪些问题在摸索。</p>
+
+<p class="en">In Q1 2025, AI-generated code represented 5.7% of everything merged into our codebase. In Q4 2025, AI crossed the 50% threshold for the first time. While humans still review all of our code, that share has reached roughly 100% without sacrificing quality or compliance guardrails. Human-authored code (not human-reviewed code) fell sharply as background agent-generated code rose.</p>
+<p class="zh">2025 年第一季度，AI 生成代码占我们代码库合入内容的 5.7%。2025 年第四季度，AI 首次越过 50% 的门槛。虽然人类仍然会审阅我们所有的代码，且这个人类审阅比例已经接近 100%，但整个过程没有牺牲质量或合规 guardrails。随着后台 agent 生成的代码增多，人类亲手写的代码（注意不是人类审阅的代码）急剧下降。</p>
+
+<p class="en">That shift changed a lot at Coinbase. It changed how our engineers spend their time. Less writing code from scratch, more directing AI, reviewing its output, catching its architectural mistakes, and making judgment calls that models still can't make. It changed our development workflows, our deployment infrastructure, and our approach to code review.</p>
+<p class="zh">这个转变在 Coinbase 引发了很多改变。它改变了工程师们花时间的方式：从零写代码变少了，指挥 AI、审阅它的产出、抓它的架构错误、以及做那些模型还做不了的判断变多了。它改变了我们的开发工作流、部署基础设施，以及代码审阅方式。</p>
+
+<p class="en">The nature of senior engineering work has shifted fundamentally. Our engineers now spend the majority of their time authoring specs, directing AI to generate implementations, reviewing AI-produced pull requests for correctness and security, catching architectural errors that models introduce confidently, and making the judgment calls about tradeoffs, rollback risk, and system boundaries that AI still can't make reliably. Writing code from scratch is no longer where most of the value is created. As one of our engineering leaders put it: "When the cost of building goes to zero, the cost of identifying what to build, verifying it's correct, and getting it out safely becomes the limiting factor."</p>
+<p class="zh">高级工程师工作的本质发生了根本性转移。<mark>我们的工程师如今大部分时间用来撰写 spec、指挥 AI 生成实现、审阅 AI 产出的 PR 是否正确与安全、抓出模型自信满满引入的架构错误、以及在权衡取舍、回滚风险、系统边界这些 AI 仍无法可靠判断的事情上做决策。</mark>从零写代码不再是价值主要来源。正如我们一位工程负责人所说："当构建的成本趋近于零时，识别该构建什么、验证其正确性、以及安全交付它，就成了瓶颈。"</p>
+
+<p class="en">This shift to AI-generated code also forced us to confront an uncomfortable question about our hiring process: if nearly all the code we ship is AI-generated and human-reviewed, should we still ask engineering candidates to write code from scratch, from memory, under a 45-minute clock?</p>
+<p class="zh">这种向 AI 生成代码的转变也迫使我们直面一个关于招聘流程的尴尬问题：如果我们交付的代码几乎全部由 AI 生成、由人类审阅，那我们还应该让工程师候选人在 45 分钟的计时压力下，凭记忆从零手写代码吗？</p>
+
+<p class="en">This post documents the answer we built over the past year: what we changed, what we learned, and what we're still figuring out.</p>
+<p class="zh">本文记录我们过去一年得出的答案：改了什么、学到了什么、以及还有哪些没搞清楚。</p>
+
+<h2>The Challenge<span class="zh">挑战所在</span></h2>
+
+<p class="en">Traditional engineering job interviews were designed for a world where architectural knowledge was the scarce resource. Questions like "design a URL shortener" or "build a message queue" tested whether a candidate had internalized canonical patterns like caching strategies, sharding approaches, consistency tradeoffs and if they could recall them under pressure.</p>
+<p class="zh"><mark>传统工程师面试是为架构知识稀缺的世界设计的。</mark>像"设计一个短链服务"或"实现一个消息队列"这类题目，考的是候选人有没有把缓存策略、分片方案、一致性权衡这些经典模式内化于心，以及能不能在压力下把它们回忆起来。</p>
+
+<p class="en">That bar made sense when those skills were hard to acquire. They aren't anymore. Any competent engineer can ask an AI assistant for a reference architecture for any of those problems and receive a defensible, technically accurate answer in under a minute.</p>
+<p class="zh">当这些技能还很难获得时，这条标准是合理的。现在不是了。任何有一定水平的工程师都可以就上述任何问题去问 AI 助手要一份参照架构，不到一分钟就能拿到一个说得通、技术上准确的答案。</p>
+
+<p class="en">The challenge runs deeper than just the questions becoming outdated. We found our existing loop had developed two failure modes that cut in opposite directions:</p>
+<p class="zh">挑战不止是题目过时这么简单。我们发现现有的面试流程已经形成了两种朝相反方向失灵的失败模式：</p>
+
+<p class="en"><strong>False positives:</strong> Candidates who had studied hard and could recite the right patterns for URL shorteners and distributed queues would pass our process while demonstrating little of the judgment we actually need on the job. The signal we got was preparation, not capability.</p>
+<p class="zh"><strong>误报（False positives）：</strong>那些认真刷题、能把短链服务和分布式队列的正确模式复述出来的候选人能通过我们的流程，却几乎没有展现出岗位上真正需要的判断力。我们拿到的信号是"准备程度"，不是"能力"。</p>
+
+<p class="en"><strong>False negatives:</strong> Candidates with strong architectural judgment but less pattern memorization would struggle with questions designed around recall. These were often exactly the engineers who would thrive in an AI-native environment, people who knew how to direct, evaluate, and course-correct AI output rather than reproduce textbook answers.</p>
+<p class="zh"><strong>漏报（False negatives）：</strong>那些架构判断力强、但对模式背诵不熟的候选人，会在以记忆为核心设计的题目上吃力。而这些人往往正是能在 AI 原生环境中如鱼得水的工程师——他们知道怎么指挥、评估、并及时修正 AI 的产出，而不是照本宣科地复现教科书答案。</p>
+
+<p class="en">We also found our interview loop was redundant. An internal analysis showed an 84% correlation between two different interview rounds, meaning two expensive rounds produced nearly the same signal, and neither was measuring what we needed most.</p>
+<p class="zh">我们还发现面试流程存在冗余。一份内部分析显示两个不同轮次之间存在 84% 的相关性，也就是说两轮昂贵的面试产出的信号几乎一样，而且都没有度量我们最需要的东西。</p>
+
+<p class="en">The interview process for engineering managers hadn't been substantively updated in two years. And critically, none of our existing rounds were sufficiently focused on how a candidate actually uses AI tools, the skill that now defines a significant portion of day-to-day engineering work.</p>
+<p class="zh">工程经理的面试流程两年没有实质性更新。更关键的是，我们现有的任何一轮都没有充分聚焦候选人到底怎么使用 AI 工具——而这项 skill 如今定义了工程日常工作的很大一部分。</p>
+
+<h2>How We Rebuilt in Three Phases<span class="zh">我们如何分三个阶段重建</span></h2>
+
+<p class="en">We didn't redesign the interview loop all at once. We ran it like any engineering project: start with a pilot, measure against exit criteria, expand only when data supports it.</p>
+<p class="zh">我们并没有一口气重设整个面试流程。而是把它当成一个普通的工程项目在推进：先跑试点，对照退出标准衡量，只有数据支持时才扩大范围。</p>
+
+<h3>Phase 1 — H2 2025: The Frontend Pilot<span class="zh">阶段一 —— 2025 年下半年：前端试点</span></h3>
+
+<p class="en">The first thing we learned was that you can't simply turn AI on inside an existing interview and call it AI-native. When we enabled full AI assistance on our standard frontend coding questions, the AI solved most of them directly. The questions hadn't been designed for an AI-present environment, they had been designed to measure what a human could hold in working memory.</p>
+<p class="zh">我们学到的第一件事是：你不能在现有面试题里简单地"打开 AI"然后就宣称它是 AI 原生的。当我们在标准前端编码题上放开完整 AI 辅助后，AI 直接把大多数题目解掉了。这些题目本来就不是为 AI 在场的环境设计的，它们是为衡量一个人的工作记忆而设计的。</p>
+
+<p class="en">So, we rebuilt the questions from scratch. The new frontend interview gave candidates access to AI tools and asked them to work on realistic problems but the problems were structured so that the interesting signal came from how the candidate used AI: the quality of their prompts, how they evaluated the output, how they caught errors, how they iterated. Getting AI to generate a solution was easy. Generating a good solution, knowing when to trust it, and knowing when to push back required skills.</p>
+<p class="zh">于是我们把题目从头重写。新的前端面试让候选人可以使用 AI 工具，要求他们处理真实的问题，但题目的结构决定了有价值的信号来自候选人怎么用 AI：prompt 的质量、如何评估产出、如何抓出错误、如何迭代。让 AI 生成一个解并不难。生成一个好的解、知道什么时候可以信任它、什么时候要顶回去，这些才是真正的 skill。</p>
+
+<p class="en">The frontend pilot completed successfully. Interviewer efficiency improved measurably, and early candidate feedback was positive. We had a working model to expand from.</p>
+<p class="zh">前端试点顺利完成。面试官效率有可衡量的提升，候选人早期反馈也是正面的。我们有了一个可以扩展的样板。</p>
+
+<h3>Phase 2 — January 2026: Expanding to Backend<span class="zh">阶段二 —— 2026 年 1 月：扩展到后端</span></h3>
+
+<p class="en">The expansion to backend engineering interviews required building new questions, not adapting existing ones. We developed custom repository-based questions where candidates worked in a realistic codebase: debugging issues, reviewing code for correctness and performance, reasoning about rollback scenarios, all with AI tools available. This format tested what our engineers actually do: not writing from scratch, but working with and against an existing codebase and an AI collaborator to generate an improved result. Can they triage real issues? Can they catch subtle bugs that AI introduces? Do they understand what they're accepting when they accept an AI-generated change?</p>
+<p class="zh">扩展到后端工程师面试要求的是设计新题，而不是改造老题。我们开发了定制的、基于代码仓库的题目，候选人在一个真实的代码库里工作：调 bug、审阅代码的正确性和性能、推演回滚场景，全程可以使用 AI 工具。这种形式考的是我们工程师实际在做的事情：不是从零手写，而是在一个已有代码库上，与 AI 协作者一起（有时又要跟它对抗）产出一个更好的结果。他们能定位真实的问题吗？能抓到 AI 引入的细微 bug 吗？在他们接受一个 AI 生成的改动时，他们清楚自己在接受什么吗？</p>
+
+<h3>Phase 3 — March 2026: Company-Wide AI Fluency Launch<span class="zh">阶段三 —— 2026 年 3 月：全公司 AI 熟练度上线</span></h3>
+
+<p class="en">In March 2026, we rolled out AI signals at every stage of the engineering interview loop, not as an overlay on the existing process, but how we evaluate every candidate.</p>
+<p class="zh">2026 年 3 月，我们在工程师面试流程的每一个环节都上线了 AI 信号——不是作为原流程之上的附加层，而是变成了我们评估每一位候选人的方式。</p>
+
+<p class="en">Here is what changed at each stage:</p>
+<p class="zh">下面是各个环节的变化：</p>
+
+<p class="en">The AI Fluency definition we created covers three dimensions, and it applies equally to junior and senior engineers:</p>
+<p class="zh">我们制定的 AI Fluency（AI 熟练度）定义覆盖三个维度，对初级和高级工程师同等适用：</p>
+
+<ul class="en">
+  <li><strong>Usage</strong> — does the candidate use AI tools effectively and responsibly? Do they select the right tool, apply it in the right parts of their workflow, and produce measurably better outcomes?</li>
+  <li><strong>Application</strong> — do they know when AI is and isn't the right solution? Can they design AI-enabled workflows that create real business impact rather than just automating tasks?</li>
+  <li><strong>Understanding Limits</strong> — do they understand where AI breaks down? Can they identify the privacy and security implications, and apply appropriate human judgment as a guardrail?</li>
+</ul>
+<ul class="zh">
+  <li><strong>使用（Usage）</strong>——候选人能否有效且负责任地使用 AI 工具？他们能否选对工具，把它用在工作流的正确环节，并产出可衡量的更好结果？</li>
+  <li><strong>应用（Application）</strong>——他们知道 AI 什么时候是、什么时候不是合适的方案吗？他们能否设计出真正创造业务价值的 AI 赋能工作流，而不是仅仅在自动化一些琐碎任务？</li>
+  <li><strong>理解边界（Understanding Limits）</strong>——他们清楚 AI 在哪里会失效吗？能否识别隐私和安全影响，并把人类判断作为适当的 guardrail 应用进去？</li>
+</ul>
+
+<p class="en">The early signal from the new process is encouraging. While the sample size is still small, candidates who pass the AI-Assisted coding assessment are advancing through their onsite interviews at a meaningfully higher rate than candidates on the old assessment. The directional signal suggests we're identifying the right candidates to progress into the onsite, not raising a barrier. We'll share more precise data as the sample grows.</p>
+<p class="zh">新流程的早期信号令人鼓舞。虽然样本量还很小，但通过 AI 辅助编码测评的候选人，其在现场面试中的通过率明显高于旧测评的候选人。这个方向性信号说明我们是在把对的候选人推进到 onsite，而不是在抬高门槛。样本量扩大后我们会分享更精确的数据。</p>
+
+<h2>What We Measure: Three Baseline Signals<span class="zh">我们衡量什么：三个基线信号</span></h2>
+
+<p class="en">After a year of iteration, we've landed on three signals that we believe a complete engineering interview loop must produce. The specific format of each round can, and will, change as AI capabilities evolve. But these three signals are durable because they reflect what the job actually requires in today's environment.</p>
+<p class="zh">经过一年的迭代，我们最终确定了三个我们认为一个完整的工程师面试流程必须产出的信号。每一轮的具体形式会随 AI 能力演进而变化——这是必然的。但这三个信号本身是长期稳定的，因为它们反映的是这份工作在今天的环境里真正需要的东西。</p>
+
+<p class="en">As execution gets automated, judgment and taste are the traits that matter most. Knowing what's actually worth building, telling a genuinely good solution from one that only looks right, and sensing when to override the model. We don't test this in a separate round; it's what each of the signals below is ultimately reading for.</p>
+<p class="zh">随着执行被自动化，判断力和品味成了最重要的特质。知道什么是真正值得构建的、能区分真正好的方案和只是"看起来对"的方案、以及能感知到什么时候该推翻模型的决定。我们没有专门用一轮来测这些，下面每一个信号最终都在读取这些东西。</p>
+
+<p class="en">Not all of these are fully operational today. We've labeled each with its current maturity so you know exactly where we stand.</p>
+<p class="zh">这些信号并非都已完全上线。我们给每一个都标注了当前成熟度，方便你清楚我们目前的状态。</p>
+
+<h3>1. Repo-based coding and debugging (Live)<span class="zh">1. 基于代码仓库的编码与调试（已上线）</span></h3>
+
+<p class="en">How does a candidate work in an existing codebase? Can they triage issues, debug failures in code they didn't write, reason about performance and compatibility, use AI effectively on a real codebase, and show the judgment to tell a correct change from one that merely looks plausible? This is the closest analog to most engineering work, since you almost never build on a blank slate.</p>
+<p class="zh">候选人在已有代码库里如何工作？能否定位问题、调试自己没写过的代码里的失败、推理性能与兼容性、在真实代码库上有效使用 AI、以及展现出足够判断力，区分一个真正正确的改动和一个只是"看起来说得通"的改动？这是与实际工程工作最接近的映射，因为你几乎从来不会从一张白纸开始搭建。</p>
+
+<h3>2. System design with AI (Early Testing)<span class="zh">2. 结合 AI 的系统设计（早期测试中）</span></h3>
+
+<p class="en">Can a candidate architect complex systems by directing AI to explore the design space (generating schemas, drafting API contracts, stress-testing failure modes) while regularly applying the judgment that AI cannot substitute for?</p>
+<p class="zh">候选人能否通过指挥 AI 去探索设计空间（生成 schema、起草 API 契约、压测失败模式）来架构复杂系统，同时持续运用 AI 无法替代的判断力？</p>
+
+<p class="en">The scarce resource in system design is no longer pattern recall; it's the taste and judgment to know which constraints matter, which tradeoffs are real, and when to override what the model produces. We're actively designing this round and expect to pilot it in the coming quarters.</p>
+<p class="zh">系统设计里稀缺的资源不再是模式记忆，而是那种"知道哪些约束重要、哪些取舍是真的、以及什么时候该推翻模型产出"的品味和判断力。我们正在积极设计这一轮，预计在接下来几个季度进行试点。</p>
+
+<h3>3. Leadership and Behavioral (Live)<span class="zh">3. 领导力与行为（已上线）</span></h3>
+
+<p class="en">This hasn't changed in its purpose: assessing how a candidate makes decisions, decides what's worth building, handles disagreement, builds trust, and grows. It has changed in one dimension: we now include direct questions about how they use AI in their day-to-day work, as concrete behavioral evidence rather than abstract capability.</p>
+<p class="zh">这一轮的目的没有变：评估候选人如何做决策、如何决定什么值得构建、如何处理分歧、如何建立信任、以及如何成长。它在一个维度上有所改变：我们现在会直接问他们在日常工作中如何使用 AI，作为具体的行为证据，而不是抽象的能力表述。</p>
+
+<p class="en">One constraint we've held firm on throughout this redesign: we don't add rounds. Every new signal must either replace an existing round or capture something clearly distinct that the current loop doesn't measure. A longer interview is a worse candidate experience and a harder commitment to ask of interviewers. If we can't make the case for why the new round captures a different signal, we don't add it.</p>
+<p class="zh">整个重设计过程中我们坚守的一条约束是：不加轮次。每一个新信号要么替换掉一轮现有的，要么捕获一个当前流程完全没在衡量的、明显不同的东西。更长的面试对候选人体验更差，对面试官也是更难承诺的负担。如果我们没法说清楚新一轮为什么捕获的是不同的信号，那就不加。</p>
+
+<p class="en"><strong>How we operate: the working group model.</strong> None of this came from a single top-down mandate. A cross-functional group of engineers, hiring managers, and recruiters owns the loop and keeps iterating on it: every change starts as a pilot with clear success criteria, ships only when the data supports it, and gets revisited on a regular cadence. The interview loop isn't something we refresh every few years. It's a living process that we tune as the work itself changes. That's a big part of how we moved this fast.</p>
+<p class="zh"><strong>我们如何运作：工作组模式。</strong>这一切都不是自上而下一纸命令的产物。一个由工程师、招聘经理、招聘官组成的跨职能小组共同拥有并持续迭代这套流程：每一个改动都先作为带有明确成功标准的试点开始，只有数据支持时才交付上线，并按固定节奏复盘。面试流程不是每几年才刷一次的东西，而是一个随工作本身变化而调整的活流程。这也是我们能推进得这么快的重要原因之一。</p>
+
+<p class="en"><strong>What this means if you're applying.</strong> If you're considering a role at Coinbase, here's what to expect: come prepared to use the tools you'd use at work with us. We're not testing memorization or pattern recall; we're evaluating how you direct AI, how you critique its output, and how you exercise judgment to determine whether and when the model gets something wrong. The best preparation is doing the kind of work you'd do on day one.</p>
+<p class="zh"><strong>这对求职者意味着什么。</strong>如果你正在考虑 Coinbase 的职位，以下是需要预期的：请准备好使用你在这里入职后会用的工具。我们不测记忆力或模式背诵，我们评估的是你如何指挥 AI、如何批判它的产出、以及如何运用判断力来判定模型是否出错、什么时候出错。最好的准备方式，就是去做你入职第一天会做的那种工作。</p>
+
+<h2>What We're Still Exploring<span class="zh">我们仍在摸索的事</span></h2>
+
+<p class="en">We want to be honest about what's unresolved, because the industry is still in early days on this.</p>
+<p class="zh">我们希望坦诚地讲清楚还没解决的问题，因为整个行业在这件事上都还处于早期。</p>
+
+<p class="en"><strong>The half-life problem.</strong> AI models are evolving fast enough that a question designed to test AI fluency today may be trivially solvable by next quarter's model. We've structured our process to account for this: the interview loop is now a living system with quarterly review cycles and an active working group responsible for monitoring question effectiveness and retiring anything that's no longer producing signal. This is a different operating model than most companies use for their interview processes, and it requires real ongoing investment.</p>
+<p class="zh"><strong>半衰期问题。</strong>AI 模型演进速度快到什么程度？今天设计的一道考察 AI 熟练度的题目，可能到下个季度的模型手里就变成秒解。我们为此调整了流程结构：面试流程如今是一个活系统，有季度复盘周期，有一个活跃的工作组负责监测题目有效性，并让任何不再产生信号的题退役。这与大多数公司对待面试流程的运作方式不同，需要真金白银的持续投入。</p>
+
+<p class="en"><strong>How well does interview performance predict job performance?</strong> We're exploring how AI fluency in an interview predicts AI fluency on the job. We've built in 45- and 90-day pulse surveys for every new hire, with the goal that 100% of new hires maintain or improve their AI Fluency rating at those checkpoints and are using available AI tools measurably in their work. We'll publish what we learn.</p>
+<p class="zh"><strong>面试表现能多好地预测在职表现？</strong>我们正在探索面试中的 AI 熟练度如何预测在职时的 AI 熟练度。我们为每位新人内建了 45 天和 90 天的脉搏调研，目标是 100% 的新人在这两个检查点保持或提升他们的 AI 熟练度评级，并且在工作中可衡量地在使用可用的 AI 工具。之后我们会公开学到的东西。</p>
+
+<p class="en"><strong>What comes next?</strong> We're exploring a V2 of the loop that goes further: combining early rounds to reduce time-to-signal, A/B testing changes in isolation so we can attribute outcomes cleanly, and potentially building a pre-onsite signal that candidates will engage with. We're also watching closely whether the three baseline signals remain stable as the technology continues to shift.</p>
+<p class="zh"><strong>下一步是什么？</strong>我们在探索流程的 V2 版本，走得更远：把前置轮次合并以缩短"拿到信号的时间"、把改动做隔离的 A/B 测试以便干净地归因结果、以及可能构建一个候选人能参与的 onsite 前信号。我们也在密切关注：随着技术继续变化，那三个基线信号是否依然稳定。</p>
+
+<h2>Why We're Sharing This<span class="zh">我们为什么公开分享这些</span></h2>
+
+<p class="en">We want the bar we interview against to reflect the bar we operate against. We can't hire engineers to work alongside AI if we're still selecting for the ability to work without it.</p>
+<p class="zh">我们希望面试所对照的标准，反映的是我们实际工作所对照的标准。如果我们还在筛选"离开 AI 也能干活"的能力，那就没法招到真正能与 AI 一起工作的工程师。</p>
+
+<p class="en">We're publishing this because everyone in the industry is navigating the same shift, and we think transparency about what worked, what didn't, and what's still unproven serves everyone better than quietly reinventing the same wheel. If you're rebuilding your engineering interview process and want to compare notes, we'd welcome the conversation. And if you're considering a job at Coinbase, we welcome you to apply.</p>
+<p class="zh">我们发这篇文章，是因为业内所有人都在应对同一场转变。我们相信坦诚地讲清楚"什么起作用了、什么没起、以及什么还没验证"，比大家各自默默地重新造同一个轮子对所有人都更好。如果你也在重建你们的工程师面试流程，想交换一下心得，我们非常欢迎交流。而如果你正在考虑 Coinbase 的职位，欢迎申请。</p>
+
+<p class="note">中译供个人阅读参考，如与原文有出入以原文为准。</p>
+
+</body>
+</html>
