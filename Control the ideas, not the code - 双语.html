@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Control the ideas, not the code · 双语</title>
+<style>
+  :root { color-scheme: light; }
+  body {
+    max-width: 760px; margin: 40px auto; padding: 0 20px 80px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    color: #1a1a1a; background: #fafafa; line-height: 1.65;
+  }
+  header { border-bottom: 1px solid #e5e5e5; padding-bottom: 24px; margin-bottom: 32px; }
+  h1.title { font-size: 30px; margin: 0 0 8px; line-height: 1.3; }
+  h1.title .zh { display:block; font-size:22px; color:#555; font-weight:600; margin-top:6px; }
+  .meta { color: #666; font-size: 14px; }
+  h2 { font-size: 22px; margin: 36px 0 10px; border-left: 4px solid #d97757; padding-left: 12px; }
+  h2 .zh { display:block; font-size:17px; color:#555; margin-top:2px; }
+  h3 { font-size: 18px; margin: 28px 0 8px; color:#333; }
+  h3 .zh { display:block; font-size:15px; color:#666; font-weight:600; margin-top:2px; }
+  p.en { margin: 14px 0 4px; color: #222; }
+  p.zh {
+    margin: 0 0 18px; padding: 8px 12px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    color: #0f1419; font-size: 15.5px;
+  }
+  ol.en, ul.en { margin: 8px 0 4px 22px; }
+  ol.zh, ul.zh {
+    margin: 0 0 18px; padding: 8px 12px 8px 34px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    font-size: 15.5px;
+  }
+  .prompt-en { font-style: italic; color: #444; background: #f0efe9; padding: 10px 14px; border-radius: 4px; margin: 10px 0 4px; }
+  .prompt-zh { padding: 10px 14px; background: #eef7ff; border-left: 3px solid #1d9bf0; border-radius: 4px; margin: 0 0 18px; }
+  em, i { color: #b4531a; font-style: italic; }
+  strong { color: #000; }
+  code { background: #eee; padding: 1px 6px; border-radius: 3px; font-size: 90%; }
+  pre { background: #f4f4f4; padding: 12px 14px; border-radius: 4px; overflow-x: auto; }
+  pre code { background: transparent; padding: 0; }
+  a { color: #1d9bf0; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  blockquote { border-left: 3px solid #ccc; margin: 12px 0; padding: 4px 14px; color: #555; }
+  img { max-width: 100%; height: auto; display: block; margin: 16px 0; }
+  .note { font-size:12px; color:#999; margin-top:60px; text-align:center; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 class="title">
+    Control the ideas, not the code
+    <span class="zh">掌控想法,而非代码</span>
+  </h1>
+  <div class="meta">作者:antirez · 原文:<a href="https://antirez.com/news/169">https://antirez.com/news/169</a> · 中英双语对照 · 译文供个人阅读参考</div>
+</header>
+
+<p class="en">Look at the past history of this blog. There are many blog posts about programming with AI, a few of them date back to January 2024 (like this: https://antirez.com/news/140). I'm a relatively well regarded programmer, after all. I don't have the need to still be in the "loop" as a old man that seeks for relevance, I recently rejoined Redis, and now I also am developing a new open source software for local LLM inference that received a good welcome in the community. Why I keep doing this, of saying what people don't want to hear? Why I keep announcing how future programming will be by default? Because I feel the urge of lowering the impact for people less prepared to the change than me, often younger than me, and that, unlikely me, didn't see many of those things coming (In 2022 I published, before ChatGPT existed, a book preannouncing many things that now happened and other things that I believe *will* happen, so I feel like I can say this without sounding egocentric).</p>
+<p class="zh">看看这个博客过去的历史。关于用 AI 编程的博文有很多,其中一些可以追溯到 2024 年 1 月(比如这篇:https://antirez.com/news/140)。毕竟我算是个还挺受认可的程序员。我没必要像个渴望存在感的老头一样非要留在"圈子里",最近我重新加入了 Redis,现在也在开发一款新的本地 LLM 推理开源软件,社区反响不错。那为什么我还一直做这件事,一直说别人不爱听的话?为什么我还一直宣告未来编程默认会是什么样?因为我有一种冲动,想为那些比我更没准备好面对这场变化的人减轻冲击——他们往往比我年轻,而且不像我那样早早预见了这些事情(2022 年 ChatGPT 还没出现时,我就出版过一本书,预告了很多如今已经发生的事,以及一些我相信 *将会* 发生的事,所以我觉得我这么说不算自恋)。</p>
+
+<p class="en">So mine is a trick. People feel more and more programming is completely modified by AI and don't know what they should do, if they can really start coding in a completely different way, without looking much at the code as their main output. They feel like they are betraying their own field. So my intention is to arrive and say "look at me, In can write code, you know, I'm not hiding behind AI: yet, things changed, it's not your weakness, it's not that you are AI-pilled. It is just that our field is evolving in an incredible *and* painful (but also joyful) direction".</p>
+<p class="zh">所以我这是一种策略。人们越来越觉得编程被 AI 彻底改造了,不知道该怎么办,不确定自己是否真能换一种完全不同的方式去编码——不再把代码本身当作主要的产出。他们觉得自己背叛了自己的行当。所以我想站出来说:"看看我,我会写代码,你知道的,我没有躲在 AI 后面。但是,情况变了,这不是你的弱点,不是你被 AI 洗脑了。只是我们这个行当正朝着一个既令人惊叹 *又* 痛苦(但也充满喜悦)的方向演进。"</p>
+
+<p class="en">This is why yesterday, on X, I said that I believe many programmers at this point have less impact they could have because they look at the code. I truly believe into that. And note that this does not mean to vibe code something just asking for the final product. The point is: if you control the ideas of your software, looking at the code itself is suboptimal and often pointless. For the following reasons:</p>
+<p class="zh">这也是为什么昨天我在 X 上说,我认为很多程序员到了今天,产出的影响力反而不如原本可以达到的——因为他们盯着代码看。我是真心这么认为的。注意,这不是说去 vibe code——只丢一句话让 AI 给出最终产品。重点是:如果你掌控着自己软件的想法(ideas),盯着代码本身看就是次优选择,而且往往毫无意义。原因如下:</p>
+
+<ol class="en">
+  <li>You can now generate a lot of code, even *not* accounting for the LLM code verbosity (that is also effect of not being able to instruct them well, for most of the part). How are you supposed to review 5k lines of code every day?</li>
+  <li>LLMs are very good at writing locally optimal code, and are worse (but improving) with big ideas. What's the point of scanning function by function, line by line? Instead you should prompt the design you have in mind, sometimes ask "how is exactly the design of that part? How does it work?", and evaluate if it is the right model. It is much faster.</li>
+  <li>The working day is 8 hours. If you read the code, it is a tradeoff. You are doing less of what today is the most important part of your job, that is, asking yourself: what I'm doing with this software? What are the new directions I want to take? And also, think at new ideas, features, optimizations tricks. And doing a lot of QA.</li>
+</ol>
+<ol class="zh">
+  <li>你现在能生成海量代码,即使 *不* 算上 LLM 输出的冗长(那也大多是因为没能好好指令它们)。你怎么可能每天审阅 5000 行代码?</li>
+  <li>LLM 非常擅长写局部最优的代码,但在大想法(big ideas)上要差一些(不过在进步)。逐个函数、逐行扫过去,意义何在?你应该把心里的设计通过 prompt 表达出来,偶尔问一句"那部分具体是怎么设计的?它是怎么工作的?",然后评估它是不是正确的模型。这样快得多。</li>
+  <li>工作日只有 8 小时。你读代码,就是在做取舍。你在今天最重要的工作上投入得就少了——那就是问自己:我用这个软件在做什么?我想走哪些新方向?还有思考新想法、新特性、新的优化技巧,以及做大量的 QA。</li>
+</ol>
+
+<p class="en">Controlling the ideas. Do you remember this phrasing from the Mythical Man Month? Well, a book from the 70s tells us more things about the current software era than many of the things that were said from 2000 to 2020. Why people that now protest against AI were not horrified by the state of software in the last decade? The level of slop we touched during recent years, before AI, is unbelievable. I'll say you another thing. What is slop? With DwarfStar I implemented an inference for two LLMs (DeepSeek v4 and GLM 5.2) in a completely automated way, but: try it yourself, you will discover you can't just say "implement XYZ" and see it working. You have to understand how things work, what is the best design, how to reach a certain level of performance. Then I compared the implementation, for correctness, to other systems, finding that other implementations sometimes contained more errors. I researched more, and found that the local inference world is full of subtle errors that accumulate and damage the model output, issues in the attention implementation causing performance slopes after the context is over a certain limit because indexed attention implementations are broken (do more work than they should, for instance), and so forth. This is the result of a domain that is very complicated to handle, fast changing, with models that are slightly different one from the other in the inference graph being released every day. It's an unfair game for developers. Well: AI helps a lot with that. There are many domains where rigorous engineering (in the design side) and testing is *far* better than writing a GPU kernel by hand (or reading it). So are we sure most of that resistance it is not ideological?</p>
+<p class="zh">掌控想法(Controlling the ideas)。你还记得《人月神话》(Mythical Man Month)里的这个说法吗?说真的,一本 70 年代的书告诉我们的关于当下软件时代的东西,比 2000 到 2020 年间说过的很多话都要多。为什么现在那些抗议 AI 的人,对过去十年软件的糟糕状况却没被吓到?AI 出现之前,近些年我们触及的 slop(垃圾)水平简直难以置信。我再告诉你一件事。什么叫 slop?我用 DwarfStar 以完全自动化的方式实现了两个 LLM (DeepSeek v4 和 GLM 5.2) 的推理,但是:你自己试试就知道,你没法只说一句"实现 XYZ"就看着它跑起来。你必须理解事情怎么运作、什么是最佳设计、怎么达到某个性能级别。然后我把这套实现跟其他系统作了正确性对比,发现有些其他实现里的错误还更多。我进一步研究,发现本地推理这个领域到处是会累积、会破坏模型输出的细微错误——attention 实现里的问题在上下文超过某个长度后引发性能陡坡,因为带索引的 attention 实现是坏的(比如它做了比该做的更多的工作),诸如此类。这是一个处理起来非常复杂、变化极快的领域,每天都有推理图(inference graph)彼此略有不同的新模型发布。对开发者来说这是一场不公平的游戏。而 AI 在这方面帮了大忙。有很多领域,严谨的工程(在设计一侧)加上测试,*远远* 好过手写(或者手读)一个 GPU kernel。所以我们真的确定,这种抵触大部分不是意识形态吗?</p>
+
+<p class="en">Matteo Collina yesterday asked me, in reply to my tweet: but didn't you say that you check all the AI generated code for Redis? And this is a good question indeed. Yes, I do, but this is, at this point, something I *need* to do but that I believe to be mostly pointless, partially once GPT 5.5 was released, but now with Fable and GPT 5.6 Sol even more. Yes: I identify things that I don't like how they are coded, but if I open other Redis files written by other Redis contributors there is *far worse*, and not since they are not good coders, but because it is a matter of taste. I write very clean code since I want it to be readable, so during the implementation of Redis Arrays I operated changes. I'm doing it again for the 50% memory saving optimization of Redis sorted sets, a PR that I'll submit soon. But I do not feel this is useful anymore. Nobody should anymore look at this code, but only at the ideas the code contains. I continued to do it out of respect for users. Redis is at this point a commonly useful thing, and many programmers will open files and modify stuff by hand. But if I had my hands free, you know what I would do, instead? Use all the time that the review is taking me to do more QA, to think at the next optimization idea and apply it, and to use LLMs to write a DESIGN.md file where each data structure is described in human language, with the ideas it contains, the implementation tricks, the design. That, in the future, is going to be much more useful. Do you want to modify sorted sets? You open the file, read the design, then you own the ideas. You can open your agent and ask it what to do with the right mental model. This is a lot more useful than reviewing the code.</p>
+<p class="zh">Matteo Collina 昨天在回复我的推文时问:但你不是说过你会检查所有为 Redis 生成的 AI 代码吗?这确实是个好问题。是的,我会检查,但到了现在这个阶段,这是我 *不得不* 做、却认为大多没什么意义的事——自 GPT 5.5 发布起就有点这种感觉,而如今有了 Fable 和 GPT 5.6 Sol 就更是如此。是的:我会挑出一些我不喜欢的写法,但如果我打开其他 Redis 贡献者写的 Redis 文件,那里 *糟得多*,倒不是他们不是好程序员,而是这是口味问题。我写代码写得很干净,因为我想让它可读,所以在实现 Redis Arrays 时我做了改动。为 Redis sorted sets 50% 内存节省的优化我又要这么做一遍——那是一个我即将提交的 PR。但我不再觉得这有用了。没有人还应该去看这些代码,而只该去看代码所包含的想法。我继续做这件事是出于对用户的尊重。Redis 到现在是一个被广泛使用的东西,很多程序员会打开文件、亲手改东西。但如果我完全放开手,你知道我会做什么吗?我会把审阅占掉的所有时间拿去做更多的 QA、去思考并落地下一个优化想法、去用 LLM 写一份 DESIGN.md 文件,用人类语言描述每一种数据结构,包含它蕴含的想法、实现的技巧、以及设计。这在未来会有用得多。你想改 sorted sets?你打开这个文件,读设计,然后你就掌握(own)了那些想法。你打开你的 agent,带着正确的心智模型问它该做什么。这比审阅代码有用得多。</p>
+
+<p class="en">Fable and GPT 5.6 reviews to the sorted sets memory saving are going to spot ways more errors and subtle race conditions that my review is going to uncover. Yet I'll do it. But for the majority of software projects, all this does not make sense anymore. Focus on controlling the ideas, instead. Focus on quality, testing, and having an idea of the software you want to ship. The world changed and it is painful, but also full of opportunities to improve a software world that was already completely rotten.</p>
+<p class="zh">Fable 和 GPT 5.6 对 sorted sets 内存节省这版代码的审阅,会发现远比我自己审阅时更多的错误和细微的竞态条件。但我还是会亲自做。不过对绝大多数软件项目来说,这一切已经不再合理了。相反,把重心放在掌控想法上。把重心放在质量、测试,以及你想 ship 的那个软件的构想上。世界变了,这很痛苦,但也充满了机会去改善一个原本就已经完全烂掉的软件世界。</p>
+
+<p class="en">I have a doubt only regarding young programmers that don't have enough experience, and can't build a mental model. We don't know, yet, if they will require or not to understand very well how a given piece of code works, but I believe they should learn how to write programs. Yet, I'm not sure checking the LLM output is the right thing they should do. It may be a lot more useful if they learn some programming language and implement a small interpreter, a small database, an hash table and so forth. Reviewing some Javascript stuff of some web site for a customer? Hell, no, don't lose time with that shit.</p>
+<p class="zh">我唯一有疑虑的,是那些经验不足、还建不起心智模型的年轻程序员。我们目前还不知道他们是否需要非常清楚地理解某段代码是如何工作的,但我相信他们应该学会怎么写程序。不过,我不确定审阅 LLM 输出是不是他们该做的正确的事。更有用的可能是,让他们学一门编程语言,自己实现一个小的解释器、一个小的数据库、一个哈希表之类的东西。给客户审阅某个网站的一堆 JavaScript 代码?去他的,别把时间浪费在那种破烂上。</p>
+
+<p class="note">中译供个人阅读参考,如与原文有出入以原文为准。</p>
+
+</body>
+</html>
