@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>How to become an applied AI engineer · 双语</title>
+<style>
+  :root { color-scheme: light; }
+  body {
+    max-width: 760px; margin: 40px auto; padding: 0 20px 80px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    color: #1a1a1a; background: #fafafa; line-height: 1.65;
+  }
+  header { border-bottom: 1px solid #e5e5e5; padding-bottom: 24px; margin-bottom: 32px; }
+  h1.title { font-size: 30px; margin: 0 0 8px; line-height: 1.3; }
+  h1.title .zh { display:block; font-size:22px; color:#555; font-weight:600; margin-top:6px; }
+  .meta { color: #666; font-size: 14px; }
+  h2 { font-size: 22px; margin: 36px 0 10px; border-left: 4px solid #d97757; padding-left: 12px; }
+  h2 .zh { display:block; font-size:17px; color:#555; margin-top:2px; }
+  h3 { font-size: 18px; margin: 28px 0 8px; color:#333; }
+  h3 .zh { display:block; font-size:15px; color:#666; font-weight:600; margin-top:2px; }
+  p.en { margin: 14px 0 4px; color: #222; }
+  p.zh {
+    margin: 0 0 18px; padding: 8px 12px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    color: #0f1419; font-size: 15.5px;
+  }
+  ul.en { margin: 8px 0 4px 22px; }
+  ul.zh {
+    margin: 0 0 18px; padding: 8px 12px 8px 34px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    font-size: 15.5px;
+  }
+  .prompt-en { font-style: italic; color: #444; background: #f0efe9; padding: 10px 14px; border-radius: 4px; margin: 10px 0 4px; }
+  .prompt-zh { padding: 10px 14px; background: #eef7ff; border-left: 3px solid #1d9bf0; border-radius: 4px; margin: 0 0 18px; }
+  em, i { color: #b4531a; font-style: italic; }
+  strong { color: #000; }
+  code { background: #eee; padding: 1px 6px; border-radius: 3px; font-size: 90%; }
+  pre { background: #f4f4f4; padding: 12px 14px; border-radius: 4px; overflow-x: auto; }
+  pre code { background: transparent; padding: 0; }
+  a { color: #1d9bf0; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  blockquote { border-left: 3px solid #ccc; margin: 12px 0; padding: 4px 14px; color: #555; }
+  img { max-width: 100%; height: auto; display: block; margin: 16px 0; }
+  .note { font-size:12px; color:#999; margin-top:60px; text-align:center; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 class="title">
+    How to become an applied AI engineer
+    <span class="zh">如何成为一名应用型 AI 工程师</span>
+  </h1>
+  <div class="meta">作者：Eyad Khrais（<a href="https://x.com/eyad_khrais">@eyad_khrais</a>） · 原文：<a href="https://x.com/eyad_khrais/article/2074519552277336571">https://x.com/eyad_khrais/article/2074519552277336571</a> · 发布日期：2026-07-07 · 中英双语对照 · 译文供个人阅读参考</div>
+</header>
+
+<p class="en">I wrote this as the guide I would have wanted before making the transition into Applied AI Engineering.</p>
+<p class="zh">这篇文章，是我当初转向应用型 AI 工程（Applied AI Engineering）时希望能有的一份指南。</p>
+
+<p class="en">The role broadly overlaps with traditional software engineering, but it adds a few important concepts that most software engineers have to learn as they make the transition. I'd suggest you use this as an outline of the core topics you need to understand, and then follow the linked resources throughout the article when you want to go deeper.</p>
+<p class="zh">这个岗位与传统软件工程有大面积重合，但多出几个重要概念，是大多数软件工程师转型时必须学的。建议把本文当成一份核心话题清单，想深入哪块就顺着文中给的链接资源去读。</p>
+
+<p class="en">By the end, you should have a much clearer understanding of what Applied AI Engineering is, what the job actually requires, and how it extends beyond traditional software engineering.</p>
+<p class="zh">读完之后，你应当对以下三件事有清晰得多的认识：什么是应用型 AI 工程、这份工作实际要求什么、它相对传统软件工程多出了哪些东西。</p>
+
+<p class="en">If you're interested in working on some of the most interesting problems in Applied AI with a very talented engineering team, we're always hiring. Apply on our website at varickagents.com or refer a candidate for a $20k referral bonus.</p>
+<p class="zh">如果你有兴趣和一支极有才华的工程团队一起解决应用 AI 领域最有意思的问题，我们一直在招人。可去 varickagents.com 投递，或推荐候选人拿 2 万美元推荐奖金。</p>
+
+<p class="en">That said, the best way to understand Applied AI Engineering is to start with the shift in how you think about building software.</p>
+<p class="zh">话说回来，理解应用型 AI 工程的最好入口，是先看清楚"造软件"这件事在思维方式上发生了怎样的转变。</p>
+
+<h2>Software engineering vs AI engineering <span class="zh">软件工程 vs AI 工程</span></h2>
+
+<p class="en">The biggest difference between being a SWE and an AI engineer is that traditional software engineering trains you to think deterministically, while applied AI forces you to think probabilistically.</p>
+<p class="zh">SWE 和 AI 工程师最大的区别在于：传统软件工程训练你用<strong>确定性</strong>的方式思考，而应用 AI 逼你用<strong>概率性</strong>的方式思考。</p>
+
+<p class="en">In normal software, you write the logic, get it to run, and when something breaks you can usually trace it – a structured input deterministically gives you a structured output.</p>
+<p class="zh">在普通软件里，你写好逻辑，让它跑起来，出问题时通常能一路追查——结构化的输入按确定的规则得到结构化的输出。</p>
+
+<p class="en">Applied AI doesn't work like that. You're building around a non-deterministic API call to intelligence, which means the same input can come back different every time. Because of this, the job stops being just building the software, and instead becomes measuring whether the system actually behaves the way it should.</p>
+<p class="zh">应用 AI 不是这个套路。你是在"围绕一次向智能发起的非确定性 API 调用"来搭系统，同一份输入每次可能返回不同结果。正因如此，工作的重心不再只是"把软件造出来"，而是<strong>衡量系统是否真的按应有的方式在运行</strong>。</p>
+
+<p class="en">The way we do that is through evals, so I'll break down how to build an evaluation suite that ensures the agent you develop isn't making mistakes. I've come to learn that this is one of the most important skills of an applied AI developer, given the non-deterministic nature of the work that we do.</p>
+<p class="zh">衡量的方式就是 eval，所以我会拆开讲怎么搭一套评测体系，确保你做的 agent 不会犯错。基于我们工作的非确定性，我逐渐意识到这是应用 AI 开发者最关键的技能之一。</p>
+
+<p class="en">The next part of the article covers developing each part of an AI agent (except for the model itself, of course), because you can call an API to a model but you need to build everything else yourself. This is called harness engineering.</p>
+<p class="zh">下一部分讲怎么去开发 AI agent 的每一个组件（除了模型本身，那当然不算）——因为你可以调一个模型 API，但模型周围的一切都得你自己搭。这叫 harness engineering（外壳工程）。</p>
+
+<p class="en">And lastly, I'll cover how to go from one agent in production to multiple – and why it's a distributed systems problem. If you can make it to the end of this article, there's no reason you shouldn't be able to make the transition to becoming an Applied AI engineer.</p>
+<p class="zh">最后，我会讲清楚怎么从"生产环境一个 agent"扩到"多个 agent"——以及为什么这本质上是一个分布式系统问题。你要是能读完全文，没道理转不成一名应用型 AI 工程师。</p>
+
+<h2>Evals <span class="zh">评测（Evals）</span></h2>
+
+<p class="en">An applied AI engineer turns uncertainty into measured confidence using evals. In traditional software development, you trust the system because you wrote the logic and tested the code. In applied AI, you can't trust the system that way because the model can behave differently across runs. So the AI engineer has to build a measurement layer around the agent.</p>
+<p class="zh">应用型 AI 工程师靠 eval 把不确定性转成"可测量的信心"。在传统软件开发里，你信任系统是因为逻辑是你写的、代码是你测过的；在应用 AI 里，你没法这样信任系统，因为模型每次运行的行为都可能不同。所以 AI 工程师必须围绕 agent 搭一层<strong>测量层</strong>。</p>
+
+<p class="en">An eval is the process of giving an agent a task, letting it run, and grading what it did. The goal is to prove two things: the agent completed the work correctly, and the agent stayed within the boundaries it was given.</p>
+<p class="zh">一次 eval 就是：给 agent 一项任务，让它跑，给它做的事打分。目标是证明两件事——agent 把活干对了，并且 agent 没越出你给它的边界。</p>
+
+<p class="en">The first step is to grade the outcome. This is the easiest step of the eval process. For an invoice agent, the ones I usually work on, that means ensuring the invoice lands in the right place, or the duplicate is flagged. You are just comparing the final result against what should have happened.</p>
+<p class="zh">第一步是给<strong>结果</strong>打分。这是 eval 过程里最容易的一步。以我常做的发票 agent 为例，意味着确认发票落到了正确的位置，或者重复项被标出来了。你只是拿最终结果对照"本该发生什么"。</p>
+
+<p class="en">The second step is to grade the trajectory. This is the path the agent took to get to that result: the tools it called, the fields it touched, the arguments it passed, and the actions it attempted along the way. This matters because an agent can reach the right final answer while still doing something dangerous in the process. It can classify an invoice correctly while also changing bank details or send a payment before approval.</p>
+<p class="zh">第二步是给<strong>轨迹（trajectory）</strong>打分。轨迹指 agent 抵达该结果所走的路径：它调了哪些工具、动了哪些字段、传了什么参数、途中尝试过哪些动作。这很重要，因为一个 agent 完全可能得出正确的最终答案，同时在过程中干了危险的事。比如它可以正确地把发票分类，同时改掉了银行账户信息，或者在审批之前就把款付出去了。</p>
+
+<p class="en">The trajectory itself is just a log: an ordered list of every tool the agent called and the arguments it passed – to grade it just means writing checks against that log.</p>
+<p class="zh">轨迹本身就是一份日志：agent 调用过的每个工具及其传入参数的有序列表——给它打分，就是针对这份日志写检查。</p>
+
+<p class="en">Some checks are deterministic – ensuring that send_payment never appears before an approval call, checking that the only fields written to were the ones the agent was allowed to write to. Others are judgment calls – whether an escalation was appropriate, whether the reasoning justified the action. Those go to a second model with a rubric.</p>
+<p class="zh">有些检查是<strong>确定性</strong>的——确保 <code>send_payment</code> 从不出现在审批调用之前，确保被写入的字段就是 agent 被允许写入的那些。另一些是<strong>判断题</strong>——升级处理是否合适、推理过程是否足以支撑该动作。这类交给第二个模型配一份评分标准（rubric）来处理。</p>
+
+<p class="en">The general principle to follow is that deterministic checks generally catch the safety violations, whereas the judge model scores the quality.</p>
+<p class="zh">大原则是：确定性检查负责抓<strong>安全违规</strong>，裁判模型（judge model）负责给<strong>质量</strong>打分。</p>
+
+<p class="en">The result is two grades per test case: did the agent get the right answer, and did it behave correctly getting there. These need to be reported separately, because an agent that classifies invoices correctly 95% of the time but touches a forbidden field in 4% of runs looks great on a blended score but causes major business complications in production.</p>
+<p class="zh">结果是每个测试用例得到两个分：agent 答案对不对，以及它抵达答案的过程规不规矩。这两个分必须<strong>分开报</strong>。因为一个 95% 情况下能正确分类发票、但 4% 的运行里会碰禁写字段的 agent，融合成一个综合分看起来很漂亮，放到生产会引发严重的业务麻烦。</p>
+
+<p class="en">This article serves as an introduction to evals and all other topics covered, so I've linked other resources to help you go deeper. Some that have me understand how to build effective evals are –</p>
+<p class="zh">本文只是 eval 及后续话题的入门介绍，我另外贴了一些资源方便你深入。帮我理解如何构建有效 eval 的资源包括：</p>
+
+<ul class="en">
+  <li><a href="https://anthropic.skilljar.com/introduction-to-ai-fluency">Anthropic's eval course</a></li>
+  <li>Lenny's complete guide to evals</li>
+  <li>Hamel's FAQ on evals</li>
+</ul>
+<ul class="zh">
+  <li>Anthropic 的 eval 课程</li>
+  <li>Lenny 的 eval 完整指南</li>
+  <li>Hamel 的 eval FAQ</li>
+</ul>
+
+<p class="en">I'd recommend going through each one, but starting with Lenny's and Hamel's before going through the eval course (which is slightly more hands-on).</p>
+<p class="zh">建议每份都过一遍，但先看 Lenny 和 Hamel 那两份，再看那门 eval 课程（更偏动手实操）。</p>
+
+<p class="en">But an eval still needs an agent to test, and everything around the model has to be built by you. That surrounding system is called a harness – the next section covers how to think about each part of the harness engineering process, from tool calling to context window optimization.</p>
+<p class="zh">但 eval 归 eval，你总得先有一个 agent 供它测，而模型周围的一切都要你自己搭。这套外围系统叫 harness——下一节讲怎么看待 harness engineering 过程的各个部分，从 tool calling 到 context window 优化。</p>
+
+<h2>Harness Engineering <span class="zh">Harness 工程（外壳工程）</span></h2>
+
+<p class="en">A model on its own is not an agent. A model can reason, classify, write, and decide, but it cannot operate inside a company by itself. It can say what action should happen, but it cannot safely take that action unless you build the system around it – and that system is the harness.</p>
+<p class="zh">模型本身不是 agent。模型能推理、能分类、能写字、能做决定，但它没法自己在一家公司里"运转"。它能说出该采取什么动作，但除非你在它周围搭一整套系统，否则它没法安全地执行那个动作——那套系统就是 harness。</p>
+
+<p class="en">The harness is everything around the model that turns an API call into a working agent: the tools it can use, the context it sees, the state it remembers, the guardrails that constrain it, and the loop that lets it keep working until the task is done.</p>
+<p class="zh">Harness 是把一次 API 调用变成一个能干活的 agent 所需的一切：它能用的工具、它看到的 context、它记住的 state、约束它的 guardrails、以及让它一直干到任务完成的那个循环。</p>
+
+<p class="en">The first part of the harness is tool execution.</p>
+<p class="zh">Harness 的第一部分是<strong>工具执行（tool execution）</strong>。</p>
+
+<p class="en">Models only read and write text, so when a model decides to do something, it does not actually execute it. It emits a structured request (a JSON string) to update a record, or send an email, or search a database.</p>
+<p class="zh">模型只会读写文本，所以当它决定要做某件事时，它并不会真的去执行。它发出的是一个结构化请求（一段 JSON 字符串），说要更新某条记录、发一封邮件、或搜一次数据库。</p>
+
+<p class="en">The harness receives that request, validates it, runs the real operation, and sends the result back to the model as text.</p>
+<p class="zh">Harness 接下这个请求，校验它，执行真正的操作，再把结果以文本形式回传给模型。</p>
+
+<p class="en">The second part is context management. Every instruction, tool menu, tool result, and prior message takes up space in the model's context window. The harness has to decide what the model needs to see right now, what should be summarized, and what should be removed. Without this, agents get lost in irrelevant history.</p>
+<p class="zh">第二部分是<strong>上下文管理（context management）</strong>。每一条指令、工具菜单、工具结果、历史消息，都会占用模型的 context window 空间。Harness 必须决定：模型此刻需要看到什么、什么该被总结、什么该被剔除。没有这一层，agent 会被无关的历史淹没、迷失方向。</p>
+
+<p class="en">I'll write a more comprehensive article that goes deeper into each part of the harness development process, but for now, I'd recommend listening to this talk by an engineer at Arize, the continual learning platform for agents, that goes deep into their thought process on context management.</p>
+<p class="zh">我会另写一篇更完整的文章，深入讲 harness 开发过程的每一部分；眼下推荐去听一场 talk：Arize（一家 agent 持续学习平台）的一位工程师，深入讲了他们对 context management 的思路。</p>
+
+<p class="en">To learn more about applying effective context management to your agents in practice, read through these blogs:</p>
+<p class="zh">想在实践中把 context management 用好，读一下这几篇博客：</p>
+
+<ul class="en">
+  <li>OpenAI's context management article</li>
+  <li>A practical guide to context management</li>
+  <li>Anthropic's context engineering guide</li>
+</ul>
+<ul class="zh">
+  <li>OpenAI 的 context management 文章</li>
+  <li>一份实用的 context management 指南</li>
+  <li>Anthropic 的 context engineering 指南</li>
+</ul>
+
+<p class="en">The third part in harness engineering is state and memory. Models are stateless between calls, so anything the agent needs to remember has to live outside the model (usually in a database, file store, or task record). Context is what the model is looking at right now. State is everything the agent knows but is not currently looking at.</p>
+<p class="zh">Harness engineering 的第三部分是<strong>状态与记忆（state and memory）</strong>。模型在两次调用之间是无状态的，所以 agent 需要记住的任何东西都得放在模型之外（通常是数据库、文件存储、或任务记录里）。Context 是模型此刻正在看的东西；state 是 agent 知道但当前没在看的一切。</p>
+
+<p class="en">The fourth part is guardrails. Since the model can request the wrong action with the same confidence as the right one, the harness has to check permissions, validate inputs, block unsafe actions, and route high-risk steps to humans.</p>
+<p class="zh">第四部分是 <strong>guardrails</strong>。因为模型请求错误动作时的自信程度跟请求正确动作时是一样的，harness 必须去核对权限、校验输入、拦下不安全的动作、并把高风险步骤转交给人。</p>
+
+<p class="en">Finally, all of this gets tied together in the agent loop: build the context, call the model, inspect its response, execute the tool if allowed, store the result, update the context, and repeat until the task is done.</p>
+<p class="zh">最后，这一切被 <strong>agent loop</strong> 串起来：拼上下文、调模型、检查响应、若允许则执行工具、存下结果、更新上下文、循环往复直到任务完成。</p>
+
+<p class="en">Harness engineering is most of what you'll be doing as an Applied AI engineer, so take your time with this section. As an applied AI engineer, your whole job is to build the operating environment that lets a probabilistic system do work inside deterministic software.</p>
+<p class="zh">Harness engineering 是你作为应用型 AI 工程师大部分时间在做的事，所以这一节请花时间消化。作为应用型 AI 工程师，你的全部工作就是：搭建一个操作环境，让一套概率性系统能在确定性软件内部把活干出来。</p>
+
+<p class="en">But production usually does not stop at one agent.</p>
+<p class="zh">但生产环境通常不会止步于一个 agent。</p>
+
+<p class="en">As the workflow gets larger, the natural instinct is to split the work. But once you add that second agent, the system design changes.</p>
+<p class="zh">工作流越做越大，本能反应就是把活拆开。但只要加上第二个 agent，系统设计就变了。</p>
+
+<p class="en">With one agent, most of the complexity lives inside one loop. With multiple agents, you now have several loops acting over the same environment. Each agent may read state another agent just changed, write to memory another agent depends on, or call a tool whose result affects the entire workflow.</p>
+<p class="zh">单 agent 时，复杂度基本都装在一个循环里。多 agent 时，好几个循环同时作用于同一个环境。每个 agent 都可能读到另一个 agent 刚改过的 state、往另一个 agent 依赖的记忆里写东西、或调用一个其结果会牵动整个工作流的工具。</p>
+
+<p class="en">At that point, the hard part is no longer just prompting, evals, or harness design. It becomes a distributed systems problem: who owns which state, who can write to memory, which tools are safe to retry, and what happens when two reasonable agents take actions in the wrong order.</p>
+<p class="zh">到这一步，难点就不再只是 prompt、eval 或 harness 设计了。它变成一个<strong>分布式系统问题</strong>：谁拥有哪块 state、谁能写记忆、哪些工具重试是安全的、以及当两个各自看起来都合理的 agent 以错误顺序动手时会发生什么。</p>
+
+<h2>Multi-Agent Deployments are a Distributed Systems Problem <span class="zh">多 agent 部署是一个分布式系统问题</span></h2>
+
+<p class="en">When the first agent works and the workflow gets bigger, a new applied AI engineer naturally has the instinct to split the work into roles: one agent researches, one plans, one executes, one reviews.</p>
+<p class="zh">当第一个 agent 跑通、工作流规模开始变大时，一个刚入行的应用 AI 工程师会本能地按角色拆活：一个 agent 做调研、一个做规划、一个执行、一个复核。</p>
+
+<p class="en">But the second agent changes the unit of design from the agent to the system. Several loops now act in the same environment – one agent can update the customer status while another is mid-plan writing against the outdated status. Both made reasonable decisions, but the system let those decisions interact in the wrong order.</p>
+<p class="zh">但第二个 agent 一旦出现，设计单位就从"agent"变成了"系统"。多个循环同时作用于同一个环境——一个 agent 可能正在更新客户状态，同时另一个 agent 还在基于过时状态往下推进它的方案。两边各自的决定都合理，但系统让这些决定以错误顺序发生了相互作用。</p>
+
+<p class="en">This is a distributed systems problem. The good news is that distributed systems engineers solved these failures decades ago. Your job is to apply them to loops that happen to contain an LLM. Below is a list of solutions from distributed systems that apply to AI engineering:</p>
+<p class="zh">这就是一个分布式系统问题。好消息是：分布式系统的工程师们几十年前就把这类失败模式解决了。你的活是把那些方案套到"内部恰好装了一个 LLM"的循环上。下面列出几条分布式系统的方案，都适用于 AI 工程：</p>
+
+<p class="en"><strong>Single-writer principle.</strong> Every important piece of state gets exactly one agent that can write to it – other agents read from it or submit change requests. Enforce this at the tool level: if the execution agent is the only one that can write to the CRM, the research agent cannot corrupt the CRM no matter how poorly it reasons.</p>
+<p class="zh"><strong>单写者原则（Single-writer principle）。</strong>每一块重要的 state 都只有一个 agent 有写权，其他 agent 只能读或者提交变更请求。要在<strong>工具层</strong>去落实：如果只有执行 agent 能写 CRM，那么无论调研 agent 推理得多离谱，都没办法把 CRM 搞坏。</p>
+
+<p class="en"><strong>Idempotency keys.</strong> Agents retry tool calls when something fails or times out, but retries can be dangerous when the tool changes something in the real world. You do not want an agent to send the same payment twice just because the first request looked like it failed. The fix is to attach a unique key to every mutating tool call — meaning any action that changes data in an external system. If the tool sees the same key again, it should return the original result instead of running the action a second time. Stripe's API works this way – and it carries over to agent development when dealing with payments, emails, etc.</p>
+<p class="zh"><strong>幂等键（Idempotency keys）。</strong>Agent 在失败或超时时会重试工具调用，但当工具会改变现实世界的东西时，重试就可能危险。你不希望 agent 因为第一次请求"看起来失败了"而把同一笔款付两次。做法是：给每一次<strong>会改数据的（mutating）</strong>工具调用都挂一把唯一键——这里的"会改数据"指任何会改动外部系统里数据的动作。工具再次看到同一把键时，应该直接返回上次的结果，而不是再执行一遍。Stripe 的 API 就是这么设计的——处理付款、邮件等场景时，这套思路自然平移到 agent 开发里。</p>
+
+<p class="en"><strong>Preconditions on writes.</strong> Agents often act on an old view of the world. Something may have changed between the time the agent made its plan and the time it tries to update an external system. To prevent stale writes, mutating tools should require a condition before making the change. For example: "set the status to Approved only if it is still Pending." If the status has already changed, the tool should fail clearly instead of silently overwriting the newer state.</p>
+<p class="zh"><strong>写入前置条件（Preconditions on writes）。</strong>Agent 常常是拿着旧的世界视图在动作。从它做计划到它去更新外部系统之间，事情可能已经变了。为了防止过时写入，会改数据的工具在动手前应当要求一个条件。比如：<em>"只有当状态仍是 Pending 时才把它置为 Approved。"</em> 如果状态已经变了，工具应当明确失败，而不是悄悄把更新过的状态覆盖掉。</p>
+
+<p class="en"><strong>Explicit hand-offs.</strong> Pass work as messages with a defined schema, sequenced by an orchestrator. An agent should receive its task, not discover it.</p>
+<p class="zh"><strong>显式交接（Explicit hand-offs）。</strong>把工作以"带明确 schema 的消息"的形式传递，由一个编排器（orchestrator）来定顺序。Agent 应当是<strong>被交付</strong>任务，而不是自己去<strong>发现</strong>任务。</p>
+
+<h2>TLDR <span class="zh">TLDR（太长不看）</span></h2>
+
+<p class="en">This article serves as an overview of the most important topics I've learned as an Applied AI engineer: evals, harness engineering, and multi-agent system design.</p>
+<p class="zh">这篇文章是我做应用型 AI 工程师这一路上学到的几个最重要话题的概览：eval、harness engineering、以及多 agent 系统设计。</p>
+
+<p class="en">If you walk away with anything, make it this – the model provides the intelligence, but everything that makes it reliable (the measurement layer, the operating environment, the coordination rules) is engineered by you. Understand these and the transition from software engineering becomes an extension of skills you already have.</p>
+<p class="zh">如果你只带走一句话，那就是这句——<strong>模型提供智能，但让它变得可靠的一切（测量层、操作环境、协调规则）都是你工程出来的。</strong>理解了这些，从软件工程转型 AI 工程就成了你已有技能的自然延伸，而不是另起炉灶。</p>
+
+<p class="en">If you're interested in this sort of work and want to come and tackle some of the most interesting problems in Applied AI with a very talented engineering team, we're always hiring. Apply on our website at varickagents.com , and we could have you start as soon as possible. On the other hand, if you refer a successful candidate, we'll give you a $20K referral bonus.</p>
+<p class="zh">如果你对这类工作感兴趣，想来和一支极有才华的工程团队一起解决应用 AI 最有意思的问题，我们一直在招。请到 varickagents.com 投递，我们可以尽快让你入职。另外，如果你推荐了一名成功入职的候选人，我们会给你 2 万美元的推荐奖金。</p>
+
+<p class="note">中译供个人阅读参考，如与原文有出入以原文为准。</p>
+
+</body>
+</html>
