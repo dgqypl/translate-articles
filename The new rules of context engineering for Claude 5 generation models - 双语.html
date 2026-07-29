@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>The new rules of context engineering for Claude 5 generation models · 双语</title>
+<style>
+  :root { color-scheme: light; }
+  body {
+    max-width: 760px; margin: 40px auto; padding: 0 20px 80px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    color: #1a1a1a; background: #fafafa; line-height: 1.65;
+  }
+  header { border-bottom: 1px solid #e5e5e5; padding-bottom: 24px; margin-bottom: 32px; }
+  h1.title { font-size: 30px; margin: 0 0 8px; line-height: 1.3; }
+  h1.title .zh { display:block; font-size:22px; color:#555; font-weight:600; margin-top:6px; }
+  .meta { color: #666; font-size: 14px; }
+  h2 { font-size: 22px; margin: 36px 0 10px; border-left: 4px solid #d97757; padding-left: 12px; }
+  h2 .zh { display:block; font-size:17px; color:#555; margin-top:2px; }
+  h3 { font-size: 18px; margin: 28px 0 8px; color:#333; }
+  h3 .zh { display:block; font-size:15px; color:#666; font-weight:600; margin-top:2px; }
+  p.en { margin: 14px 0 4px; color: #222; }
+  p.zh {
+    margin: 0 0 18px; padding: 8px 12px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    color: #0f1419; font-size: 15.5px;
+  }
+  ul.en { margin: 8px 0 4px 22px; }
+  ul.zh {
+    margin: 0 0 18px; padding: 8px 12px 8px 34px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    font-size: 15.5px;
+  }
+  .prompt-en { font-style: italic; color: #444; background: #f0efe9; padding: 10px 14px; border-radius: 4px; margin: 10px 0 4px; }
+  .prompt-zh { padding: 10px 14px; background: #eef7ff; border-left: 3px solid #1d9bf0; border-radius: 4px; margin: 0 0 18px; }
+  em, i { color: #b4531a; font-style: italic; }
+  strong { color: #000; }
+  code { background: #eee; padding: 1px 6px; border-radius: 3px; font-size: 90%; }
+  pre { background: #f4f4f4; padding: 12px 14px; border-radius: 4px; overflow-x: auto; }
+  pre code { background: transparent; padding: 0; }
+  a { color: #1d9bf0; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  blockquote { border-left: 3px solid #ccc; margin: 12px 0; padding: 4px 14px; color: #555; }
+  img { max-width: 100%; height: auto; display: block; margin: 16px 0; }
+  .note { font-size:12px; color:#999; margin-top:60px; text-align:center; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 class="title">
+    The new rules of context engineering for Claude 5 generation models
+    <span class="zh">面向 Claude 5 代模型的上下文工程新规则</span>
+  </h1>
+  <div class="meta">作者：Thariq Shihipar（Anthropic 技术团队成员） · 发布日期：2026 年 7 月 24 日 · 原文：<a href="https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models">https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models</a> · 中英双语对照 · 译文供个人阅读参考</div>
+</header>
+
+<p class="en"><strong>We removed over 80% of Claude Code's system prompt for more advanced models. How to apply the lessons we learned to your own context engineering in Claude Code and with your own agents.</strong></p>
+<p class="zh"><strong>在面向更先进模型时，我们删掉了 Claude Code 系统提示词的 80% 以上。以下是我们从中学到的经验，供你在 Claude Code 里以及自建 agent 时做上下文工程（context engineering）参考。</strong></p>
+
+<p class="en">I've written previously about how to best prompt the newest generation of Claude 5 models and work with them iteratively to discover what you want to build.</p>
+<p class="zh">之前我写过一篇文章，讲如何给最新一代的 Claude 5 模型写好提示词，以及如何和它迭代协作、逐步弄清楚你想构建什么。</p>
+
+<p class="en">But when you send a message to Claude, the prompt is only a small part of the context it gets. Much of your context is assembled from your system prompt, Skills, CLAUDE.md files, memory, and other sources. We call this context engineering, and it makes a big impact on the results you generate when using Claude Code or in building your own agents.</p>
+<p class="zh">但当你给 Claude 发消息时，提示词只是它拿到的上下文中很小的一部分。大量上下文来自系统提示词（system prompt）、Skills、CLAUDE.md 文件、memory 以及其他来源。我们把这件事叫做上下文工程（context engineering），它对你用 Claude Code 或自建 agent 时产出的结果影响很大。</p>
+
+<p class="en">Unlike a prompt, context is used generally across many requests, so it cannot be as specific. How do you build these general prompts and guidance for Claude, especially when you don't know what a user's prompt might be?</p>
+<p class="zh">和单条 prompt 不同，上下文是要跨很多次请求通用的，所以它不能写得太具体。那么在你并不知道用户会写什么 prompt 的前提下，该怎么给 Claude 编写这些通用的提示词和指引？</p>
+
+<p class="en">This can be surprisingly difficult as Claude's own capabilities evolve. Most recently, we noticed a large jump in the way we prompt the newest generation of Claude models. We removed over 80% of Claude Code's system prompt for models like Claude Opus 5 and Claude Fable 5 with no measurable loss on our coding evaluations.</p>
+<p class="zh">随着 Claude 自身能力的进化，这件事出乎意料地难。最近我们发现，面向最新一代 Claude 模型的提示词写法出现了一次大跳变——为 Claude Opus 5、Claude Fable 5 这类模型，我们把 Claude Code 系统提示词删掉了 80% 以上，而在我们的编码 eval 上没有可测量的损失。</p>
+
+<p class="en">Here's what we've learned about prompting this new class of models, and how you can utilize it to update your context engineering. We've put these best practices in <code>claude doctor</code>; use the command /doctor in Claude Code to rightsize your skills, and CLAUDE.md files.</p>
+<p class="zh">下面是我们关于给这一类新模型写提示词的经验，以及如何据此更新你自己的上下文工程。我们把这些最佳实践都做进了 <code>claude doctor</code>：在 Claude Code 里执行 /doctor 命令，就能自动帮你把 skills 和 CLAUDE.md 文件调整到合适的量级。</p>
+
+<h2>Unhobbling Claude <span class="zh">给 Claude 松绑</span></h2>
+
+<p class="en">Overall, we found that we were overconstraining Claude Code, both through our system prompt and in our CLAUDE.md files and skills.</p>
+<p class="zh">整体上，我们发现我们把 Claude Code 管得太死了——系统提示词、CLAUDE.md 文件、skills 都在过度约束它。</p>
+
+<p class="en">For example, when we read transcripts of our own internal usage of Claude Code, we see several conflicting messages in a single request like "leave documentation as appropriate," or "DO NOT add comments" as our system prompt, skills, and user requests clash with each other.</p>
+<p class="zh">比如我们翻自己内部使用 Claude Code 的日志，一次请求里能同时看到互相打架的指令：系统提示词、skill、用户请求彼此冲突——"该写文档的地方就写"和"绝对不要加注释"同时出现。</p>
+
+<p class="en">Generally, Claude can interpret the user's intent to get to the right answer, but Claude must think more carefully about these overlapping and conflicting messages before deciding what to do.</p>
+<p class="zh">大体上 Claude 能读懂用户意图、给出正确答案，但它必须先仔细掂量这些互相重叠、彼此冲突的指令，才能决定动手做什么——这本身就是额外的开销。</p>
+
+<p class="en">And while these constraints were once needed to avoid worst case scenarios, we have since found we can delete many of them and let the model use surrounding context and judgement instead.</p>
+<p class="zh">这些约束当初是为了避免最坏情况才加上的，但我们后来发现其中很多可以直接删掉，让模型靠周围的上下文和自己的判断来处理就够了。</p>
+
+<p class="en">Additionally, Claude Code now has many more tools. Claude used to rely on CLAUDE.md as a source of memory, information, and guidance. Now we have memory, artifacts, and skills, which Claude can use to create new ways of loading and sharing context across sessions.</p>
+<p class="zh">另外，Claude Code 现在拥有更多工具了。以前 Claude 主要靠 CLAUDE.md 当记忆、信息和指引的来源，现在则多了 memory、artifact 和 skill——Claude 可以用它们编排出新的方式，在多个会话之间加载和共享上下文。</p>
+
+<h2>Then and now <span class="zh">昔与今</span></h2>
+
+<p class="en">There were a number of previous context engineering best practices that had become myths. Including:</p>
+<p class="zh">之前有不少所谓的上下文工程"最佳实践"，如今已经变成了误区。包括：</p>
+
+<h3>Then: Give Claude rules <span class="zh">昔：给 Claude 定规矩</span></h3>
+<h3>Now: Let Claude use judgement <span class="zh">今：让 Claude 自己判断</span></h3>
+
+<p class="en">When we first rolled out Claude Code, we needed to be sure that Claude avoided worst case scenarios, such as deleting files. This meant we would give particularly strong guidance that might not always be true, For example, in the system prompt we used to say:</p>
+<p class="zh">Claude Code 刚推出时，我们必须保证 Claude 不会踩到最坏的坑，比如删文件。所以我们会写一些语气特别强、但并不总是成立的指令。例如，我们过去的系统提示词里写着：</p>
+
+<div class="prompt-en"><em>In code: default to writing no comments. Never write multi-paragraph docstrings or multi-line comment blocks — one short line max. Don't create planning, decision, or analysis documents unless the user asks for them — work from conversation context, not intermediate files.</em></div>
+<div class="prompt-zh"><em>写代码时：默认不加注释。永远不要写多段的 docstring 或多行注释块——最多一行短注释。除非用户要求，不要生成规划、决策或分析文档——从对话上下文里干活，不要产出中间文件。</em></div>
+
+<p class="en">But for a certain subset of prompts, this guidance would be wrong. In the case of documentation, the user may have their own preferences, or specific parts of very complex code might need multi-line comment blocks.</p>
+<p class="zh">但对于某一类 prompt，这条指令其实是错的。文档这件事上，用户可能有自己的偏好；某些非常复杂的代码段落也的确需要多行注释块。</p>
+
+<p class="en">Still, without these guardrails for older models, the comments Claude wrote would be incorrect in many cases and we had to accept this tradeoff. But newer models have better judgement and can handle these decisions well without explicit rules.</p>
+<p class="zh">但对旧一代模型来说，如果不套上这些 guardrails，Claude 写出来的注释在很多情况下都是错的，我们只能接受这个 tradeoff。而新一代模型判断力更强，即使没有明文规定也能自己处理好这些决定。</p>
+
+<p class="en">In the new system prompt we say: <em>Write code that reads like the surrounding code: match its comment density, naming, and idiom.</em></p>
+<p class="zh">在新的系统提示词里，我们改成这样：<em>写出来的代码要读起来像周围的代码：注释密度、命名习惯和写法风格都向周边看齐。</em></p>
+
+<h3>Then: Give Claude examples <span class="zh">昔：给 Claude 举例子</span></h3>
+<h3>Now: Design interfaces <span class="zh">今：设计好接口</span></h3>
+
+<p class="en">The number one rule for tool usage was to give Claude examples on how to use them. With our newest models, we've found that giving examples actually constrains them to a certain exploration space.</p>
+<p class="zh">过去关于工具使用的第一条铁律，就是给 Claude 写清楚使用示例。但在最新模型上，我们发现给出示例反而会把它框在某一小片探索空间里。</p>
+
+<p class="en">Instead of using examples, think more about the design of your tools, scripts and files- what parameters does Claude have and how can they be more expressive?</p>
+<p class="zh">与其堆示例，不如多花心思在工具、脚本和文件的设计上——Claude 能拿到哪些参数？这些参数怎么设计才更有表现力？</p>
+
+<p class="en">For example, in the Todo tool example, just listing status as an enumeration between pending, in_progress, and completed, hints to Claude about how to use it. The instruction on keeping one item in_progress helps define our requested behavior.</p>
+<p class="zh">举例来说，在 Todo 工具里，把 status 定义成一个枚举——pending / in_progress / completed——这本身就在暗示 Claude 该怎么用。再加上"任一时刻只保留一项 in_progress"这条指令，就足够界定我们想要的行为了。</p>
+
+<h3>Then: Put it all upfront <span class="zh">昔：把所有信息一次性塞进上下文</span></h3>
+<h3>Now: Use progressive disclosure <span class="zh">今：渐进式披露</span></h3>
+
+<p class="en">Because Claude Code was focused on coding, our system prompt included detailed information on how to do code review and verification. These were not always needed, but when they were, it was crucial information.</p>
+<p class="zh">Claude Code 主打编码场景，所以我们的系统提示词里塞了大量关于代码 review 和结果验证的详细说明。这些内容并非每次都用得上，但需要时又是关键信息。</p>
+
+<p class="en">Since then, Claude Code has gotten very competent at using progressive disclosure- loading the right context at the right times. For example, we moved verification and code review into their own skills that Claude Code could selectively call.</p>
+<p class="zh">从那以后，Claude Code 已经很擅长做渐进式披露（progressive disclosure）——在合适的时机加载合适的上下文。例如，我们把验证和 code review 拆成了各自独立的 skill，让 Claude Code 按需调用。</p>
+
+<p class="en">But progressive disclosure is not just for skills, we also use it for tools. Some of our tools are 'deferred loading,' which means the agent must search for their full definitions using ToolSearch before using them. This allows us to have more tools (such as our Task tools) that don't take up context until they're needed.</p>
+<p class="zh">但渐进式披露不只用在 skill 上，也用在工具上。我们的一部分工具是"延迟加载"的（deferred loading）：agent 得先通过 ToolSearch 检索出它们的完整定义，然后才能调用。这样我们就能挂上更多工具（比如 Task 系列工具），而它们在没被真正需要之前不占上下文。</p>
+
+<p class="en">The same can be applied to your own CLAUDE.md and Skill.md files. A common myth is that you want to make these a central repository for every known practice that you <em>might</em> run into, because Claude would not find it otherwise. Instead, consider having a tree of files that can be loaded at the right time.</p>
+<p class="zh">同样的思路也适用于你自己的 CLAUDE.md 和 Skill.md 文件。有一种常见的误区，认为要把每一条<em>可能</em>用到的实践都堆进这些文件，否则 Claude 根本找不到。其实相反，你应该考虑组织出一棵文件树，让每个文件都能在合适的时机被加载进来。</p>
+
+<h3>Then: Repeat yourself <span class="zh">昔：反复叮嘱</span></h3>
+<h3>Now: Simple tool descriptions <span class="zh">今：简洁的工具描述</span></h3>
+
+<p class="en">Earlier Claude models could sometimes need repeated instructions or be more likely to listen to instructions at the end of their context window than at the start. This meant our system prompt would sometimes have references to tools in the main system prompt as well as instructions in the tool description.</p>
+<p class="zh">早期的 Claude 模型有时需要你把话说几遍，或者说它更容易听进上下文窗口结尾处的指令、而不是开头处的。这意味着我们的系统提示词里，主提示词部分会提到工具，工具描述里又会再写一遍使用说明。</p>
+
+<p class="en">We found we could delete these repeat examples and put instructions on how to use tools in the tool descriptions rather than the system prompt.</p>
+<p class="zh">现在我们发现，这些重复的示例可以直接删掉，把工具的使用说明直接放到工具描述里，而不必在系统提示词里再抄一遍。</p>
+
+<h3>Then: Memory in CLAUDE.md files <span class="zh">昔：靠 CLAUDE.md 当 memory</span></h3>
+<h3>Now: Auto-memory <span class="zh">今：自动 memory</span></h3>
+
+<p class="en">We used to encourage users to save things to Claude's memory, by using the # hotkey to write to their CLAUDE.md automatically. Instead, Claude now automatically saves memories that are relevant to the work and to you.</p>
+<p class="zh">过去我们会鼓励用户主动把东西存进 Claude 的记忆里——通过 # 快捷键把内容自动写到 CLAUDE.md。现在不用了，Claude 会自己把和这次工作、以及和你这个人相关的信息自动存成 memory。</p>
+
+<h3>Then: Simple specs <span class="zh">昔：简单的 spec</span></h3>
+<h3>Now: Rich references <span class="zh">今：更丰富的参照</span></h3>
+
+<p class="en">In plan mode, Claude Code has heavily relied on markdown files with plans. Storing these files as plans helped Claude refer to them when needed. Another similar best practice was to store specs in the codebase for Claude to refer to while working across longer projects.</p>
+<p class="zh">在 plan 模式下，Claude Code 一直重度依赖 markdown 格式的计划文件。把这些文件存成 plan，Claude 需要时就能翻查。另一条类似的最佳实践，是把 spec 存在代码库里，方便 Claude 在跨度较长的项目中随时查阅。</p>
+
+<p class="en">But we've found that Claude can handle increasingly more complicated references. Instead of simple markdown files, Claude can reference HTML artifacts created by our new artifacts feature.</p>
+<p class="zh">但我们发现，Claude 能处理的参照物（reference）越来越复杂。除了简单的 markdown 文件之外，它还能引用我们新推出的 artifact 功能生成的 HTML artifact。</p>
+
+<p class="en">You may also give Claude references in the form of code. A spec may also be a detailed test suite, or a function in a different codebase that Claude might port.</p>
+<p class="zh">你也可以直接把代码作为参照喂给 Claude。所谓的 spec，可以是一套详尽的测试用例；也可以是另一个代码库里的某个函数，让 Claude 把它移植过来。</p>
+
+<p class="en">Rubrics are another form of references. Rubrics allow Claude to try and verify your taste in a particular field (e.g. what does a good API design look like) by using dynamic workflows and spinning up verifier agents with those rubrics.</p>
+<p class="zh">Rubric（评分表）也是一种参照。有了 rubric，Claude 就可以借助动态工作流（dynamic workflow），临时拉起若干"验证 agent"来学着揣摩你在某个领域的偏好（比如"什么才算一个好的 API 设计"）。</p>
+
+<h2>Applying this to your context <span class="zh">怎么把这些用到你自己的上下文里</span></h2>
+
+<p class="en">Pulling this all together, what does this look like when you assemble your context?</p>
+<p class="zh">把上面这些串起来，落到你自己搭建上下文的时候，具体应该是什么样？</p>
+
+<h3>System Prompt <span class="zh">系统提示词</span></h3>
+
+<p class="en">A system prompt is heavily tied to the product context. It tells Claude what product it's operating in and what it's doing. For Claude Code, you will likely never modify this, but if you are building your own agent harness, this is where you should spend a lot of time.</p>
+<p class="zh">系统提示词和产品语境（product context）绑得很紧——它告诉 Claude 自己正跑在什么产品里、正在做什么。对 Claude Code 而言，你大概率永远不会去改动它；但如果你在搭建自己的 agent harness，这就是你要花大量时间打磨的地方。</p>
+
+<h3>CLAUDE.md <span class="zh">CLAUDE.md</span></h3>
+
+<p class="en">Keep your CLAUDE.md lightweight and briefly describe what your repo is for, but spend most of the tokens on gotchas inside of the codebase. For example, you may organize your code to keep types in one monolithic file and nowhere else. Avoid stating 'the obvious' things Claude should know by looking at your file system or your repo.</p>
+<p class="zh">把 CLAUDE.md 写得轻量一点：简要交代这个 repo 是干嘛的，然后把大部分 token 花在代码库里那些"坑"（gotchas）上。比如你的代码组织方式可能是把所有 type 集中放到一个大文件里，别的地方一个都没有——这种事就该写。反过来，那些 Claude 只要看一眼文件系统或 repo 就能明白的"显而易见"的东西，就别写了。</p>
+
+<p class="en">Use progressive disclosure heavily, for example if you have several unique instructions on how to verify your work, create a verification skill and reference it from your CLAUDE.md.</p>
+<p class="zh">大胆使用渐进式披露。比如，如果你有一整套自己特有的验证工作方式，就把它做成一个 verification skill，然后在 CLAUDE.md 里指向它，而不是把细节直接摊在 CLAUDE.md 里。</p>
+
+<h3>Skills <span class="zh">Skills</span></h3>
+
+<p class="en">Think of skills as lightweight guides to let Claude find information when needed. Avoid making them overconstrained, except in highly important areas.</p>
+<p class="zh">把 skill 想成一份份轻量的指南——需要时 Claude 会去翻。不要把它写得管得太死，除非是真正重要、不容有失的场景。</p>
+
+<p class="en">For long skills, try and use progressive disclosure as much as possible- divide it into many files and split them out.</p>
+<p class="zh">对于篇幅长的 skill，尽量使用渐进式披露——切成多个文件、拆开来放。</p>
+
+<p class="en">It's best when skills encode particular opinions, knowledge, or best practices that are particular to you, your team, or product.</p>
+<p class="zh">skill 最合适承载的，是那些属于你自己、你团队或你产品的独特观点、知识和最佳实践。</p>
+
+<h3>References <span class="zh">参照物</span></h3>
+
+<p class="en">You can @ mention files to include them as references. References allow Claude to refer to in-depth information about the current plan.</p>
+<p class="zh">你可以用 @ 提及文件的方式把它们纳入上下文作为参照。参照让 Claude 能查阅当前计划的深入信息。</p>
+
+<p class="en">This might be in specs files, mockups, or even entire codebases. Generally you should prefer files that are in code as it provides clear, high-fidelity instructions to Claude in a language it knows very well. For example, a HTML mockup of a design will generally produce better results than a description of the design or a screenshot.</p>
+<p class="zh">参照可以是 spec 文件、mockup，甚至一整个代码库。总的来说，优先选代码形式的文件——它用的是 Claude 最擅长的语言，能给出清晰、高保真的指令。举个例子：一份 HTML 写的设计 mockup，效果通常比一段设计描述或者一张截图要好得多。</p>
+
+<h2>Try simplifying <span class="zh">动手做减法</span></h2>
+
+<p class="en">Across your system prompt, skills, and CLAUDE.md files, you may need to simplify just like we did. We rolled out a new command called <code>claude doctor</code>, which will help you do this automatically as well. For more details on prompting more advanced models specifically, check out our Fable field guide.</p>
+<p class="zh">你的系统提示词、skills 和 CLAUDE.md 文件很可能都需要像我们这样做减法。我们上线了一个新命令 <code>claude doctor</code>，能自动帮你做这件事。想更进一步了解如何为更先进的模型写提示词，可以看看我们的 Fable field guide（Fable 使用指南）。</p>
+
+<p class="en"><em>This article was written by Thariq Shihipar, member of technical staff, Anthropic.</em></p>
+<p class="zh"><em>本文作者：Thariq Shihipar，Anthropic 技术团队成员。</em></p>
+
+<p class="note">中译供个人阅读参考，如与原文有出入以原文为准。</p>
+
+</body>
+</html>
