@@ -70,7 +70,7 @@
 <p class="zh">随着 Claude 自身能力的进化，这件事出乎意料地难。最近我们发现，面向最新一代 Claude 模型的提示词写法出现了一次大跳变——为 Claude Opus 5、Claude Fable 5 这类模型，我们把 Claude Code 系统提示词删掉了 80% 以上，而在我们的编码 eval 上没有可测量的损失。</p>
 
 <p class="en">Here's what we've learned about prompting this new class of models, and how you can utilize it to update your context engineering. We've put these best practices in <code>claude doctor</code>; use the command /doctor in Claude Code to rightsize your skills, and CLAUDE.md files.</p>
-<p class="zh">下面是我们关于给这一类新模型写提示词的经验，以及如何据此更新你自己的上下文工程。我们把这些最佳实践都做进了 <code>claude doctor</code>：在 Claude Code 里执行 /doctor 命令，就能自动帮你把 skills 和 CLAUDE.md 文件调整到合适的量级。</p>
+<p class="zh"><mark>下面是我们关于给这一类新模型写提示词的经验，以及如何据此更新你自己的上下文工程。我们把这些最佳实践都做进了 <code>claude doctor</code>：在 Claude Code 里执行 /doctor 命令，就能自动帮你把 skills 和 CLAUDE.md 文件调整到合适的量级。</mark></p>
 
 <h2>Unhobbling Claude <span class="zh">给 Claude 松绑</span></h2>
 
@@ -137,7 +137,7 @@
 <p class="zh">但渐进式披露不只用在 skill 上，也用在工具上。我们的一部分工具是"延迟加载"的（deferred loading）：agent 得先通过 ToolSearch 检索出它们的完整定义，然后才能调用。这样我们就能挂上更多工具（比如 Task 系列工具），而它们在没被真正需要之前不占上下文。</p>
 
 <p class="en">The same can be applied to your own CLAUDE.md and Skill.md files. A common myth is that you want to make these a central repository for every known practice that you <em>might</em> run into, because Claude would not find it otherwise. Instead, consider having a tree of files that can be loaded at the right time.</p>
-<p class="zh">同样的思路也适用于你自己的 CLAUDE.md 和 Skill.md 文件。有一种常见的误区，认为要把每一条<em>可能</em>用到的实践都堆进这些文件，否则 Claude 根本找不到。其实相反，你应该考虑组织出一棵文件树，让每个文件都能在合适的时机被加载进来。</p>
+<p class="zh">同样的思路也适用于你自己的 CLAUDE.md 和 Skill.md 文件。有一种常见的误区，认为要把每一条<em>可能</em>用到的实践都堆进这些文件，否则 Claude 根本找不到。<mark>其实相反，你应该考虑组织出一棵文件树，让每个文件都能在合适的时机被加载进来。</mark></p>
 
 <h3>Then: Repeat yourself <span class="zh">昔：反复叮嘱</span></h3>
 <h3>Now: Simple tool descriptions <span class="zh">今：简洁的工具描述</span></h3>
@@ -182,7 +182,7 @@
 <h3>CLAUDE.md <span class="zh">CLAUDE.md</span></h3>
 
 <p class="en">Keep your CLAUDE.md lightweight and briefly describe what your repo is for, but spend most of the tokens on gotchas inside of the codebase. For example, you may organize your code to keep types in one monolithic file and nowhere else. Avoid stating 'the obvious' things Claude should know by looking at your file system or your repo.</p>
-<p class="zh">把 CLAUDE.md 写得轻量一点：简要交代这个 repo 是干嘛的，然后把大部分 token 花在代码库里那些"坑"（gotchas）上。比如你的代码组织方式可能是把所有 type 集中放到一个大文件里，别的地方一个都没有——这种事就该写。反过来，那些 Claude 只要看一眼文件系统或 repo 就能明白的"显而易见"的东西，就别写了。</p>
+<p class="zh"><mark>把 CLAUDE.md 写得轻量一点：简要交代这个 repo 是干嘛的，然后把大部分 token 花在代码库里那些"坑"（gotchas）上。比如你的代码组织方式可能是把所有 type 集中放到一个大文件里，别的地方一个都没有——这种事就该写。反过来，那些 Claude 只要看一眼文件系统或 repo 就能明白的"显而易见"的东西，就别写了。</mark></p>
 
 <p class="en">Use progressive disclosure heavily, for example if you have several unique instructions on how to verify your work, create a verification skill and reference it from your CLAUDE.md.</p>
 <p class="zh">大胆使用渐进式披露。比如，如果你有一整套自己特有的验证工作方式，就把它做成一个 verification skill，然后在 CLAUDE.md 里指向它，而不是把细节直接摊在 CLAUDE.md 里。</p>
