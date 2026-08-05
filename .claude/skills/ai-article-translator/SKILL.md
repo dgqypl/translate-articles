@@ -28,9 +28,36 @@ description: 把 AI Agent 领域的英文文章翻成中英双语对照 HTML，�
 
 抓不到（登录墙 / SPA / X.com / Notion 私有链接等）时，请求用户用 SingleFile 浏览器插件把页面导出为 HTML，并用 `realpath` 给出文件绝对路径。
 
+**抓取方式：优先 DOM 结构，不要只抓纯文本。**
+
+`browse text` 命令只返回纯文本，会把 `<img>` 剥离——这样你就丢失了图文交错的位置信息，翻译成品要么没图，要么只能把所有图堆到文末（这已经踩过坑）。正确做法：
+
+1. 先 `goto` 页面。首次 `goto` 若 15 秒超时，**重试一次**（SPA 首次冷加载很常见）。
+2. 用 `browse js` 遍历目标容器的 DOM，按 DOM 顺序打印出 TEXT 节点和 IMG 节点。参考模式：
+
+   ```js
+   const root = document.querySelector("article"); // 或 [data-testid=tweetText]、.longform-article 等
+   const out = [];
+   function walk(node){
+     if(node.nodeType===3){ const t=node.textContent.trim(); if(t) out.push("TEXT:"+t); return; }
+     if(node.nodeType!==1) return;
+     if(node.tagName==="IMG"){
+       const src=node.getAttribute("src")||node.currentSrc;
+       if(src && !src.includes("profile_images") && !src.includes("emoji"))
+         out.push("IMG:"+src);
+       return;
+     }
+     for(const c of node.childNodes) walk(c);
+   }
+   walk(root); out.join("\n");
+   ```
+
+3. 从输出里能一眼看到「TEXT 段 → IMG → TEXT 段」的交错顺序，翻译时把 `<img>` 按同样顺序嵌回段落之间。
+4. 只有当页面确实没有相关图片，或用户明确说「不要图」时，才退化到 `browse text`。
+
 **Case B：用户给的是本地 HTML 文件路径**
 
-用 `Read` 工具读文件。若文件超大（>256 KB），用 `Bash` + `grep`/`python3` 定位正文段（通常在 `<article>`、`.longform-*`、`[data-testid=tweetText]`、`<h1>`/`<h2>`/`<p>` 语义节点里）。
+用 `Read` 工具读文件。若文件超大（>256 KB），用 `Bash` + `grep`/`python3` 定位正文段（通常在 `<article>`、`.longform-*`、`[data-testid=tweetText]`、`<h1>`/`<h2>`/`<p>` 语义节点里）。同样要沿 DOM 顺序识别 `<img>` 位置。
 
 ### 2. 确认正文边界
 
@@ -70,10 +97,13 @@ description: 把 AI Agent 领域的英文文章翻成中英双语对照 HTML，�
 
 - 一次性全译，不分片流式输出。
 - 单位：段落。每段英文原文紧跟一段中文译文。
-- 保留原文的标题层级（h1/h2/h3）、列表（ul/ol）、代码块（pre/code）、引用（blockquote）、图片。
+- 保留原文的标题层级（h1/h2/h3）、列表（ul/ol）、代码块（pre/code）、引用（blockquote）、**图片**。
 - 提示词范例（prompt example）逐句对照译。
 - 代码块整块不译。
-- 图片：URL 抓到的 `<img src=http...>` 保留；SingleFile 抓到的 `<img src="data:...base64...">` 省略并在译文里加注释 `<!-- 原文此处有图，base64 已省略 -->`。
+- **图片必须保留，且按 DOM 顺序插到对应段落之间**（不是全部堆到文末）：
+  - URL 抓到的 `<img src=http...>`：直接保留原始 URL，加 `referrerpolicy="no-referrer"` 避免防盗链问题。跨域图（如 `pbs.twimg.com`）不要下载到本地，打开 HTML 时会自动从网上加载。
+  - SingleFile 抓到的 `<img src="data:...base64...">`：省略该 `<img>`，在译文位置加一行注释 `<!-- 原文此处有图，base64 已省略 -->`。
+  - 过滤明显不属于正文的图：头像 `profile_images`、emoji、UI 图标、广告位。判定标准是"这张图在原页面正文语义节点内部吗"，而不是靠 alt 文本（X 的 alt 常是 "Article cover image" 这种通用值，不可信）。
 - 遵守 `glossary.md`：同一术语全文译名一致。
 
 ### 7. 拼装 HTML

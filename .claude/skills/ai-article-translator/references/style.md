@@ -25,8 +25,13 @@
 
 ## 图片
 
-- 若通过 URL 抓到原文，`<img src>` 保留原始 URL。
+**核心原则：图片是正文的一部分，必须按原文位置插入，不能全部堆到文末。**
+
+- 抓原文时用 DOM walk（见 SKILL.md 第 1 步），保留图文交错顺序。翻译成品里，`<img>` 应插在它在原文中所属的段落之后。
+- 若通过 URL 抓到原文，`<img src>` 保留原始 URL，加 `referrerpolicy="no-referrer"`（避免 `pbs.twimg.com` 等图床的 referer 校验失败）。不要下载到本地。
 - 若从 SingleFile HTML 抓到，`<img src="data:image/...;base64,...">` 直接省略该 `<img>` 标签，并在译文位置加一行注释 `<!-- 原文此处有图，base64 已省略 -->`。
+- 过滤掉非正文图：头像（`profile_images/`）、emoji、UI 图标、广告位。判定看 DOM 位置（是否在正文语义容器内），不要靠 alt（X 的 alt 常是 "Article cover image" 这种通用值，不可信）。
+- 图片不做译文（alt 可保留原文或改简短中文，非重点）。
 
 ## 链接
 
