@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>How to keep thinking · 双语</title>
+<style>
+  :root { color-scheme: light; }
+  body {
+    max-width: 760px; margin: 40px auto; padding: 0 20px 80px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    color: #1a1a1a; background: #fafafa; line-height: 1.65;
+  }
+  header { border-bottom: 1px solid #e5e5e5; padding-bottom: 24px; margin-bottom: 32px; }
+  h1.title { font-size: 30px; margin: 0 0 8px; line-height: 1.3; }
+  h1.title .zh { display:block; font-size:22px; color:#555; font-weight:600; margin-top:6px; }
+  .meta { color: #666; font-size: 14px; }
+  h2 { font-size: 22px; margin: 36px 0 10px; border-left: 4px solid #d97757; padding-left: 12px; }
+  h2 .zh { display:block; font-size:17px; color:#555; margin-top:2px; }
+  h3 { font-size: 18px; margin: 28px 0 8px; color:#333; }
+  h3 .zh { display:block; font-size:15px; color:#666; font-weight:600; margin-top:2px; }
+  p.en { margin: 14px 0 4px; color: #222; }
+  p.zh {
+    margin: 0 0 18px; padding: 8px 12px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    color: #0f1419; font-size: 15.5px;
+  }
+  ul.en { margin: 8px 0 4px 22px; }
+  ul.zh {
+    margin: 0 0 18px; padding: 8px 12px 8px 34px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    font-size: 15.5px;
+  }
+  .prompt-en { font-style: italic; color: #444; background: #f0efe9; padding: 10px 14px; border-radius: 4px; margin: 10px 0 4px; }
+  .prompt-zh { padding: 10px 14px; background: #eef7ff; border-left: 3px solid #1d9bf0; border-radius: 4px; margin: 0 0 18px; }
+  em, i { color: #b4531a; font-style: italic; }
+  strong { color: #000; }
+  code { background: #eee; padding: 1px 6px; border-radius: 3px; font-size: 90%; }
+  pre { background: #f4f4f4; padding: 12px 14px; border-radius: 4px; overflow-x: auto; }
+  pre code { background: transparent; padding: 0; }
+  a { color: #1d9bf0; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  blockquote { border-left: 3px solid #ccc; margin: 12px 0; padding: 4px 14px; color: #555; }
+  img { max-width: 100%; height: auto; display: block; margin: 16px 0; }
+  .note { font-size:12px; color:#999; margin-top:60px; text-align:center; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 class="title">
+    How to keep thinking
+    <span class="zh">如何保持思考</span>
+  </h1>
+  <div class="meta">作者：Sean Goedecke · 原文：<a href="https://www.seangoedecke.com/how-to-keep-thinking/">https://www.seangoedecke.com/how-to-keep-thinking/</a> · 中英双语对照 · 译文供个人阅读参考</div>
+</header>
+
+<p class="en">Imagine you’re the guest on some kind of frenetic, software-engineering-themed game show. The host is constantly flipping over new cards with questions that you have to answer as fast as possible:</p>
+<p class="zh">想象你是某档节奏疯狂、以软件工程为主题的游戏节目的嘉宾。主持人不停翻开写着问题的新卡片，你得以最快速度作答：</p>
+
+<ul class="en">
+  <li>Is this adjustment to the database schema right?</li>
+  <li>Do these bits of data look plausible?</li>
+  <li>Do these five paragraphs of text describe an actual series of manual tests that took place?</li>
+  <li>Does this suggested architecture pass the smell test?</li>
+  <li>Is this implementation better than the current code? Or this one? Or this one?</li>
+</ul>
+<ul class="zh">
+  <li>这处对数据库 schema 的改动对吗？</li>
+  <li>这几段数据看起来靠谱吗？</li>
+  <li>这五段文字描述的，是一组真实发生过的手动测试吗？</li>
+  <li>这个提议的架构经得起直觉检验吗？</li>
+  <li>这个实现比现有代码好吗？还是这个？还是那个？</li>
+</ul>
+
+<p class="en">Working in 2026 feels a bit like this. When frontier AI models can do most of the tasks in your queue, the most efficient way to work is often spinning off tasks for an AI agent and continually context-switching between the results<sup>1</sup>. This isn’t <em>quite</em> mindless — in fact, it requires quite a lot of skill to skim the AI response and rapidly decide what to do with it — but it certainly involves less time for slow, careful reflection.</p>
+<p class="zh">2026 年工作的感受有点像这样。当前沿 AI 模型能搞定你队列里的大部分任务时，最高效的工作方式往往是把任务甩给一个 AI agent，然后在各个结果之间不断切换上下文<sup>1</sup>。这倒也不算<em>完全</em>无脑——事实上，快速浏览 AI 的回复并迅速决定怎么处理，需要相当的技巧——但它留给缓慢、仔细的反思的时间，确实少了。</p>
+
+<h3>Why not slow down?<span class="zh">为什么不慢下来？</span></h3>
+
+<p class="en">Why does it have to be frenetic? Why not just slow down? I suppose you <em>could</em>, but I don’t recommend it. It’s just such a miserable experience to spend your day close-reading LLM output: carefully chewing and savoring each morsel of slop. It’s far less unpleasant to skim through quickly and pick out the useful nuggets of content.</p>
+<p class="zh">为什么非得这么疯狂？为什么不干脆慢下来？我想你<em>可以</em>慢下来，但我不建议。整天逐字细读 LLM 的输出，实在是太痛苦的体验了：小心翼翼地咀嚼、品味每一口废话（slop）。相比之下，快速浏览、挑出有用的干货，要难受得多得少。</p>
+
+<p class="en">Couldn’t you simply do more of the work by hand? It’s unfortunately true that <a href="https://www.seangoedecke.com/tech-is-high-pressure/">tech is high-pressure these days</a>. If you’ve got the time and space to work more slowly, that’s great! But when your company gives you a “solve this task ten times more quickly” button, you are heavily incentivized to use it as much as possible, or risk being outcompeted by your peers.</p>
+<p class="zh">难道不能干脆多用手工做一些活儿吗？很不幸，<a href="https://www.seangoedecke.com/tech-is-high-pressure/">如今科技行业压力很大</a>是事实。如果你有时间、有空间慢慢干，那太好了！可一旦公司给了你一个「把这个任务快十倍搞定」的按钮，你就被强烈地激励去尽可能多地按它，否则就有被同侪比下去的风险。</p>
+
+<p class="en">I sometimes worry that working with LLMs is making me dumber. Not in the “literally melting your brain” sense that some <a href="https://arxiv.org/abs/2506.08872">papers</a> <a href="https://www.seangoedecke.com/is-ai-melting-our-brains/">imply</a>, but in the sense that it’s biasing me towards the quick “skimming and judging” parts of my mental toolkit and away from the slow <a href="https://en.wikipedia.org/wiki/Rich_Hickey#Hammock-driven_development">“hammock time”</a> needed for deep thought and real creativity. I don’t want to attribute this shift entirely to LLMs, since the post-2010s tech industry has become more frenetic for <a href="https://www.seangoedecke.com/the-end-of-the-good-times/">broader economic reasons</a>. But either way, it’s got me wondering how I can keep <em>thinking slowly</em>.</p>
+<p class="zh">我有时担心，跟 LLM 打交道正在让我变笨。不是某些<a href="https://arxiv.org/abs/2506.08872">论文</a><a href="https://www.seangoedecke.com/is-ai-melting-our-brains/">暗示</a>的那种「字面意义上把你的大脑熔化」，而是说它让我偏向了心智工具箱里那套「快速浏览与判断」的能力，远离了深度思考与真正创造力所需的、缓慢的<a href="https://en.wikipedia.org/wiki/Rich_Hickey#Hammock-driven_development">「吊床时间」</a>。我不想把这种转变全归咎于 LLM，因为 2010 年代之后的科技行业，出于<a href="https://www.seangoedecke.com/the-end-of-the-good-times/">更广泛的经济原因</a>本就变得更疯狂了。但不管怎样，它让我开始琢磨，我该怎么才能保持<em>缓慢地思考</em>。</p>
+
+<h3>To keep on thinking, read and write<span class="zh">要保持思考，就去读和写</span></h3>
+
+<p class="en">The main thing that’s worked for me is to write more. Specifically, I mean <em>writing in my own words</em>. Writing with an LLM does not work for this at all, even if you’re going to some effort to iterate on the content and outline the things you want to say. Why? Having to put the words together yourself forces you to articulate your thoughts. In a very real sense, it forces you to <em>think</em>.</p>
+<p class="zh">对我最管用的一招是多写。具体说，我指的是<em>用自己的话写</em>。用 LLM 来写，对这个目的完全没用，哪怕你花了些功夫去迭代内容、去列你想说的要点大纲。为什么？因为必须自己把字句拼起来，会逼你把想法讲清楚。在一个非常真切的意义上，它逼着你去<em>思考</em>。</p>
+
+<p class="en">When you have an idea in your head for something to write, you don’t really have an idea. What you have is a kind of directional sense of where an idea might be, or a fragment of the kind of thing that might eventually become an idea. You construct the idea itself while writing. Incidentally, this is why I don’t really agree with <a href="https://www.paulgraham.com/organic.html">“ideas are easy, execution is everything”</a><sup>2</sup>: most “ideas” are not really even ideas.</p>
+<p class="zh">当你脑子里有一个想写的点子时，你其实并没有一个真正的想法。你拥有的，只是一种方向感——大概知道某个想法可能在哪儿，或者是某个最终或许会长成想法的东西的碎片。想法本身，是你在写的过程中构建出来的。顺带一提，这也是为什么我并不太认同<a href="https://www.paulgraham.com/organic.html">「想法很容易，执行才是一切」</a>这句话<sup>2</sup>：大多数「想法」根本还算不上想法。</p>
+
+<p class="en">The other thing I recommend is to <em>read actual books</em>. Books — particularly dense non-fiction books — are the antithesis of AI slop. The slower you can read them, the better. I’ve been reading more and more non-fiction in the last few years, and I don’t think it’s a coincidence. I think my brain is naturally craving information-dense content, in the same way that sodium-deficient people <a href="https://en.wikipedia.org/wiki/Salt_craving">start to crave salt</a>.</p>
+<p class="zh">我推荐的另一件事是<em>读真正的书</em>。书——尤其是信息密度高的非虚构类书籍——是 AI 废话的对立面。你读得越慢越好。过去几年我读的非虚构越来越多，我不认为这是巧合。我觉得我的大脑天然地在渴求信息密集的内容，就像缺钠的人<a href="https://en.wikipedia.org/wiki/Salt_craving">会开始渴望盐</a>一样。</p>
+
+<p class="en">In fact, I’ve been combining the two approaches: reading a book and then <em>writing about it</em>. This process is <em>exactly</em> what I’ve been craving since I started programming with LLMs. I get to carefully read a book, think hard about it, often go and read another book or two on the same topic, then sit and try to articulate what I’ve learned. It’s great! I can feel parts of my brain stretching again.</p>
+<p class="zh">事实上，我一直在把这两种方法结合起来：读一本书，然后<em>写点关于它的东西</em>。这个过程，<em>正是</em>我自从开始用 LLM 编程以来一直渴望的。我可以仔细读一本书，认真思考它，常常再去读一两本同主题的书，然后坐下来，努力把自己学到的东西讲清楚。这太棒了！我能感觉到大脑里某些部分又在舒展开来。</p>
+
+<h3>Don’t lose the habit<span class="zh">别丢掉这个习惯</span></h3>
+
+<p class="en">It was pretty nice when I got paid to use those parts of my brain all day. Unfortunately, I think <a href="https://www.seangoedecke.com/the-end-of-programming-as-we-know-it/">those times are coming to an end</a>. There will always be room for <em>some</em> amount of careful, slow reflection in software engineering, but (for at least a little while) we’ll be expected to be rapidly switching between LLM outputs. We may have to find ways outside of work to continue the habit of thinking slowly.</p>
+<p class="zh">以前能靠整天动用大脑的那些部分拿工资，是件挺美的事。不幸的是，我觉得<a href="https://www.seangoedecke.com/the-end-of-programming-as-we-know-it/">那样的日子快要结束了</a>。软件工程里永远会有容纳<em>一定</em>量的仔细、缓慢反思的空间，但（至少在一段时间内）我们会被期待在各个 LLM 输出之间快速切换。我们或许得在工作之外找些办法，来延续缓慢思考的习惯。</p>
+
+<p class="en">Even just in terms of work, I think losing that habit entirely would be a big mistake. There are still plenty of ordinary problems that are too hard for current LLMs to solve on their own. The most common example I run into is “large refactor on a complicated codebase”. Current-generation LLMs can do this without (many) errors, but they can’t yet do it <em>tastefully</em>. Sometimes you need to be able to think a problem through entirely with your own brain.</p>
+<p class="zh">哪怕只从工作角度看，我也认为彻底丢掉这个习惯会是个大错。仍有大量普通问题，是当前的 LLM 靠自己解不了的。我最常碰到的例子是「在一个复杂代码库上做大型重构」。当代 LLM 能做到不出（太多）错，但它们还做不到<em>有品位</em>。有时候，你需要有能力完全用自己的脑子把一个问题想透。</p>
+
+<hr>
+
+<p class="en"><sup>1</sup> This doesn’t mean switching between <em>tasks</em>. I routinely use six or seven different agent sessions on the same task: one for exploration, two or three for trying out different implementations, two or three for review, one for manual testing, and so on. Many of these can proceed in parallel.</p>
+<p class="zh"><sup>1</sup> 这不是指在不同<em>任务</em>之间切换。我经常在同一个任务上开六七个不同的 agent 会话：一个用来探索，两三个用来尝试不同的实现，两三个用来 review，一个用来手动测试，等等。其中很多可以并行推进。</p>
+
+<p class="en"><sup>2</sup> I remember reading a story<sup>3</sup> about a well-known author. Someone wanted to tell him their book idea, but they were so protective of it that they forced him to first sign a NDA before they retrieved the idea from their office safe. It was a single word “bioweapons” written on a slip of paper.</p>
+<p class="zh"><sup>2</sup> 我记得读过一个故事<sup>3</sup>，讲的是一位知名作家。有人想告诉他自己的书的点子，却把它护得太紧，非要先让他签一份保密协议（NDA），才从办公室保险箱里把这个点子取出来。原来那只是一张纸条，上面写着一个词——「生物武器」。</p>
+
+<p class="en"><sup>3</sup> Ironically, when I tried to google the source, Gemini kept trying to write me a story about bioweapons.</p>
+<p class="zh"><sup>3</sup> 讽刺的是，当我试着用 Google 搜这个出处时，Gemini 一直想给我写一个关于生物武器的故事。</p>
+
+<p class="en">If you liked this post, consider <a href="https://buttondown.com/seangoedecke">subscribing</a> to email updates about my new posts, or <a href="https://news.ycombinator.com/">sharing it on Hacker News</a>.</p>
+<p class="zh">如果你喜欢这篇文章，可以考虑<a href="https://buttondown.com/seangoedecke">订阅</a>我的新文章邮件更新，或者<a href="https://news.ycombinator.com/">把它分享到 Hacker News</a>。</p>
+
+<p class="note">中译供个人阅读参考，如与原文有出入以原文为准。</p>
+
+</body>
+</html>
