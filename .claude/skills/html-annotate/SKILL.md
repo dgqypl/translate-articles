@@ -5,7 +5,9 @@ description: 在双语 HTML 文章中对指定文本段落添加标注（加粗�
 
 # HTML 标注 Skill
 
-为双语 HTML 文章中的指定文本段落添加标注（加粗、下划线、高亮块），并自动提交到 git。
+为双语 HTML 文章中的指定文本段落添加标注（加粗、下划线、高亮块）。
+
+**只做标注，不要自动提交 git。** 标注完成后停手，是否提交由用户自己决定。
 
 ## 工作流程
 
@@ -45,39 +47,19 @@ description: 在双语 HTML 文章中对指定文本段落添加标注（加粗�
 - 如果文本本身已经包含其他标签（如 `<em>` 或 `<code>`），确保嵌套正确
 - 一次只标注一个文本段落
 
-### 5. Git 提交
-
-标注完成后，自动创建 git commit：
-
-```bash
-git add <修改的文件>
-git commit -m "$(cat <<'EOF'
-annotate: [标注类型] <文件名中的文章标题部分>
-
-对文章中的 "[文本前 30 字]..." 应用 [标注类型]。
-
-Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
-EOF
-)"
-```
-
-Commit message 示例：
-- `annotate: 加粗 Career advice in the age of AI`
-- `annotate: 下划线 A Field Guide to Fable`
-- `annotate: 高亮块 Career advice in the age of AI`
-
-### 6. 确认完成
+### 5. 确认完成
 
 告诉用户：
 - 标注已应用到哪个文件
 - 标注了什么内容（显示前后对比）
-- Git commit 已创建
+
+**不要**执行 `git add` / `git commit`。是否提交、何时提交，交给用户决定。如果用户明确要求提交，才提交。
 
 ## 注意事项
 
 - 这个 skill 针对的是用 `/ai-article-translator` 生成的双语 HTML 文件格式
-- 如果用户连续标注多段，每次标注后都单独提交一个 commit
-- 如果用户想撤销标注，可以用 `git revert` 或 `git reset` 回退
+- 如果用户连续标注多段，每次标注一段，不主动提交 git
+- 如果用户想撤销标注，可以用 `git revert` 或 `git reset` 回退（前提是他自己提交过）
 - 标注是永久性的，会直接修改 HTML 源文件
 
 ## 示例用法
@@ -88,21 +70,18 @@ Commit message 示例：
 1. 找到包含该文本的 HTML 文件
 2. 读取文件，定位到第 69 行的 `<p class="en">` 标签
 3. 用 `<strong>` 标签包裹该句子
-4. 创建 commit："annotate: 加粗 Career advice in the age of AI"
-5. 告知用户完成
+4. 告知用户完成（不提交 git）
 
 **用户**："对第二大段那个关于 Scale 的经历那段加下划线"
 
 **Claude**：
 1. 识别到文本描述不够明确
 2. 询问："你是指这段吗？'Before joining Scale, I had quant offers with much higher guaranteed cash...'"
-3. 用户确认后，应用下划线标注
-4. 提交 commit
+3. 用户确认后，应用下划线标注（不提交 git）
 
 **用户**："高亮'AI models get better at anything you can write a loss function for'这整段"
 
 **Claude**：
 1. 找到该段落（第 52-53 行，包含英文和中文）
 2. 用 `<mark>` 包裹整个段落内的文本
-3. 创建 commit
-4. 确认完成
+3. 确认完成（不提交 git）
