@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>A Complete Guide To AGENTS.md · 双语</title>
+<style>
+  :root { color-scheme: light; }
+  body {
+    max-width: 760px; margin: 40px auto; padding: 0 20px 80px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    color: #1a1a1a; background: #fafafa; line-height: 1.65;
+  }
+  header { border-bottom: 1px solid #e5e5e5; padding-bottom: 24px; margin-bottom: 32px; }
+  h1.title { font-size: 30px; margin: 0 0 8px; line-height: 1.3; }
+  h1.title .zh { display:block; font-size:22px; color:#555; font-weight:600; margin-top:6px; }
+  .meta { color: #666; font-size: 14px; }
+  h2 { font-size: 22px; margin: 36px 0 10px; border-left: 4px solid #d97757; padding-left: 12px; }
+  h2 .zh { display:block; font-size:17px; color:#555; margin-top:2px; }
+  h3 { font-size: 18px; margin: 28px 0 8px; color:#333; }
+  h3 .zh { display:block; font-size:15px; color:#666; font-weight:600; margin-top:2px; }
+  h4 { font-size: 16px; margin: 22px 0 6px; color:#333; }
+  h4 .zh { display:block; font-size:14px; color:#666; font-weight:600; margin-top:2px; }
+  p.en { margin: 14px 0 4px; color: #222; }
+  p.zh {
+    margin: 0 0 18px; padding: 8px 12px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    color: #0f1419; font-size: 15.5px;
+  }
+  ul.en { margin: 8px 0 4px 22px; }
+  ul.zh {
+    margin: 0 0 18px; padding: 8px 12px 8px 34px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    font-size: 15.5px;
+  }
+  .prompt-en { font-style: italic; color: #444; background: #f0efe9; padding: 10px 14px; border-radius: 4px; margin: 10px 0 4px; }
+  .prompt-zh { padding: 10px 14px; background: #eef7ff; border-left: 3px solid #1d9bf0; border-radius: 4px; margin: 0 0 18px; }
+  em, i { color: #b4531a; font-style: italic; }
+  strong { color: #000; }
+  code { background: #eee; padding: 1px 6px; border-radius: 3px; font-size: 90%; }
+  pre { background: #f4f4f4; padding: 12px 14px; border-radius: 4px; overflow-x: auto; }
+  pre code { background: transparent; padding: 0; }
+  a { color: #1d9bf0; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  blockquote { border-left: 3px solid #ccc; margin: 12px 0; padding: 4px 14px; color: #555; }
+  img { max-width: 100%; height: auto; display: block; margin: 16px 0; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0 18px; font-size: 14.5px; background:#fff; }
+  th, td { border: 1px solid #e0e0e0; padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: #f4f4f4; }
+  .note { font-size:12px; color:#999; margin-top:60px; text-align:center; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 class="title">
+    A Complete Guide To AGENTS.md
+    <span class="zh">AGENTS.md 完全指南</span>
+  </h1>
+  <div class="meta">作者：Matt Pocock · 原文：<a href="https://www.aihero.dev/a-complete-guide-to-agents-md">https://www.aihero.dev/a-complete-guide-to-agents-md</a> · 中英双语对照 · 译文供个人阅读参考</div>
+</header>
+
+<p class="en">Learn how to optimize your AGENTS.md file for AI coding agents. Master progressive disclosure, keep instructions focused, and maximize agent performance.</p>
+<p class="zh">学习如何为 AI 编码 agent 优化你的 AGENTS.md 文件。掌握渐进式披露（progressive disclosure），让指令保持聚焦，把 agent 的表现拉满。</p>
+
+<p class="en">Have you ever felt concerned about the size of your <code>AGENTS.md</code> file?</p>
+<p class="zh">你有没有担心过自己的 <code>AGENTS.md</code> 文件太大了？</p>
+
+<p class="en">Maybe you should be. A bad <code>AGENTS.md</code> file can confuse your agent, become a maintenance nightmare, and cost you tokens on every request.</p>
+<p class="zh">也许你确实该担心。一个糟糕的 <code>AGENTS.md</code> 文件会让你的 agent 犯迷糊、成为运维噩梦，还会在每一次请求上白白烧掉 token。</p>
+
+<p class="en">So you'd better know how to fix it.</p>
+<p class="zh">所以你最好懂得怎么修好它。</p>
+
+<h2>What is AGENTS.md?<span class="zh">什么是 AGENTS.md？</span></h2>
+
+<p class="en">An <code>AGENTS.md</code> file is a markdown file you check into Git that customizes how AI coding agents behave in your repository. It sits at the top of the conversation history, right below the <em>system prompt</em>.</p>
+<p class="zh"><code>AGENTS.md</code> 是一个你提交进 Git 的 markdown 文件，用来定制 AI 编码 agent 在你仓库里的行为方式。它位于对话历史的最顶端，就在系统提示词（system prompt）的正下方。</p>
+
+<p class="en">Think of it as a configuration layer between the agent's base instructions and your actual codebase. The file can contain two types of guidance:</p>
+<p class="zh">可以把它想成一个配置层，夹在 agent 的基础指令和你真实代码库（codebase）之间。这个文件能容纳两类指引：</p>
+
+<ul class="en">
+  <li><strong>Personal scope:</strong> Your commit style preferences, coding patterns you prefer</li>
+  <li><strong>Project scope:</strong> What the project does, which package manager you use, your architecture decisions</li>
+</ul>
+<ul class="zh">
+  <li><strong>个人范畴：</strong>你的 commit 风格偏好、你偏爱的编码模式</li>
+  <li><strong>项目范畴：</strong>这个项目是干什么的、你用哪个包管理器、你的架构决策</li>
+</ul>
+
+<p class="en">The <code>AGENTS.md</code> file is an open standard supported by many - though not all - tools.</p>
+<p class="zh"><code>AGENTS.md</code> 文件是一个开放标准，很多工具都支持它——虽然并非全部。</p>
+
+<h3>CLAUDE.md<span class="zh">CLAUDE.md</span></h3>
+
+<p class="en">Notably, Claude Code doesn't use <code>AGENTS.md</code> - it uses <code>CLAUDE.md</code> instead. You can symlink between them to keep all your tools working the same way:</p>
+<p class="zh">值得注意的是，Claude Code 不用 <code>AGENTS.md</code>——它用的是 <code>CLAUDE.md</code>。你可以在两者之间建一个符号链接（symlink），让所有工具都以同一套配置运行：</p>
+
+<pre><code># Create a symlink from AGENTS.md to CLAUDE.md
+ln -s AGENTS.md CLAUDE.md</code></pre>
+
+<p class="en"><strong>Go deeper:</strong> join the waitlist for AI Coding for Real Engineers</p>
+<p class="zh"><strong>再深入一点：</strong>加入 AI Coding for Real Engineers 的等候名单。</p>
+
+<h2>Why Massive AGENTS.md Files are a Problem<span class="zh">为什么超大的 AGENTS.md 文件会是个问题</span></h2>
+
+<p class="en">There's a natural feedback loop that causes <code>AGENTS.md</code> files to grow dangerously large:</p>
+<p class="zh">有一个天然的反馈循环，会让 <code>AGENTS.md</code> 文件危险地越长越大：</p>
+
+<ul class="en">
+  <li>The agent does something you don't like</li>
+  <li>You add a rule to prevent it</li>
+  <li>Repeat hundreds of times over months</li>
+  <li>File becomes a "ball of mud"</li>
+</ul>
+<ul class="zh">
+  <li>agent 做了件你不喜欢的事</li>
+  <li>你加一条规则来阻止它</li>
+  <li>几个月里重复几百次</li>
+  <li>文件变成一坨"烂泥球"（ball of mud）</li>
+</ul>
+
+<p class="en">Different developers add conflicting opinions. Nobody does a full style pass. The result? An unmaintainable mess that actually hurts agent performance.</p>
+<p class="zh">不同的开发者塞进相互冲突的意见。没人做一次完整的风格梳理。结果呢？一团没法维护的乱麻，反而拖累了 agent 的表现。</p>
+
+<p class="en">Another culprit: auto-generated <code>AGENTS.md</code> files. Never use initialization scripts to auto-generate your <code>AGENTS.md</code>. They flood the file with things that are "useful for most scenarios" but would be better progressively disclosed. Generated files prioritize comprehensiveness over restraint.</p>
+<p class="zh">还有一个罪魁祸首：自动生成的 <code>AGENTS.md</code> 文件。永远不要用初始化脚本来自动生成你的 <code>AGENTS.md</code>。它们会把一堆"对多数场景有用"的东西灌进文件，而这些东西本该用渐进式披露的方式呈现。生成出来的文件总是把"面面俱到"摆在"克制"之上。</p>
+
+<h3>The Instruction Budget<span class="zh">指令预算</span></h3>
+
+<p class="en">Kyle from Humanlayer's <em>article</em> mentions the concept of an "instruction budget":</p>
+<p class="zh">Humanlayer 的 Kyle 在他的文章里提到了一个"指令预算"（instruction budget）的概念：</p>
+
+<blockquote>
+<p class="en">Frontier thinking LLMs can follow ~ 150-200 instructions with reasonable consistency. Smaller models can attend to fewer instructions than larger models, and non-thinking models can attend to fewer instructions than thinking models.</p>
+<p class="zh">前沿的 thinking LLM 能以合理的一致性遵循大约 150–200 条指令。较小的模型能关注的指令数比大模型少，non-thinking 模型能关注的指令数又比 thinking 模型少。</p>
+</blockquote>
+
+<p class="en">Every token in your <code>AGENTS.md</code> file gets loaded on <strong>every single request</strong>, regardless of whether it's relevant. This creates a hard budget problem:</p>
+<p class="zh">你 <code>AGENTS.md</code> 文件里的每一个 token，在<strong>每一次请求</strong>时都会被加载进来，不管它相不相关。这就制造了一个硬性的预算问题：</p>
+
+<table>
+<thead><tr><th>Scenario 场景</th><th>Impact 影响</th></tr></thead>
+<tbody>
+<tr><td>Small, focused <code>AGENTS.md</code><br><span style="color:#555">小而聚焦的 <code>AGENTS.md</code></span></td><td>More tokens available for task-specific instructions<br><span style="color:#555">留给任务专属指令的 token 更多</span></td></tr>
+<tr><td>Large, bloated <code>AGENTS.md</code><br><span style="color:#555">又大又臃肿的 <code>AGENTS.md</code></span></td><td>Fewer tokens for the actual work; agent gets confused<br><span style="color:#555">留给实际工作的 token 更少；agent 犯迷糊</span></td></tr>
+<tr><td>Irrelevant instructions<br><span style="color:#555">无关的指令</span></td><td>Token waste + agent distraction = worse performance<br><span style="color:#555">浪费 token ＋ 分散 agent 注意力 ＝ 更差的表现</span></td></tr>
+</tbody>
+</table>
+
+<p class="en">Taken together, this means that <em>the ideal <code>AGENTS.md</code> file should be as small as possible.</em></p>
+<p class="zh">综合来看，这意味着<em>理想的 <code>AGENTS.md</code> 文件应该尽可能小</em>。</p>
+
+<h3>Stale Documentation Poisons Context<span class="zh">过时的文档会毒化上下文</span></h3>
+
+<p class="en">Another issue for large <code>AGENTS.md</code> files is staleness.</p>
+<p class="zh">大 <code>AGENTS.md</code> 文件的另一个问题是过时（staleness）。</p>
+
+<p class="en">Documentation goes out of date quickly. For human developers, stale docs are annoying, but the human usually has enough built-in memory to be skeptical about bad docs. For AI agents that read documentation on every request, stale information actively <em>poisons</em> the context.</p>
+<p class="zh">文档很快就会过时。对人类开发者来说，过时的文档只是烦人，但人通常有足够的"内置记忆"去对糟糕的文档保持怀疑。而对每次请求都要读文档的 AI agent 来说，过时的信息会主动<em>毒化</em>上下文。</p>
+
+<p class="en">This is especially dangerous when you document file system structure. File paths change constantly. If your <code>AGENTS.md</code> says "authentication logic lives in <code>src/auth/handlers.ts</code>" and that file gets renamed or moved, the agent will confidently look in the wrong place.</p>
+<p class="zh">当你去记录文件系统结构时，这尤其危险。文件路径一直在变。如果你的 <code>AGENTS.md</code> 写着"认证逻辑在 <code>src/auth/handlers.ts</code> 里"，而那个文件后来被重命名或移动了，agent 就会信心满满地跑到错的地方去找。</p>
+
+<p class="en"><mark>Instead of documenting structure, describe capabilities. Give hints about where things <em>might</em> be and the overall shape of the project. Let the agent generate its own just-in-time documentation during planning.</mark></p>
+<p class="zh">与其记录结构，不如描述能力。给出关于东西<em>可能</em>在哪儿的提示，以及项目的整体形态。让 agent 在规划阶段自己按需（just-in-time）生成文档。</p>
+
+<p class="en">Domain concepts (like "organization" vs "group" vs "workspace") are more stable than file paths, so they're safer to document. But even these can drift in fast-moving AI-assisted codebases. Keep a light touch.</p>
+<p class="zh">领域概念（比如 "organization" 对 "group" 对 "workspace" 的区分）比文件路径更稳定，所以记录它们更安全。但即便是这些，在快速演进的 AI 辅助代码库里也可能漂移。下手要轻。</p>
+
+<h2>Cutting Down Large AGENTS.md Files<span class="zh">给臃肿的 AGENTS.md 文件瘦身</span></h2>
+
+<p class="en">Be ruthless about what goes here. Consider this the absolute minimum:</p>
+<p class="zh">对放进这里的内容要够狠。把下面这些看作绝对下限：</p>
+
+<ul class="en">
+  <li>One-sentence project description (acts like a role-based prompt)</li>
+  <li>Package manager (if not npm; or use corepack for warnings)</li>
+  <li>Build/typecheck commands (if non-standard)</li>
+</ul>
+<ul class="zh">
+  <li>一句话的项目描述（作用类似一个基于角色的 prompt）</li>
+  <li>包管理器（如果不是 npm；或者用 corepack 来处理告警）</li>
+  <li>Build / typecheck 命令（如果它们不是标准的）</li>
+</ul>
+
+<p class="en">That's honestly it. Everything else should go elsewhere.</p>
+<p class="zh">说真的，就这些。其他所有东西都该放到别处。</p>
+
+<h3>The One-Liner Project Description<span class="zh">一句话的项目描述</span></h3>
+
+<p class="en">This single sentence gives the agent context about <em>why</em> they're working in this repository. It anchors every decision they make.</p>
+<p class="zh">这一句话给了 agent 关于它<em>为什么</em>在这个仓库里工作的上下文。它锚定了 agent 做出的每一个决策。</p>
+
+<p class="en">Example:</p>
+<p class="zh">举例：</p>
+
+<pre><code>This is a React component library for accessible data visualization.</code></pre>
+
+<p class="en">That's the foundation. The agent now understands its scope.</p>
+<p class="zh">这就是根基。现在 agent 明白了自己的工作范畴。</p>
+
+<h3>Package Manager Specification<span class="zh">指明包管理器</span></h3>
+
+<p class="en">If you're In a JavaScript project and using anything other than npm, tell the agent explicitly:</p>
+<p class="zh">如果你在一个 JavaScript 项目里，用的是 npm 以外的任何东西，就明确告诉 agent：</p>
+
+<pre><code>This project uses pnpm workspaces.</code></pre>
+
+<p class="en">Without this, the agent might default to <code>npm</code> and generate incorrect commands.</p>
+<p class="zh">没有这句，agent 可能默认用 <code>npm</code>，从而生成错误的命令。</p>
+
+<p class="en"><strong>Corepack is also great</strong></p>
+<p class="zh"><strong>Corepack 也很好用</strong></p>
+
+<p class="en">You could also use <code>corepack</code> to let the system handle warnings automatically, saving you precious instruction budget.</p>
+<p class="zh">你也可以用 <code>corepack</code>，让系统自动处理告警，从而省下宝贵的指令预算。</p>
+
+<h3>Use Progressive Disclosure<span class="zh">使用渐进式披露</span></h3>
+
+<p class="en">Instead of cramming everything into <code>AGENTS.md</code>, use <em>progressive disclosure</em>: give the agent only what it needs right now, and point it to other resources when needed.</p>
+<p class="zh">与其把所有东西都塞进 <code>AGENTS.md</code>，不如使用渐进式披露（progressive disclosure）：只给 agent 它此刻需要的东西，需要更多时再把它指向其他资源。</p>
+
+<p class="en">Agents are fast at navigating documentation hierarchies. They understand context well enough to find what they need.</p>
+<p class="zh">agent 在文档层级里穿行的速度很快。它们对上下文的理解足以自己找到所需的东西。</p>
+
+<h4>Move Language-Specific Rules to Separate Files<span class="zh">把语言专属的规则挪到独立文件里</span></h4>
+
+<p class="en">If your <code>AGENTS.md</code> currently says:</p>
+<p class="zh">如果你的 <code>AGENTS.md</code> 现在写着：</p>
+
+<pre><code>Always use const instead of let.
+Never use var.
+Use interface instead of type when possible.
+Use strict null checks.
+...</code></pre>
+
+<p class="en">Move that to a separate file instead. In your root <code>AGENTS.md</code>:</p>
+<p class="zh">把这些挪到一个独立文件里。在你根目录的 <code>AGENTS.md</code> 中：</p>
+
+<pre><code>For TypeScript conventions, see docs/TYPESCRIPT.md</code></pre>
+
+<p class="en">Notice the light touch, no "always," no all-caps forcing. Just a conversational reference.</p>
+<p class="zh">注意这里下手很轻，没有 "always"，没有全大写的强制口吻。只是一句对话式的指引（reference）。</p>
+
+<p class="en">The benefits:</p>
+<p class="zh">好处：</p>
+
+<ul class="en">
+  <li>TypeScript rules only load when the agent writes TypeScript</li>
+  <li>Other tasks (CSS debugging, dependency management) don't waste tokens</li>
+  <li>File stays focused and portable across model changes</li>
+</ul>
+<ul class="zh">
+  <li>TypeScript 规则只在 agent 写 TypeScript 时才加载</li>
+  <li>其他任务（调 CSS、管依赖）不会浪费 token</li>
+  <li>文件保持聚焦，且在更换模型时依然可移植</li>
+</ul>
+
+<h4>Nest Progressive Disclosure<span class="zh">嵌套式的渐进式披露</span></h4>
+
+<p class="en">You can go even deeper. Your <code>docs/TYPESCRIPT.md</code> can reference <code>docs/TESTING.md</code>. Create a discoverable resource tree:</p>
+<p class="zh">你还能更深一层。你的 <code>docs/TYPESCRIPT.md</code> 可以引用 <code>docs/TESTING.md</code>。搭建一棵可被发现的资源树：</p>
+
+<pre><code>docs/
+├── TYPESCRIPT.md
+│   └── references TESTING.md
+├── TESTING.md
+│   └── references specific test runners
+└── BUILD.md
+    └── references esbuild configuration</code></pre>
+
+<p class="en">You can even link to external resources, Prisma docs, Next.js docs, etc. The agent will navigate these hierarchies efficiently.</p>
+<p class="zh">你甚至可以链接到外部资源，比如 Prisma 文档、Next.js 文档等等。agent 会高效地在这些层级中穿行。</p>
+
+<h4>Use Agent Skills<span class="zh">使用 agent skill</span></h4>
+
+<p class="en">Many tools support "agent skills" - commands or workflows the agent can invoke to learn how to do something specific. These are another form of <em>progressive disclosure</em>: the agent pulls in knowledge only when needed.</p>
+<p class="zh">很多工具支持 "agent skill"——即 agent 可以调用来学习如何完成某件具体事情的命令或 workflow。这是渐进式披露的又一种形式：agent 只在需要时才把知识拉进来。</p>
+
+<p class="en">We'll cover agent skills in-depth in a separate article.</p>
+<p class="zh">我们会在另一篇文章里深入讲 agent skill。</p>
+
+<!-- 原文此处有 newsletter 促销图（AI Hero · Skill System），非正文内容，略 -->
+
+<h3>A great AGENTS.md is step one<span class="zh">一个出色的 AGENTS.md 只是第一步</span></h3>
+
+<p class="en">See the skills I run on top of mine to turn that file into shipped work.</p>
+<p class="zh">来看看我在自己的 AGENTS.md 之上运行的那些 skill，它们把这个文件变成了真正交付出去的成果。</p>
+
+<h2>AGENTS.md in Monorepos<span class="zh">Monorepo 中的 AGENTS.md</span></h2>
+
+<p class="en">You're not limited to a single <code>AGENTS.md</code> at the root. You can place <code>AGENTS.md</code> files in subdirectories, and they <strong>merge with the root level</strong>.</p>
+<p class="zh">你并不局限于根目录下的单个 <code>AGENTS.md</code>。你可以把 <code>AGENTS.md</code> 文件放进子目录里，它们会<strong>与根目录级别的文件合并</strong>。</p>
+
+<p class="en">This is powerful for monorepos:</p>
+<p class="zh">对 monorepo 来说，这很强大：</p>
+
+<h3>What Goes Where<span class="zh">什么内容放在哪一层</span></h3>
+
+<table>
+<thead><tr><th>Level 层级</th><th>Content 内容</th></tr></thead>
+<tbody>
+<tr><td>Root<br><span style="color:#555">根目录</span></td><td>Monorepo purpose, how to navigate packages, shared tools (pnpm workspaces)<br><span style="color:#555">monorepo 的目的、如何在各 package 间导航、共享工具（pnpm workspaces）</span></td></tr>
+<tr><td>Package<br><span style="color:#555">Package 级</span></td><td>Package purpose, specific tech stack, package-specific conventions<br><span style="color:#555">该 package 的目的、具体技术栈、package 专属约定</span></td></tr>
+</tbody>
+</table>
+
+<p class="en">Root <code>AGENTS.md</code>:</p>
+<p class="zh">根目录的 <code>AGENTS.md</code>：</p>
+
+<pre><code>This is a monorepo containing web services and CLI tools.
+Use pnpm workspaces to manage dependencies.
+See each package's AGENTS.md for specific guidelines.</code></pre>
+
+<p class="en">Package-level <code>AGENTS.md</code> (in <code>packages/api/AGENTS.md</code>):</p>
+<p class="zh">Package 级的 <code>AGENTS.md</code>（位于 <code>packages/api/AGENTS.md</code>）：</p>
+
+<pre><code>This package is a Node.js GraphQL API using Prisma.
+Follow docs/API_CONVENTIONS.md for API design patterns.</code></pre>
+
+<p class="en"><strong>Don't overload any level.</strong></p>
+<p class="zh"><strong>不要让任何一层超载。</strong></p>
+
+<p class="en">The agent sees all merged <code>AGENTS.md</code> files in its context. Keep each level focused on what's relevant at that scope.</p>
+<p class="zh">agent 在它的上下文里能看到所有被合并的 <code>AGENTS.md</code> 文件。让每一层都只聚焦于那个范畴下相关的内容。</p>
+
+<h2>Fix A Broken AGENTS.md With This Prompt<span class="zh">用这个 prompt 修好坏掉的 AGENTS.md</span></h2>
+
+<p class="en">If you're starting to get nervous about the <code>AGENTS.md</code> file in your repo, and you want to refactor it to use progressive disclosure, try copy-pasting this prompt into your coding agent:</p>
+<p class="zh">如果你开始对自己仓库里的 <code>AGENTS.md</code> 感到不安，想把它重构成渐进式披露的形式，可以试着把下面这个 prompt 复制粘贴进你的编码 agent：</p>
+
+<pre><code>I want you to refactor my AGENTS.md file to follow progressive disclosure principles.
+
+Follow these steps:
+
+1. **Find contradictions**: Identify any instructions that conflict with each other. For each contradiction, ask me which version I want to keep.
+
+2. **Identify the essentials**: Extract only what belongs in the root AGENTS.md:
+   - One-sentence project description
+   - Package manager (if not npm)
+   - Non-standard build/typecheck commands
+   - Anything truly relevant to every single task
+
+3. **Group the rest**: Organize remaining instructions into logical categories (e.g., TypeScript conventions, testing patterns, API design, Git workflow). For each group, create a separate markdown file.
+
+4. **Create the file structure**: Output:
+   - A minimal root AGENTS.md with markdown links to the separate files
+   - Each separate file with its relevant instructions
+   - A suggested docs/ folder structure
+
+5. **Flag for deletion**: Identify any instructions that are:
+   - Redundant (the agent already knows this)
+   - Too vague to be actionable
+   - Overly obvious (like "write clean code")</code></pre>
+
+<p class="en">(Prompt translation 提示词逐句对照)</p>
+<div class="prompt-zh">
+我想让你把我的 AGENTS.md 文件重构为遵循渐进式披露原则。<br><br>
+按以下步骤进行：<br><br>
+1. <strong>找出矛盾之处</strong>：识别任何相互冲突的指令。对每一处矛盾，问我想保留哪个版本。<br><br>
+2. <strong>识别核心要素</strong>：只提取真正属于根目录 AGENTS.md 的内容：<br>
+&nbsp;&nbsp;- 一句话的项目描述<br>
+&nbsp;&nbsp;- 包管理器（如果不是 npm）<br>
+&nbsp;&nbsp;- 非标准的 build / typecheck 命令<br>
+&nbsp;&nbsp;- 任何对每一个任务都真正相关的内容<br><br>
+3. <strong>把其余内容分组</strong>：把剩下的指令组织成逻辑类别（例如 TypeScript 约定、测试模式、API 设计、Git workflow）。为每一组创建一个独立的 markdown 文件。<br><br>
+4. <strong>创建文件结构</strong>：输出：<br>
+&nbsp;&nbsp;- 一个精简的根目录 AGENTS.md，用 markdown 链接指向各独立文件<br>
+&nbsp;&nbsp;- 每个独立文件，含其相关指令<br>
+&nbsp;&nbsp;- 一个建议的 docs/ 文件夹结构<br><br>
+5. <strong>标记待删除项</strong>：识别出以下这些指令：<br>
+&nbsp;&nbsp;- 冗余的（agent 本来就知道）<br>
+&nbsp;&nbsp;- 太模糊、无法落地执行的<br>
+&nbsp;&nbsp;- 过于显而易见的（比如"写干净的代码"）
+</div>
+
+<h3>Get the next AGENTS.md upgrade in your inbox<span class="zh">把下一次 AGENTS.md 升级送到你的收件箱</span></h3>
+
+<p class="en">Skill posts and changelog notes when Matt sharpens what his agents read.</p>
+<p class="zh">当 Matt 打磨他的 agent 所读取的内容时，会发布 skill 文章和变更日志笔记。</p>
+
+<h2>Don't Build A Ball Of Mud<span class="zh">别搭出一坨烂泥球</span></h2>
+
+<p class="en">When you're about to add something to your <code>AGENTS.md</code>, ask yourself where it belongs:</p>
+<p class="zh">当你正打算往 <code>AGENTS.md</code> 里加东西时，问问自己它该归属到哪里：</p>
+
+<table>
+<thead><tr><th>Location 位置</th><th>When to use 何时使用</th></tr></thead>
+<tbody>
+<tr><td>Root <code>AGENTS.md</code><br><span style="color:#555">根目录 <code>AGENTS.md</code></span></td><td>Relevant to every single task in the repo<br><span style="color:#555">与仓库里每一个任务都相关</span></td></tr>
+<tr><td>Separate file<br><span style="color:#555">独立文件</span></td><td>Relevant to one domain (TypeScript, testing, etc.)<br><span style="color:#555">只与某一个领域相关（TypeScript、测试等）</span></td></tr>
+<tr><td>Nested documentation tree<br><span style="color:#555">嵌套的文档树</span></td><td>Can be organized hierarchically<br><span style="color:#555">可以按层级来组织</span></td></tr>
+</tbody>
+</table>
+
+<p class="en">The ideal <code>AGENTS.md</code> is small, focused, and points elsewhere. It gives the agent just enough context to start working, with breadcrumbs to more detailed guidance.</p>
+<p class="zh">理想的 <code>AGENTS.md</code> 小巧、聚焦，并指向别处。它给 agent 刚好够用的上下文来开工，同时留下面包屑，通往更详细的指引。</p>
+
+<p class="en">Everything else lives in progressive disclosure: separate files, nested <code>AGENTS.md</code> files, or skills.</p>
+<p class="zh">其他所有东西都存放在渐进式披露之中：独立文件、嵌套的 <code>AGENTS.md</code> 文件，或者 skill。</p>
+
+<p class="en">This keeps your instruction budget efficient, your agent focused, and your setup future-proof as tools and best practices evolve.</p>
+<p class="zh">这样能让你的指令预算保持高效、你的 agent 保持聚焦，也让你的配置在工具和最佳实践不断演进时依然经得起时间考验。</p>
+
+<p class="note">中译供个人阅读参考，如与原文有出入以原文为准。</p>
+
+</body>
+</html>
