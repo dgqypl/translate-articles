@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>What is a "harness"? · 双语</title>
+<style>
+  :root { color-scheme: light; }
+  body {
+    max-width: 760px; margin: 40px auto; padding: 0 20px 80px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    color: #1a1a1a; background: #fafafa; line-height: 1.65;
+  }
+  header { border-bottom: 1px solid #e5e5e5; padding-bottom: 24px; margin-bottom: 32px; }
+  h1.title { font-size: 30px; margin: 0 0 8px; line-height: 1.3; }
+  h1.title .zh { display:block; font-size:22px; color:#555; font-weight:600; margin-top:6px; }
+  .meta { color: #666; font-size: 14px; }
+  h2 { font-size: 22px; margin: 36px 0 10px; border-left: 4px solid #d97757; padding-left: 12px; }
+  h2 .zh { display:block; font-size:17px; color:#555; margin-top:2px; }
+  h3 { font-size: 18px; margin: 28px 0 8px; color:#333; }
+  h3 .zh { display:block; font-size:15px; color:#666; font-weight:600; margin-top:2px; }
+  p.en { margin: 14px 0 4px; color: #222; }
+  p.zh {
+    margin: 0 0 18px; padding: 8px 12px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    color: #0f1419; font-size: 15.5px;
+  }
+  ul.en { margin: 8px 0 4px 22px; }
+  ul.zh {
+    margin: 0 0 18px; padding: 8px 12px 8px 34px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    font-size: 15.5px;
+  }
+  .prompt-en { font-style: italic; color: #444; background: #f0efe9; padding: 10px 14px; border-radius: 4px; margin: 10px 0 4px; }
+  .prompt-zh { padding: 10px 14px; background: #eef7ff; border-left: 3px solid #1d9bf0; border-radius: 4px; margin: 0 0 18px; }
+  em, i { color: #b4531a; font-style: italic; }
+  strong { color: #000; }
+  code { background: #eee; padding: 1px 6px; border-radius: 3px; font-size: 90%; }
+  pre { background: #f4f4f4; padding: 12px 14px; border-radius: 4px; overflow-x: auto; }
+  pre code { background: transparent; padding: 0; }
+  a { color: #1d9bf0; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  blockquote { border-left: 3px solid #ccc; margin: 12px 0; padding: 4px 14px; color: #555; }
+  img { max-width: 100%; height: auto; display: block; margin: 16px 0; }
+  .note { font-size:12px; color:#999; margin-top:60px; text-align:center; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 class="title">
+    What is a "harness"?
+    <span class="zh">什么是 harness？</span>
+  </h1>
+  <div class="meta">作者：Theo（@theo） · 原文：<a href="https://x.com/theo/status/2113424203345265053">https://x.com/theo/status/2113424203345265053</a> · 中英双语对照 · 译文供个人阅读参考</div>
+</header>
+
+<p class="en">I'm going to be honest here: I'm writing this because I'm tired of having to explain it, and it seems like there's no single "resource" that properly explains what a harness actually is.</p>
+<p class="zh">实话说：我写这篇是因为解释烦了，而且似乎没有哪一份现成的「资料」能把 harness 到底是什么讲清楚。</p>
+
+<p class="en">By the end of this article, you should know everything you'd ever need to know about what a harness is and how they work.</p>
+<p class="zh">读完这篇，关于 harness 是什么、它们如何运作，你需要知道的一切应该就都齐了。</p>
+
+<h2>Humans use interfaces <span class="zh">人类用的是界面</span></h2>
+
+<p class="en">Generally speaking, humans don't use computers by writing code. They use an interface of some form, be it a terminal, a website, or an app.</p>
+<p class="zh">一般来说，人类用电脑并不是靠写代码。他们用的是某种形式的界面（interface），可能是终端、网站或应用。</p>
+
+<p class="en">Theoretically speaking, a human could just write unique python or js code for every task they want to complete. Instead of making them do that, we give them access to that code via buttons, hotkeys, commands, etc.</p>
+<p class="zh">理论上讲，人类完全可以为每一项想完成的任务都单独写一段 python 或 js 代码。但我们没让他们这么干，而是通过按钮、快捷键、命令等方式，把那些代码封装好供他们调用。</p>
+
+<p class="en">Examples of interfaces: Chrome, Claude Code, ChatGPT App (prev. Codex)</p>
+<p class="zh">界面的例子：Chrome、Claude Code、ChatGPT App（原 Codex）。</p>
+
+<p class="en">It is also worth noting that humans don't see the code underneath...usually. The human only sees the interface.</p>
+<p class="zh">还值得一提的是，人类通常看不到底层的代码。人类只看得到界面。</p>
+
+<h2>LLMs use harnesses <span class="zh">LLM 用的是 harness</span></h2>
+
+<p class="en">By default, all an LLM can do is generate text. In order for a language model to do anything more, it needs tools. Most llms are now trained to work with tools like "read_file" (for accessing files on your computer), "edit_file" (for changing those files), "bash" (for running commands), and "search" (for finding data online).</p>
+<p class="zh">默认情况下，LLM 唯一能做的就是生成文本。想让一个语言模型做更多事，它就需要工具（tool）。如今大多数 llm 都已经过训练，能使用诸如 "read_file"（访问你电脑上的文件）、"edit_file"（修改这些文件）、"bash"（执行命令）、"search"（在线查数据）之类的工具。</p>
+
+<p class="en">The LLM still just sends text though! It can't click a button like a human. As such, we need a custom text format for the LLM to use that indicates "you should run some code". Let's say we give the LLM a format for calling tools, such as:</p>
+<p class="zh">但 LLM 发出来的仍然只是文本！它没法像人类那样点按钮。因此，我们需要给 LLM 一套自定义的文本格式，用来表示「你该去跑一段代码了」。假设我们给 LLM 一种调用工具的格式，比如：</p>
+
+<pre><code>&lt;read_file name="README.md"&gt;</code></pre>
+
+<p class="en">Now the LLM knows it can respond in this format. But it's still just text, it doesn't do anything! Would be like typing on a keyboard or moving a mouse while the computer is off.</p>
+<p class="zh">现在 LLM 知道它可以用这种格式来回应了。但这仍然只是文本，它本身什么也不会发生！就好比在关机的电脑上敲键盘、挪鼠标。</p>
+
+<p class="en">Something has to interpret these responses, and then run the right code based on what the LLM responded with.</p>
+<p class="zh">必须有某个东西去解析这些回应，再根据 LLM 的回应内容去跑对应的代码。</p>
+
+<p class="en">In order for an LLM to actually do stuff, it needs:</p>
+<p class="zh">要让一个 LLM 真正做成事，它需要：</p>
+
+<ul class="en">
+  <li>Tools that can do things (read_file, edit_file, bash, search etc)</li>
+  <li>A special syntax for calling those tools via text</li>
+  <li>A system that parses the message to identify that syntax and run the code</li>
+  <li>A method to give the response from the tool back to the LLM</li>
+  <li>A list of tools available w/ descriptions of how to use them</li>
+</ul>
+<ul class="zh">
+  <li>能干活的工具（read_file、edit_file、bash、search 等）</li>
+  <li>一套通过文本来调用这些工具的专用语法</li>
+  <li>一个系统，负责解析消息、识别出这套语法并跑对应的代码</li>
+  <li>一种把工具的返回结果再交回给 LLM 的方式</li>
+  <li>一份可用工具的清单，附带各工具的使用说明</li>
+</ul>
+
+<p class="en">That is the harness.</p>
+<p class="zh">这就是 harness。</p>
+
+<h2>"Isn't Claude Code a harness?" <span class="zh">「Claude Code 不就是 harness 吗？」</span></h2>
+
+<p class="en">Kind of.</p>
+<p class="zh">算是吧。</p>
+
+<p class="en">Claude Code has 2 parts: the interface and the harness</p>
+<p class="zh">Claude Code 有两部分：界面和 harness。</p>
+
+<p class="en">When you run "claude" in your terminal, the Claude TUI opens. When you go to the "code" tab in the Claude desktop app, the Claude Code GUI opens. Neither of these are harnesses.</p>
+<p class="zh">当你在终端里运行 "claude" 时，打开的是 Claude 的 TUI。当你在 Claude 桌面应用里切到 "code" 标签页时，打开的是 Claude Code 的 GUI。这两者都不是 harness。</p>
+
+<p class="en">Under the hood, Claude Code uses the Anthropic Agent SDK to interface with the agent. ChatGPT does the same, with the ChatGPT/Codex app interfacing with the Codex App Server (built into the CLI).</p>
+<p class="zh">底层上，Claude Code 用的是 Anthropic Agent SDK 来对接 agent。ChatGPT 也是一样的做法，由 ChatGPT/Codex 应用去对接 Codex App Server（内置在 CLI 里）。</p>
+
+<img src="https://pbs.twimg.com/media/HVRZel5agAA2j9W.jpg" referrerpolicy="no-referrer" alt="界面与 harness 分层示意">
+
+<p class="en">I understand why people are confused: Claude Code and Codex both bake the harness into their apps.</p>
+<p class="zh">我理解大家为什么会搞混：Claude Code 和 Codex 都把 harness 直接烤进了自家应用里。</p>
+
+<p class="en">You can bake the same harness into other apps though! Some examples of this:</p>
+<p class="zh">但同一个 harness 也可以被烤进别的应用里！举几个例子：</p>
+
+<ul class="en">
+  <li>The Cursor harness is used by Grok Bot</li>
+  <li>The Anthropic Agents SDK and Codex App Server are used by T3 Code</li>
+  <li>Pi is used by OpenClaw</li>
+</ul>
+<ul class="zh">
+  <li>Grok Bot 用的是 Cursor 的 harness</li>
+  <li>T3 Code 用的是 Anthropic Agents SDK 和 Codex App Server</li>
+  <li>OpenClaw 用的是 Pi</li>
+</ul>
+
+<p class="en">The harness is a separate piece, rarely if ever exposed to the humans using the apps.</p>
+<p class="zh">harness 是一个独立的部件，几乎从不直接暴露给使用这些应用的人类。</p>
+
+<h2>Who owns the tools? <span class="zh">工具归谁所有？</span></h2>
+
+<p class="en">Let's imagine a harness as a kitchen.</p>
+<p class="zh">我们把 harness 想象成一间厨房。</p>
+
+<p class="en">Kitchens have lots of different tools. Pots, pans, knives, spatulas, blenders and more.</p>
+<p class="zh">厨房里有各式各样的工具。锅、平底锅、刀、铲子、搅拌机等等。</p>
+
+<p class="en">No kitchen has everything that every chef needs.</p>
+<p class="zh">没有哪间厨房能备齐每位厨师需要的全部东西。</p>
+
+<p class="en">Good harnesses are built with this assumption, allowing users to bring their own tools.</p>
+<p class="zh">好的 harness 在设计时就带着这个前提，允许用户自带工具。</p>
+
+<p class="en">To be clear: most of the important tools are provided directly by a harness. Codex and Claude Code both include a lot of tools, while other harnesses like Pi are much more minimal.</p>
+<p class="zh">说清楚一点：大多数重要工具是由 harness 直接提供的。Codex 和 Claude Code 都内置了大量工具，而 Pi 这类其他 harness 则精简得多。</p>
+
+<p class="en">This is where things start to get messy, so let me draw another diagram.</p>
+<p class="zh">从这里开始事情就变乱了，所以让我再画一张图。</p>
+
+<img src="https://pbs.twimg.com/media/HVRbNOobIAAXSnU.jpg" referrerpolicy="no-referrer" alt="工具平面与 harness 示意">
+
+<p class="en">The orange box is meant to be "things included by Claude Code" (agents sdk to be clear).</p>
+<p class="zh">橙色方框代表「Claude Code 自带的东西」（说清楚，指的是 agents sdk）。</p>
+
+<p class="en">There are lots of custom tools you can add, such as the TypeScript plugin to give your LLM some tools to check your code, or the CUA plugin to allow agents to control your computer.</p>
+<p class="zh">你可以添加很多自定义工具，比如 TypeScript 插件（给你的 LLM 一些检查代码的工具），或者 CUA 插件（让 agent 能操控你的电脑）。</p>
+
+<p class="en">Note the line between the "tool plane" and the human/llm layer. Neither the human nor the LLM can see or touch the tools. We have no way of knowing if they exist. The harness is what exposes them, both to the LLM and to the interface (which is how we see them)</p>
+<p class="zh">注意「工具平面（tool plane）」与人类/llm 层之间的那条分界线。人类和 LLM 都看不到、也碰不到这些工具。我们根本无从得知它们是否存在。是 harness 把它们暴露出来的——既暴露给 LLM，也暴露给界面（我们正是通过界面才看到它们的）。</p>
+
+<h2>MCP makes things a bit messier <span class="zh">MCP 让事情又乱了一点</span></h2>
+
+<p class="en">MCP (Model Context Protocol) is a standard to make it easier to let harnesses access external stuff. To put it simply: tools are "run code here to do a thing", MCPs are "make an API request somewhere else to do a thing".</p>
+<p class="zh">MCP（Model Context Protocol）是一套标准，用来让 harness 更方便地访问外部的东西。<mark>简单说：工具是「在本地跑代码来做一件事」，MCP 是「向别处发一个 API 请求来做一件事」。</mark></p>
+
+<p class="en">Tools provide the code directly. MCPs let the code live somewhere else, but the LLM can still make requests to do things using the MCP.</p>
+<p class="zh">工具是直接把代码提供出来。MCP 则让代码待在别处，但 LLM 仍然可以通过这个 MCP 发请求去做事。</p>
+
+<p class="en">The most common usecase for MCPs is to expose data to your LLMs. Want ChatGPT to look through your emails? MCP. Want Claude to go through the analytics for your site? MCP.</p>
+<p class="zh">MCP 最常见的用途是把数据暴露给你的 LLM。想让 ChatGPT 翻你的邮件？用 MCP。想让 Claude 查你网站的分析数据？用 MCP。</p>
+
+<p class="en">Chrome Extensions are kind of like tools. They can change how a website works, and they do that by running code on your computer in Chrome.</p>
+<p class="zh">Chrome 扩展有点像工具。它们能改变一个网站的运作方式，做法是在你电脑上的 Chrome 里跑代码。</p>
+
+<p class="en">MCPs are more like websites. You don't have to install anything, you just need to know the URL. Once you have that, you (should) get all the info you need to use it :)</p>
+<p class="zh">MCP 则更像网站。你什么都不用安装，只要知道 URL 就行。有了 URL，你（应该）就能拿到使用它所需的全部信息 :)</p>
+
+<p class="en">Pulled all together, it looks something like this:</p>
+<p class="zh">把这些拼到一起，大致是这样：</p>
+
+<img src="https://pbs.twimg.com/media/HVRfBCDaAAAk2HA.jpg" referrerpolicy="no-referrer" alt="工具、MCP 与 harness 整合示意">
+
+<p class="en">...wait, what is T3 Code doing there? Let me explain.</p>
+<p class="zh">……等等，T3 Code 怎么出现在那儿了？我来解释一下。</p>
+
+<img src="https://pbs.twimg.com/media/HVRfSZPb0AAPNhR.png" referrerpolicy="no-referrer" alt="T3 Code 作为 MCP 暴露功能的示意">
+
+<p class="en">T3 Code exposes custom functionality to LLMs, to do things that the harnesses don't. For example, we allow threads using Claude Code to spawn subagents in Codex. Other tools do this too, see Herdr, Orca, and Superset for some examples.</p>
+<p class="zh">T3 Code 向 LLM 暴露自定义功能，用来做那些 harness 本身不做的事。比如，我们允许用 Claude Code 的线程在 Codex 里派生 subagent。其他工具也这么干，可参考 Herdr、Orca 和 Superset 等例子。</p>
+
+<p class="en">So why is this exposed as an MCP? Is this just some cheap trick to get out of making our own harness?</p>
+<p class="zh">那为什么要以 MCP 的形式暴露？难道这只是为了偷懒、不用自己造 harness 的小把戏？</p>
+
+<p class="en">Recall this quote from earlier:</p>
+<p class="zh">回想前面那句话：</p>
+
+<blockquote>Tools provide the code directly. MCPs let the code live somewhere else, but the LLM can still make requests to do things using the MCP.
+<div class="zh" style="color:#555;margin-top:6px;">工具是直接把代码提供出来。MCP 则让代码待在别处，但 LLM 仍然可以通过这个 MCP 发请求去做事。</div></blockquote>
+
+<p class="en">T3 Code has a lot of code to enable cool functionality such as multi-harness subagents. Technically speaking, we could have rebuilt all of T3 Code's coolest features as a set of plugins for Claude Code, Codex, Antigravity, Pi, Cursor, Muse...</p>
+<p class="zh">T3 Code 有大量代码来实现各种酷功能，比如跨 harness 的 subagent。从技术上讲，我们本可以把 T3 Code 最酷的那些特性，重做成一套套插件，分别适配 Claude Code、Codex、Antigravity、Pi、Cursor、Muse……</p>
+
+<p class="en">Or we could keep all the code in T3 Code itself, and expose a simple MCP server for the LLMs to use instead :)</p>
+<p class="zh">又或者，我们可以把全部代码留在 T3 Code 自己这里，转而暴露一个简单的 MCP server 给 LLM 用 :)</p>
+
+<p class="en">To go back to the kitchen example, MCPs are almost like recipes. They're a method to do a thing, but they aren't the thing itself.</p>
+<p class="zh">回到厨房的比喻，MCP 差不多就像菜谱。它们是做一件事的方法，但它们本身并不是那件事。</p>
+
+<p class="en">T3 Code is providing a cookbook to the kitchen. It doesn't change how the kitchen operates at all. If the chefs decide they want to look at our cook book, awesome! They can also ignore it entirely, changing nothing.</p>
+<p class="zh">T3 Code 是在给厨房提供一本菜谱大全。它完全不改变厨房的运作方式。要是厨师们决定来翻翻我们的菜谱，那太好了！他们也完全可以无视它，什么都不会变。</p>
+
+<h2>...so what is an agent? <span class="zh">……那 agent 又是什么？</span></h2>
+
+<p class="en">Do you know how proud I am that I got this far without saying "agent" over and over without defining it? That was not easy lol.</p>
+<p class="zh">你知道我有多自豪吗——都写到这儿了，我都没有在没定义的情况下反复念叨 "agent" 这个词。这可不容易，哈哈。</p>
+
+<p class="en">tl;dr - An agent is what happens when you combine a harness and an LLM.</p>
+<p class="zh">一句话总结：把一个 harness 和一个 LLM 组合起来，产生的就是 agent。</p>
+
+<p class="en">LLMs just generate text, they don't do anything. Harnesses are just kitchens, they can't cook anything. The combo of the LLM and the harness creates an "agent".</p>
+<p class="zh">LLM 只会生成文本，什么也做不了。harness 只是厨房，自己做不出任何菜。LLM 和 harness 的组合，才造出了一个「agent」。</p>
+
+<p class="en">Different "agents" are often simply different harness configurations, such as custom tools, instructions, MCP servers, etc.</p>
+<p class="zh">不同的「agent」，往往不过是不同的 harness 配置罢了——比如自定义工具、指令、MCP server 等等。</p>
+
+<h2>Is T3 Code a harness? <span class="zh">T3 Code 是 harness 吗？</span></h2>
+
+<p class="en">No. T3 Code doesn't work if you don't bring a harness.</p>
+<p class="zh">不是。如果你不自带一个 harness，T3 Code 根本跑不起来。</p>
+
+<p class="en">To go back to the kitchen example:</p>
+<p class="zh">回到厨房的比喻：</p>
+
+<ul class="en">
+  <li>Chef = LLM</li>
+  <li>Kitchen = harness</li>
+  <li>T3 Code = restaurant</li>
+</ul>
+<ul class="zh">
+  <li>厨师 = LLM</li>
+  <li>厨房 = harness</li>
+  <li>T3 Code = 餐厅</li>
+</ul>
+
+<p class="en">T3 Code is a restaurant that lets you bring whatever kitchen you want. We have our own recipes we like, and we provide that cookbook to each kitchen, but the chef won't open it unless you tell them to :)</p>
+<p class="zh">T3 Code 是一家餐厅，允许你自带任意一间厨房。我们有自己钟爱的菜谱，也会把这本菜谱提供给每一间厨房，但除非你开口，厨师是不会去翻它的 :)</p>
+
+<h2>For those who want to go deeper... <span class="zh">想钻得更深的人……</span></h2>
+
+<p class="en">If you like these types of top to bottom explanations, tell your boss to pay for the <a href="https://soydev.link/mega" referrerpolicy="no-referrer">Mega.dev</a> course I'm putting out next week. I go way more in depth on all this there :)</p>
+<p class="zh">如果你喜欢这种自上而下、层层讲透的讲解，就让你老板掏钱买我下周要上线的 <a href="https://soydev.link/mega" referrerpolicy="no-referrer">Mega.dev</a> 课程吧。在那里，这一整套我都讲得深入得多 :)</p>
+
+<p class="en">Also check out <a href="https://t3.codes/" referrerpolicy="no-referrer">T3 Code</a>. It's <a href="https://github.com/pingdotgg/t3code" referrerpolicy="no-referrer">open source</a>, so you can ask your agent to explain how it works to go way deeper</p>
+<p class="zh">另外也去看看 <a href="https://t3.codes/" referrerpolicy="no-referrer">T3 Code</a>。它是<a href="https://github.com/pingdotgg/t3code" referrerpolicy="no-referrer">开源</a>的，所以你可以让你的 agent 给你讲讲它是怎么运作的，钻得更深。</p>
+
+<p class="note">中译供个人阅读参考，如与原文有出入以原文为准。</p>
+
+</body>
+</html>
