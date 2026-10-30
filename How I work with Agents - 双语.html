@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>How I work with Agents · 双语</title>
+<style>
+  :root { color-scheme: light; }
+  body {
+    max-width: 760px; margin: 40px auto; padding: 0 20px 80px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    color: #1a1a1a; background: #fafafa; line-height: 1.65;
+  }
+  header { border-bottom: 1px solid #e5e5e5; padding-bottom: 24px; margin-bottom: 32px; }
+  h1.title { font-size: 30px; margin: 0 0 8px; line-height: 1.3; }
+  h1.title .zh { display:block; font-size:22px; color:#555; font-weight:600; margin-top:6px; }
+  .meta { color: #666; font-size: 14px; }
+  h2 { font-size: 22px; margin: 36px 0 10px; border-left: 4px solid #d97757; padding-left: 12px; }
+  h2 .zh { display:block; font-size:17px; color:#555; margin-top:2px; }
+  h3 { font-size: 18px; margin: 28px 0 8px; color:#333; }
+  h3 .zh { display:block; font-size:15px; color:#666; font-weight:600; margin-top:2px; }
+  p.en { margin: 14px 0 4px; color: #222; }
+  p.zh {
+    margin: 0 0 18px; padding: 8px 12px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    color: #0f1419; font-size: 15.5px;
+  }
+  ul.en { margin: 8px 0 4px 22px; }
+  ul.zh {
+    margin: 0 0 18px; padding: 8px 12px 8px 34px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    font-size: 15.5px;
+  }
+  .prompt-en { font-style: italic; color: #444; background: #f0efe9; padding: 10px 14px; border-radius: 4px; margin: 10px 0 4px; }
+  .prompt-zh { padding: 10px 14px; background: #eef7ff; border-left: 3px solid #1d9bf0; border-radius: 4px; margin: 0 0 18px; }
+  em, i { color: #b4531a; font-style: italic; }
+  strong { color: #000; }
+  code { background: #eee; padding: 1px 6px; border-radius: 3px; font-size: 90%; }
+  pre { background: #f4f4f4; padding: 12px 14px; border-radius: 4px; overflow-x: auto; }
+  pre code { background: transparent; padding: 0; }
+  a { color: #1d9bf0; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  blockquote { border-left: 3px solid #ccc; margin: 12px 0; padding: 4px 14px; color: #555; }
+  img { max-width: 100%; height: auto; display: block; margin: 16px 0; }
+  .note { font-size:12px; color:#999; margin-top:60px; text-align:center; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 class="title">
+    How I work with Agents
+    <span class="zh">我如何与 Agent 协作</span>
+  </h1>
+  <div class="meta">作者：Thorsten Ball · 原文：<a href="https://x.com/thorstenball/status/2114386050638336082">https://x.com/thorstenball/status/2114386050638336082</a> · 中英双语对照 · 译文供个人阅读参考</div>
+</header>
+
+<p class="en">... as of October 2026.</p>
+<p class="zh">……截至 2026 年 10 月。</p>
+
+<img src="https://pbs.twimg.com/media/HVfOvcmXkAAhUhz.jpg" referrerpolicy="no-referrer" alt="封面图">
+
+<p class="en"><strong>Use the latest and greatest models.</strong> Everything else is potentially a waste of time. If a model is wrong 10% of the time, you don't know which 10%, so you end up making multiple attempts. When do you really want to hire a generalist who's 50% cheaper but also randomly 20% dumber? Who's still using Opus 4.5? Exactly.</p>
+<p class="zh"><strong>用最新最强的模型。</strong>其他一切都可能是在浪费时间。如果一个模型有 10% 的概率出错，你并不知道是哪 10%，于是只能反复尝试。你什么时候会真想雇一个便宜 50%、但又随机变笨 20% 的通才？现在还有谁在用 Opus 4.5？就是这个道理。</p>
+
+<p class="en"><strong>Stop worrying about accumulating slop.</strong> "It'll turn your codebase into an unmaintainable mess." Maybe that was true six months ago. Now? I'm not convinced it adds slop. And even if it does, I'm not convinced the result is unmaintainable.</p>
+<p class="zh"><strong>别再担心堆积 slop（低质代码）。</strong>「它会把你的代码库变成无法维护的烂摊子。」半年前也许如此。现在呢？我不信它真会增加 slop。就算会，我也不信结果就无法维护。</p>
+
+<p class="en"><strong>Prompt the What, not the How.</strong> Describe What you want, now How you'd do it. You'll often get better results. "Make the bytecode compiler and VM AS FAST AS YOU CAN. Do not stop until it's 2x faster." "Here's how it should work in the end"</p>
+<p class="zh"><strong>提示要写「做什么」，而不是「怎么做」。</strong>描述你想要什么，而不是你会怎么实现。往往能得到更好的结果。「把字节码编译器和 VM 做到你能做到的最快。不到快两倍不要停。」「这是它最终应该怎么运作的样子。」</p>
+
+<p class="en"><strong>Make the whole SDLC legible to the agent.</strong> What stopped hallucinations? Tool calls. They let agents touch our reality. If the agent can't see something, it makes it up. So let it run what it builds end to end, let it read production logs, deploy, watch the rollout, cut the release, flip the flag, triage the bug report and email the customer. Anything you can see, the agent should see too.</p>
+<p class="zh"><strong>让整个 SDLC（软件开发生命周期）对 agent 可读。</strong>是什么止住了幻觉？工具调用。它们让 agent 能触碰我们的现实。agent 看不到的东西，它就会编。所以让它端到端地运行自己造出来的东西，让它读生产日志、部署、盯着灰度发布、切版本、翻 feature flag、分诊 bug 报告、给客户发邮件。你能看到的一切，agent 也应该能看到。</p>
+
+<p class="en"><strong>Give it tools for the SDLC.</strong> We have custom plugins for bug reports, emailing users, "Is our system healthy?" and granting featuer flags.</p>
+<p class="zh"><strong>给它配套 SDLC 的工具。</strong>我们有自定义插件，用来处理 bug 报告、给用户发邮件、回答「我们的系统健康吗？」以及发放 feature flag。</p>
+
+<p class="en"><strong>Eval agentic knowledge.</strong> Knowledge piles up in the codebase: AGENTS.md files, skills, scripts, docs. But do agents actually use it? Spawn five blind agents, control vs. treatment, and find out. Agents are really, really good at running experiments.</p>
+<p class="zh"><strong>给 agent 的知识做 eval。</strong>知识在代码库里越堆越多：AGENTS.md 文件、skill、脚本、文档。但 agent 真的用到了吗？开五个「盲」agent，对照组对实验组，一测便知。agent 特别特别擅长跑实验。</p>
+
+<p class="en"><strong>Local dev feels yucky now.</strong> Each agent should be able to install and run whatever it needs to get job done. Easy in remote machines, yucky in local dev. Hard to not run into resource conflicts locally when you want agents testing stuff end to end.</p>
+<p class="zh"><strong>本地开发现在让人嫌弃。</strong>每个 agent 都应该能自行安装和运行它完成任务所需的任何东西。在远程机器上很容易，在本地开发里就恶心。当你想让多个 agent 端到端地测东西时，在本地很难不撞上资源冲突。</p>
+
+<p class="en"><strong>Don't iterate with the agent. Let it build tools to iterate.</strong> Not "let's try this. ... ah no, let's try that." Instead: "Generate 20 variations and a little page that lets me combine and test them." Not only applies to solution space, but also problem space: "Give me 4 theories on why this is slow, then check all four."</p>
+<p class="zh"><strong>别跟着 agent 一起迭代，让它造工具来迭代。</strong>不是「试试这个……啊不行，再试那个」。而是：「生成 20 个变体，再做一个小页面让我把它们组合起来测试。」这不只适用于解空间，也适用于问题空间：「给我 4 个关于它为什么慢的理论，然后四个都去验一遍。」</p>
+
+<p class="en"><strong>Ask for irrefutable proof.</strong> Biggest game changer. Agents are really good at producing proof: end-to-end walkthroughs, demo videos, before/after numbers. You have to build up trust and an instinct for this. Put "this is not evidence" in your AGENTS.md.</p>
+<p class="zh"><strong>要求拿出无可辩驳的证据。</strong>最大的转折点。agent 很擅长产出证据：端到端的演练、演示视频、前后对比数字。你得慢慢建立起信任和这方面的直觉。把「这不算证据」写进你的 AGENTS.md。</p>
+
+<p class="en"><strong>Don't wait for your agents.</strong> Let them wait on you. If you worry about TTFT, you're probably doing something wrong. Lean into async. Give them bigger tasks, be more ambitous. Batch instead of back and forth.</p>
+<p class="zh"><strong>别等你的 agent。</strong>让它们等你。如果你在意 TTFT（首个 token 的延迟），那你多半哪里做错了。拥抱异步。给它们更大的任务，野心更大一点。批量处理，而不是来回拉扯。</p>
+
+<p class="en"><strong>Automation/schedules/wake-up/heartbeat are killer feature.</strong> Didn't realize it, but missed it dearly once it was off. Use it all the time. "Check the logs in 2hrs." "Let me know once this is live" "Check every day at 9am".</p>
+<p class="zh"><strong>自动化 / 定时 / 唤醒 / 心跳是杀手级功能。</strong>本来没意识到，可一旦关掉就无比想念。我一直在用。「2 小时后查一下日志。」「上线了告诉我一声。」「每天早上 9 点查一次。」</p>
+
+<p class="en"><strong>Stop manually managing context.</strong> Every thought you spend wondering about "is it using 300k or 380k tokens?" is wasted time. Compaction works incredibly well. Don't manage context by hand. One thread = one task. Some threads are 46 messages, some are 3,714.</p>
+<p class="zh"><strong>别再手动管理上下文。</strong>你每一次琢磨「它现在用了 300k 还是 380k token？」都是浪费时间。压缩（compaction）效果好得惊人。别用手去管上下文。一个线程 = 一个任务。有的线程 46 条消息，有的 3714 条。</p>
+
+<p class="en"><strong>Threads are your company memory.</strong> (In Amp) "Why did we do this?" The more team uses Amp the more knowledge multiplies. Threads are connected to git commits. Game changer. Avoids duplicate work.</p>
+<p class="zh"><strong>线程就是你公司的记忆。</strong>（在 Amp 里）「我们当初为什么这么做？」团队越是用 Amp，知识就越是成倍增长。线程和 git commit 相连。重大转折。避免重复劳动。</p>
+
+<p class="en"><strong>Don't let agents write for humans.</strong> Except: debugging steps, inicident reports, some docs. Mechanical stuff where human on other end doesn't matter that much.</p>
+<p class="zh"><strong>别让 agent 替你写给人看的东西。</strong>例外：调试步骤、事故报告、部分文档。那些机械性的、另一头是谁没那么要紧的内容。</p>
+
+<p class="en"><strong>Review only code with high blast radius.</strong> There are &lt;5 central files -- those I review. Database migrations, yes. Closure vs. class, a neater type, variable names, even duplication: I don't care anymore. Does it work? Do I understand it at the arrows-in-a-diagram level? Did the agent test it end to end? Can I change it in a month? If yes, might review code.</p>
+<p class="zh"><strong>只审查「影响面大」的代码。</strong>核心文件不到 5 个——那些我才看。数据库迁移，要看。闭包还是类、类型写得更漂亮、变量名、甚至重复代码：我都不在乎了。它能跑吗？我能在「框图里箭头」那个层面看懂它吗？agent 端到端地测过了吗？一个月后我还能改动它吗？如果都是，那也许会审一下代码。</p>
+
+<p class="note">中译供个人阅读参考，如与原文有出入以原文为准。</p>
+
+</body>
+</html>
