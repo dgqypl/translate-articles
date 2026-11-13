@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Becoming a Better Writer · 双语</title>
+<style>
+  :root { color-scheme: light; }
+  body {
+    max-width: 760px; margin: 40px auto; padding: 0 20px 80px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    color: #1a1a1a; background: #fafafa; line-height: 1.65;
+  }
+  header { border-bottom: 1px solid #e5e5e5; padding-bottom: 24px; margin-bottom: 32px; }
+  h1.title { font-size: 30px; margin: 0 0 8px; line-height: 1.3; }
+  h1.title .zh { display:block; font-size:22px; color:#555; font-weight:600; margin-top:6px; }
+  .meta { color: #666; font-size: 14px; }
+  h2 { font-size: 22px; margin: 36px 0 10px; border-left: 4px solid #d97757; padding-left: 12px; }
+  h2 .zh { display:block; font-size:17px; color:#555; margin-top:2px; }
+  h3 { font-size: 18px; margin: 28px 0 8px; color:#333; }
+  h3 .zh { display:block; font-size:15px; color:#666; font-weight:600; margin-top:2px; }
+  p.en { margin: 14px 0 4px; color: #222; }
+  p.zh {
+    margin: 0 0 18px; padding: 8px 12px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    color: #0f1419; font-size: 15.5px;
+  }
+  ul.en { margin: 8px 0 4px 22px; }
+  ul.zh {
+    margin: 0 0 18px; padding: 8px 12px 8px 34px;
+    background: #fff; border-left: 3px solid #1d9bf0; border-radius: 3px;
+    font-size: 15.5px;
+  }
+  .prompt-en { font-style: italic; color: #444; background: #f0efe9; padding: 10px 14px; border-radius: 4px; margin: 10px 0 4px; }
+  .prompt-zh { padding: 10px 14px; background: #eef7ff; border-left: 3px solid #1d9bf0; border-radius: 4px; margin: 0 0 18px; }
+  em, i { color: #b4531a; font-style: italic; }
+  strong { color: #000; }
+  code { background: #eee; padding: 1px 6px; border-radius: 3px; font-size: 90%; }
+  pre { background: #f4f4f4; padding: 12px 14px; border-radius: 4px; overflow-x: auto; }
+  pre code { background: transparent; padding: 0; }
+  a { color: #1d9bf0; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  blockquote { border-left: 3px solid #ccc; margin: 12px 0; padding: 4px 14px; color: #555; }
+  blockquote .zh { display:block; margin-top:8px; color:#0f1419; }
+  img { max-width: 100%; height: auto; display: block; margin: 16px 0; }
+  figcaption { font-size: 13px; color: #888; text-align: center; margin: -8px 0 16px; }
+  .note { font-size:12px; color:#999; margin-top:60px; text-align:center; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 class="title">
+    Becoming a Better Writer
+    <span class="zh">成为更好的写作者</span>
+  </h1>
+  <div class="meta">作者：Gergely Orosz（The Pragmatic Engineer） · 原文：<a href="https://newsletter.pragmaticengineer.com/p/becoming-a-better-writer">https://newsletter.pragmaticengineer.com/p/becoming-a-better-writer</a> · 中英双语对照 · 译文供个人阅读参考</div>
+</header>
+
+<p class="en">The following was a paid article until Oct 2026, when I made it free. Engineers writing about their own experiences and learnings is great for our industry, I just see less of this happening, at least without AI. I hope this article is helpful with tactics and examples.</p>
+<p class="zh">下面这篇文章在 2026 年 10 月之前是付费内容，之后我把它设为免费。工程师把自己的经历和心得写下来，对我们这个行业很有价值，只是我见到这样做的人越来越少了，至少在不借助 AI 的情况下是如此。希望这篇文章能用具体的方法和例子帮到你。</p>
+
+<blockquote>
+Q: I've observed that my writing is not up to par with my peers. How can I improve my professional writing, as someone working in tech?
+<span class="zh">问：我发现自己的写作水平比不上同事。作为一个在科技行业工作的人，我该怎么提升职场写作能力？</span>
+</blockquote>
+
+<p class="en">I get this question from many people: senior engineers who realize they need to level up their writing if they are to grow to a staff position, engineering managers who feel they are not at the same level as their peers in expressing their expertise and thoughts, and even product managers who feel they write less efficiently than they want to.</p>
+<p class="zh">很多人问过我这个问题：有意识到自己想晋升到 staff 级别就必须提升写作的资深工程师，有觉得自己在表达专业见解和想法上不如同侪的工程经理，甚至还有觉得自己写东西不够高效的产品经理。</p>
+
+<p class="en">In this issue we cover:</p>
+<p class="zh">这一期我们会讲：</p>
+
+<ul class="en">
+<li>The importance of writing for software engineers, engineering managers, and executives.</li>
+<li>The process of writing well. Editing approaches to make your writing crisper. Getting feedback on your writing.</li>
+<li>Improving how you write. Observing and copying great writing. Habits to build your writing muscle. Continuous learning: books, and tools to boost your writing.</li>
+</ul>
+<ul class="zh">
+<li>写作对软件工程师、工程经理和高管为什么重要。</li>
+<li>写好文章的流程。让文字更简洁的编辑方法。如何获取对文章的反馈。</li>
+<li>如何提升你的写作。观察并模仿优秀的写作。锻炼写作肌肉的习惯。持续学习：帮你提升写作的书和工具。</li>
+</ul>
+
+<img referrerpolicy="no-referrer" src="https://substackcdn.com/image/fetch/$s_!Vm4Y!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F4b169a31-7288-4533-8d44-3dd5f74cd719_1592x1002.png">
+
+<p class="en">The below article has recommendations for various paid products. As per my ethics policy, I have not been paid to recommend any of these, and no links are affiliate ones.</p>
+<p class="zh">下文推荐了几款付费产品。按照我的操守原则，我没有收取任何推荐费用，文中也没有任何联盟推广链接。</p>
+
+<p class="en">Also, if you'd like to get more tactical advice on writing better, as a software engineer, I wholeheartedly recommend getting and utilizing the book Writing for Developers by Piotr Sarna and Cynthia Dunlop.</p>
+<p class="zh">另外，如果你是软件工程师，想要更多关于如何写得更好的实操建议，我诚心推荐去读一读 Piotr Sarna 和 Cynthia Dunlop 合著的《Writing for Developers》并加以运用。</p>
+
+<h2>Why is writing important?<span class="zh">写作为什么重要？</span></h2>
+
+<p class="en">With remote work and distributed teams becoming more common, strong writing skills are a baseline for most engineering leadership positions. In fact, writing is becoming so important that companies like Amazon start their engineering manager screening process with a writing exercise, as I covered in the issue Hiring Engineering Managers. Other companies that have writing exercises during the interview process include Stripe – for Staff+ engineers – and TrueLayer, for principal engineers.</p>
+<p class="zh">随着远程办公和分布式团队越来越普遍，过硬的写作能力已经是大多数工程管理岗位的基本门槛。实际上，写作重要到像 Amazon 这样的公司会把写作练习放在工程经理筛选流程的第一步，我在《Hiring Engineering Managers》那一期里讲过这件事。其他在面试流程中设置写作练习的公司还包括 Stripe（针对 Staff+ 级别工程师）和 TrueLayer（针对 principal 级别工程师）。</p>
+
+<p class="en">If you are a software engineer at a high-growth startup or Big Tech, the chances are you write more words per day than you write code. Everyday writing includes:</p>
+<p class="zh">如果你是高速成长的创业公司或大厂里的软件工程师，那你每天写的字数很可能比写的代码还多。日常写作包括：</p>
+
+<ul class="en">
+<li>Commit summaries.</li>
+<li>Code review comments.</li>
+<li>Chat messages.</li>
+<li>Emails.</li>
+<li>Engineering planning documents.</li>
+<li>Comments on proposals, Project Requirement Documents (PRDs) or engineering planning documents.</li>
+<li>Postmortems.</li>
+<li>Performance reviews: peer reviews, self reviews and promotion documents.</li>
+</ul>
+<ul class="zh">
+<li>commit 说明。</li>
+<li>code review 评论。</li>
+<li>聊天消息。</li>
+<li>邮件。</li>
+<li>工程规划文档。</li>
+<li>对提案、产品需求文档（PRD）或工程规划文档的评论。</li>
+<li>复盘报告（postmortem）。</li>
+<li>绩效评估：同侪评价、自评和晋升材料。</li>
+</ul>
+
+<p class="en">If you're an engineering manager, a tech lead or a staff engineer, then you'll likely be writing even more of these:</p>
+<p class="zh">如果你是工程经理、技术负责人或 staff 工程师，那你要写的这类东西大概还会更多：</p>
+
+<ul class="en">
+<li>Emails and chat messages.</li>
+<li>Meeting agendas and meeting summaries.</li>
+<li>Proposals for projects, headcounts.</li>
+<li>Status update emails and documents for projects.</li>
+<li>Presentations.</li>
+</ul>
+<ul class="zh">
+<li>邮件和聊天消息。</li>
+<li>会议议程和会议纪要。</li>
+<li>项目立项、招人名额的提案。</li>
+<li>项目进度更新的邮件和文档。</li>
+<li>演示文稿。</li>
+</ul>
+
+<p class="en">Crisp writing can help accelerate your professional career. As I wrote in the article Undervalued software engineering skills: writing well:</p>
+<p class="zh">简洁利落的文字能加速你的职业发展。正如我在《Undervalued software engineering skills: writing well》一文里写的：</p>
+
+<blockquote>
+"It is at a larger organisation that writing becomes critical because messages reach a bigger audience. For software engineers, writing becomes the tool to reach, converse with and influence engineers and teams outside their immediate peer group. Writing becomes essential to make thoughts, tradeoffs and decisions durable. Writing things down makes these thoughts available for a wide range of people to read. Things that should be made durable can include proposals and decisions, coding guidelines, best practices, learnings, runbooks, debugging guides, postmortems. Even code reviews. For people to read what you write, it needs to be written well. If you grab people's attention early on, they will keep reading and receive the message you intend to get across. More of them will respond to it and do so with fewer misunderstandings of what you meant. By writing well, you can scale your ability to communicate efficiently to multiple teams, to an organisation or across the whole company. And the ability to communicate and influence beyond your immediate team is the essential skill for engineers growing in seniority; from senior engineer to what organizations might call lead, principle, staff or distinguished engineer."
+<span class="zh">"正是在更大的组织里，写作才变得至关重要，因为信息会触达更多的人。对软件工程师来说，写作是触达、交流并影响身边小圈子之外的工程师和团队的工具。要让想法、取舍和决策沉淀下来，写作不可或缺。把东西写下来，这些想法就能被更多人读到。应当沉淀下来的东西包括：提案与决策、编码规范、最佳实践、经验心得、操作手册（runbook）、调试指南、复盘报告，甚至 code review。要让别人愿意读你写的东西，就得写得好。如果你一开始就抓住了读者的注意力，他们就会读下去，并接收到你想传达的信息。会有更多人回应它，而且对你本意的误解会更少。写得好，你就能把高效沟通的能力扩展到多个团队、整个组织乃至全公司。而超越身边团队去沟通和施加影响的能力，正是工程师随着资历成长所需的核心技能——从资深工程师，成长为组织里所谓的 lead、principal、staff 或 distinguished 工程师。"</span>
+</blockquote>
+
+<p class="en">The greater the influence of your position, the more people your writing will reach. In senior leadership positions, writing skills are yet more important. Engineering leaders who are also prolific writers include Andrew 'Boz' Bosworth the future CTO of Meta, Michael Lopp, formerly VP of Engineering at Slack, Will Larson, CTO of Calm and Steven Sinofsky, former head of Microsoft's Windows division. As Steven Sinofsky writes in the article Writing is Thinking:</p>
+<p class="zh">你所处岗位的影响力越大，你的文字触达的人就越多。在高级领导岗位上，写作能力更是重要。既是工程领导者、又笔耕不辍的人包括：Meta 未来的 CTO Andrew "Boz" Bosworth，曾任 Slack 工程副总裁的 Michael Lopp，Calm 的 CTO Will Larson，以及曾执掌微软 Windows 部门的 Steven Sinofsky。正如 Steven Sinofsky 在《Writing is Thinking》一文中所写：</p>
+
+<blockquote>
+"Writing (and reading) really helps people if they are remote, if there is not a shared native language, or both. Writing can be difficult for some, for sure. That is why it is important to focus on the function, not the form. Don't be afraid to help people (especially as a manager) through the process of the "basics" of writing."
+<span class="zh">"写作（以及阅读）对那些远程工作、没有共通母语、或两者皆是的人确实帮助很大。对有些人来说，写作当然不容易。正因如此，关注功能而非形式才如此重要。别害怕（尤其作为管理者）去帮别人走通写作'基本功'的过程。"</span>
+</blockquote>
+
+<h2>The Process of Writing Well<span class="zh">写好文章的流程</span></h2>
+
+<img referrerpolicy="no-referrer" src="https://substackcdn.com/image/fetch/$s_!i2SC!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F23d1a0a5-4b9c-4c6b-ac64-0920c7c39347_1454x882.png">
+
+<p class="en">When you read a piece of well-written content, know that several steps happened behind the scenes:</p>
+<p class="zh">当你读到一篇写得好的内容时，要知道背后经历了好几个步骤：</p>
+
+<ul class="en">
+<li>Writing: a first draft was written. This draft captured most of the ideas and content seen in the final version.</li>
+<li>Editing: the piece was edited for readability and ease of understanding.</li>
+<li>Getting feedback: others might have given feedback, resulting in content changes and more editing.</li>
+</ul>
+<ul class="zh">
+<li>写作：先写出初稿。这份初稿就已经囊括了最终版里的大部分想法和内容。</li>
+<li>编辑：为了可读性和易懂，对文稿做了编辑。</li>
+<li>获取反馈：别人可能给了反馈，于是内容有所调整、又经过了更多编辑。</li>
+</ul>
+
+<h3>Editing Approaches<span class="zh">编辑的方法</span></h3>
+
+<p class="en">When you write a first version of anything – from an unsent chat message all the way to a pages-long document – it's in its draft stage. You have captured the content. However, to make the message as clear to readers as it is to you, the writer, you'll probably want to edit it.</p>
+<p class="zh">当你写下任何东西的第一个版本时——小到一条还没发出去的聊天消息，大到好几页长的文档——它都还处在草稿阶段。你已经把内容记下来了。但要让读者读起来和你这个写作者一样清楚，你很可能需要对它做编辑。</p>
+
+<p class="en">Re-reading your writing by putting yourself in the recipient's shoes is the first step in editing. Before you send a chat message, re-read it, and imagine how the person on the other side will interpret it. Is the tone right? Are the contents accurate? Are you sharing the context?</p>
+<p class="zh">站在收信人的角度重读自己写的东西，是编辑的第一步。在发出一条聊天消息前，重读一遍，想象对面的人会怎么理解它。语气对吗？内容准确吗？你有没有把背景交代清楚？</p>
+
+<p class="en">Anything beyond a sentence or two will raise questions on the structure of your writing. How easy is it to follow? For longer writing, will your target audience have any incentive to read the whole text?</p>
+<p class="zh">任何超过一两句话的内容，都会引出关于文章结构的问题。读起来好跟吗？对于更长的文章，你的目标读者有动力把全文读完吗？</p>
+
+<p class="en">Common editing approaches for any writing longer than a few paragraphs are these:</p>
+<p class="zh">对于任何超过几段的文章，常见的编辑方法有这些：</p>
+
+<p class="en"><strong>1. Break it into readable chunks.</strong> Avoid an off-putting wall of text that will make most readers lose interest in reading it. Use paragraphs of a few sentences each, where each paragraph conveys one thought.</p>
+<p class="zh"><strong>1. 拆成易读的小块。</strong>避免令人望而生畏的大段文字墙，它会让大多数读者失去读下去的兴趣。每段用几句话，每段只传达一个想法。</p>
+
+<p class="en">Take the medium you use into account. If you are writing emails that could be read on phones, consider making your paragraphs shorter, so one paragraph won't take up the whole screen. If you are writing a Google Doc that most of your readers will view on their laptops, longer paragraphs are fine.</p>
+<p class="zh">把你用的载体考虑进去。如果你写的邮件可能会在手机上看，就考虑把段落写短些，这样一段不会占满整个屏幕。如果你写的是 Google Doc、大多数读者会在笔记本上看，那段落长一点也没关系。</p>
+
+<p class="en"><strong>2. Remove unnecessary and distracting elements.</strong> The longer your writing, the more tiring it is for readers to process.</p>
+<p class="zh"><strong>2. 删掉不必要、分散注意力的内容。</strong>文章越长，读者处理起来就越累。</p>
+
+<p class="en">It's no coincidence that companies with strong writing cultures like Amazon are strict in limiting all project proposals to a six-pager, often preferring one-page summaries. As I wrote about Amazon's planning process in the article Preparing for the annual or biannual planning:</p>
+<p class="zh">像 Amazon 这种有着浓厚写作文化的公司，会严格把所有项目提案限制在六页以内、往往更偏爱一页纸的摘要，这并非偶然。我在《Preparing for the annual or biannual planning》一文里写过 Amazon 的规划流程：</p>
+
+<blockquote>
+"Writing a relatively short planning document – where the length is capped at six pages – in practice often takes significantly more time than one that would not have a length limit. Because of the length limit, every paragraph is valuable. Those writing this document will put in lots of work to cut the unnecessary parts and make the content crisp and easy to read."
+<span class="zh">"写一份相对简短、篇幅被限制在六页以内的规划文档，实际上往往比写一份没有篇幅限制的要花费多得多的时间。正因为有篇幅限制，每一段都变得宝贵。写这份文档的人会下很大功夫去砍掉多余的部分，让内容利落、易读。"</span>
+</blockquote>
+
+<p class="en">While writing clearly takes effort, writing clearly and concisely is even more effort. As French philosopher and mathematician Blaise Pascal famously wrote in one of his letters:</p>
+<p class="zh">写得清楚本就费劲，而既清楚又简洁则更费劲。正如法国哲学家、数学家布莱兹·帕斯卡（Blaise Pascal）在一封信里那句名言：</p>
+
+<p class="en">"I would have written a shorter letter, but I did not have the time."</p>
+<p class="zh">"我本想写一封更短的信，可惜没有时间。"</p>
+
+<p class="en">Remove filler text that distracts from your message. For example, when writing emails, some people try to be polite by adding things like "[I probably don't yet fully understand the thought process here and I apologize in advance but] could you please explain why…?" Practice polite, but to-the-point writing in these cases. You can often shorten your message without taking away from the tone and meaning.</p>
+<p class="zh">删掉分散主旨的填充文字。比如写邮件时，有些人为了显得客气会加上一堆话："[我可能还没完全理解这里的思路，提前说声抱歉，但是]能请你解释一下为什么……吗？"这种情况下，练习既客气又直截了当的写法。你往往可以在不损失语气和含义的前提下把消息写短。</p>
+
+<p class="en"><strong>3. Use shorter sentences.</strong> The longer a sentence, the harder it is to follow for your readers. Longer sentences can also become confusing as the clauses pile up. I recommend using Hemingway Editor to highlight parts that can be broken down.</p>
+<p class="zh"><strong>3. 用更短的句子。</strong>句子越长，读者越难跟上。随着从句不断堆叠，长句也会变得令人困惑。我推荐用 Hemingway Editor 来标出那些可以拆分的部分。</p>
+
+<img referrerpolicy="no-referrer" src="https://substackcdn.com/image/fetch/$s_!zYmM!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F4356186f-ee17-449f-bb16-161db34e8d5d_1048x518.png">
+<figcaption>Hemingway Editor 能帮你检测难读的句子、过于复杂的措辞，以及可以删掉的副词。这个工具在网页端免费使用，Mac 或 Windows 桌面版则是一次性支付 20 美元。</figcaption>
+
+<p class="en"><strong>4. Check grammar.</strong> Faulty grammar will leave the reader second-guessing and cause confusion. I use Grammarly (I pay for it), and it's a tool I can recommend, and one you could consider expensing at work – assuming you'll use it day-to-day.</p>
+<p class="zh"><strong>4. 检查语法。</strong>语法有误会让读者犯嘀咕、造成困惑。我用的是 Grammarly（付费版），这个工具我可以推荐，你也可以考虑在公司报销它——前提是你会天天用。</p>
+
+<img referrerpolicy="no-referrer" src="https://substackcdn.com/image/fetch/$s_!I3r1!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F63bb3492-9983-42d0-94c5-9cda565e7362_1056x536.png">
+<figcaption>Grammarly 能提升语法正确性、文字清晰度，并让你的文章保持可读性。</figcaption>
+
+<p class="en"><strong>5. Use bullet points or numbering where they make sense.</strong> Bulleted lists are a good way to present several points. They can be used:</p>
+<p class="zh"><strong>5. 在合适的地方用项目符号或编号。</strong>项目符号列表是呈现多个要点的好方式。它们可以用在：</p>
+
+<ul class="en">
+<li>In emails, proposals, tickets: almost every form of writing you'll be doing day-to-day.</li>
+<li>To organize your thoughts. If the individual bullet points become too long, consider combining them in a paragraph.</li>
+<li>To list related items in a way that's easier for the reader to go through than writing paragraphs, just like this example of a bullet point list.</li>
+</ul>
+<ul class="zh">
+<li>邮件、提案、工单：几乎你每天会写的每一种形式。</li>
+<li>用来理清你的思路。如果单个条目变得太长，就考虑把它们合并成一段。</li>
+<li>用一种比写成段落更便于读者浏览的方式列出相关的若干项，就像这个项目符号列表本身的例子。</li>
+</ul>
+
+<p class="en">Numbering is another tool you can use in longer documents. This list of six editing techniques is an example where bullet points would not work well, as each point consists of multiple paragraphs. However, by using numbering, the reader can keep track of where we are.</p>
+<p class="zh">编号是你在较长文档里可以用的另一个工具。这份关于六种编辑技巧的列表就是一个项目符号不太好用的例子，因为每一条都包含好几段。但用编号，读者就能随时知道我们讲到哪儿了。</p>
+
+<p class="en"><strong>6. Use bolding to make documents easy to scan.</strong> Use bold font sparingly so you can save this styling element for key thoughts, takeaways, or asks.</p>
+<p class="zh"><strong>6. 用加粗让文档便于扫读。</strong>节制地使用粗体，把这个样式留给关键想法、要点结论或诉求。</p>
+
+<p class="en">As an additional suggestion, avoid bolding inside sentences like I've just done. It's harder for readers to scan things bolded inside a wall of text. Instead, re-structure your sentences so you can bold the first part of them.</p>
+<p class="zh">附带一个建议：避免像我刚才那样在句子中间加粗。读者很难在大段文字里扫到被加粗的内容。更好的做法是重组句子，让你能加粗句子的开头部分。</p>
+
+<p class="en">You'll notice my newsletter issues use bolding in varying quantities. This is a style I keep iterating on, with the goal of making each newsletter easy enough to scan and find relevant sections.</p>
+<p class="zh">你会注意到我各期 newsletter 里加粗的用量不尽相同。这是我一直在迭代的风格，目的是让每一期都足够便于扫读、便于找到相关章节。</p>
+
+<p class="en"><strong>7. Use visuals, not just words.</strong> With technical documents, a screenshot or a diagram is often worth a thousand words. So use these in the documents you create.</p>
+<p class="zh"><strong>7. 用视觉元素，不要只用文字。</strong>对技术文档来说，一张截图或一张图示往往胜过千言万语。所以在你写的文档里用上它们。</p>
+
+<p class="en">For inspiration, see how Cloudflare explained the reasons behind the 2021 Facebook outage, with strong use of visuals. There is a picture for almost every paragraph of the text. Without these pictures, the summary would have been multiple times longer, and much harder to follow.</p>
+<p class="zh">想找灵感，可以看看 Cloudflare 是如何借助大量视觉元素来解释 2021 年 Facebook 宕机背后原因的。几乎每一段文字都配了一张图。没有这些图，这篇说明的篇幅会是现在的好几倍，也会难懂得多。</p>
+
+<img referrerpolicy="no-referrer" src="https://substackcdn.com/image/fetch/$s_!8v7f!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F681693a3-e0ed-4adf-bae7-6bf1182c1317_1640x1292.png">
+<figcaption>摘自一篇写得很好的 Cloudflare 复盘报告，得益于对图片的良好运用，读起来很好跟。</figcaption>
+
+<p class="en"><strong>8. Value the reader's time more than your own.</strong> The reason for editing your writing is to make it easier for others to digest your thoughts.</p>
+<p class="zh"><strong>8. 把读者的时间看得比你自己的更重。</strong>编辑文章的意义，就在于让别人更容易消化你的想法。</p>
+
+<p class="en">If you're sending a direct message to one person, a quick scan of what you typed should be enough. If the same message is going out to a group chat of 100 people, take a little time to edit it for clarity. And if we're talking about a document read by many people in an organization, then put in the time to make it easier for all those people to read it.</p>
+<p class="zh">如果你是给某一个人发私信，快速扫一眼你打的字就够了。如果同样的消息要发到一个 100 人的群里，就花点时间编辑一下、让它更清楚。而如果说的是一份组织里很多人都会读的文档，那就投入时间，让所有这些人都能读得更轻松。</p>
+
+<p class="en">As former Amazon engineer Curtis Einsmann shares:</p>
+<p class="zh">正如前 Amazon 工程师 Curtis Einsmann 所分享的：</p>
+<!-- 原文此处为一张 Curtis Einsmann 的社交卡片，仅抓到默认头像占位图，正文未呈现其引文，已省略 -->
+
+<h3>Get Feedback<span class="zh">获取反馈</span></h3>
+
+<p class="en">After editing your writing, you might think it's clear and crisp. But will readers agree with your assessment?</p>
+<p class="zh">编辑完文章后，你可能觉得它已经清楚又利落。但读者会同意你的判断吗？</p>
+
+<p class="en">Ask for feedback from colleagues on emails, documents and other writing for which you could use another pair of eyes. A good approach is to share what you wrote in another collaborative editor like Google Docs or similar.</p>
+<p class="zh">对那些你希望有另一双眼睛帮你看看的邮件、文档和其他文字，向同事征求反馈。一个好办法是把你写的东西放到 Google Docs 之类的协作编辑器里分享出去。</p>
+
+<img referrerpolicy="no-referrer" src="https://substackcdn.com/image/fetch/$s_!4DXw!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fc43a309a-743d-415c-8b0b-39a9068d83db_1328x272.png">
+<figcaption>用 Google Docs 做评论和修改建议的例子。带评论和建议功能的协作编辑工具，是异步获取反馈的绝佳方式。</figcaption>
+
+<p class="en">Ask people directed questions when sharing your writing. Most people will be unsure what feedback you're looking for, if you just ask for generic feedback. Ask specific questions that narrow down what help you need. Prompts you could consider include:</p>
+<p class="zh">分享文章时，向别人提有针对性的问题。如果你只是泛泛地求反馈，大多数人并不清楚你想要什么样的反馈。提具体的问题，把你需要的帮助缩小到点上。你可以考虑用这些提问：</p>
+
+<ul class="en">
+<li>"How easy to read did you find this? What is one improvement you'd suggest?"</li>
+<li>"What resonated the most? And what part did you find redundant?"</li>
+<li>"What would you suggest to make the takeaways more clear?"</li>
+<li>"What part of this document was the most confusing?"</li>
+</ul>
+<ul class="zh">
+<li>"你觉得这篇读起来好读吗？你会建议改进的一点是什么？"</li>
+<li>"最能引起你共鸣的是哪部分？又有哪部分你觉得多余？"</li>
+<li>"你会建议怎么把要点讲得更清楚？"</li>
+<li>"这份文档里最让人困惑的是哪部分？"</li>
+</ul>
+
+<p class="en">Consider jumping on a call with your manager when writing an important document. As VP Financial Engineering Chris Henson suggests:</p>
+<p class="zh">写重要文档时，可以考虑和你的经理开个电话会。正如金融工程副总裁 Chris Henson 建议的：</p>
+<!-- 原文此处为一张 Chris Henson 的社交卡片，仅抓到默认头像占位图，正文未呈现其引文，已省略 -->
+
+<p class="en">You might be worried that you'll annoy your colleagues or manager by asking too frequently for feedback on your writing. But in my opinion, almost everyone seeks too little feedback.</p>
+<p class="zh">你可能担心太频繁地就自己的文章征求反馈会惹恼同事或经理。但在我看来，几乎每个人寻求的反馈都太少了。</p>
+
+<p class="en">Just like there's rarely a problem with wanting to do pair programming frequently, there's little harm in asking for feedback on what you write. Make notes of suggestions, and apply those suggestions to your writing next time.</p>
+<p class="zh">就像经常想做结对编程很少会有什么问题一样，就你写的东西征求反馈也几乎没有坏处。把别人的建议记下来，下次写作时用上这些建议。</p>
+
+<p class="en">Hiring an editor is the most expensive way to get feedback, though it can be a high-quality way to do so. The first time I hired an editor was for my first book, The Tech Resume Inside Out. I have since worked with editors for all my books, and Dominic Grover edits my newsletter.</p>
+<p class="zh">雇一位编辑是获取反馈最贵的方式，不过也可能是高质量的方式。我第一次雇编辑是为我的第一本书《The Tech Resume Inside Out》。此后我所有的书都和编辑合作，而 Dominic Grover 负责编辑我的 newsletter。</p>
+
+<p class="en">As hiring an editor is an investment, most people save it for writing that goes out to larger audiences. If you are writing a press release or content that will be published externally, you might be able to justify hiring a copyeditor. If you have the option, I'd suggest going for it.</p>
+<p class="zh">由于雇编辑是一笔投入，大多数人会把它留给那些要面向更大受众的文字。如果你写的是新闻稿或要对外发布的内容，雇一位文字编辑（copyeditor）或许就说得通。如果你有这个选择，我建议去做。</p>
+
+<p class="en">There might already be editors or technical writers at your workplace. If your organization publishes an engineering blog, there's a fair chance they hire copyeditors to review these articles. If this is the case, commit to writing an external-facing post, and ask for editing by one of the in-house or contract professionals.</p>
+<p class="zh">你的公司里可能已经有编辑或技术文档撰稿人。如果你的组织有对外发布的工程博客，那它很有可能雇了文字编辑来审这些文章。若是如此，就主动认领写一篇对外的博文，并请某位内部或外包的专业人士帮你编辑。</p>
+
+<p class="en">There are ways to get professional editing for free: write an article for a publication that provides this editing. This includes writing for publications listed in Who Pays Technical Writers. Some of these titles not only pay a few hundred dollars for an article, but they often provide copyediting.</p>
+<p class="zh">还有一些免费获得专业编辑的途径：给提供编辑服务的刊物投稿。这包括给 Who Pays Technical Writers 上列出的那些刊物写稿。其中有些不仅会为一篇文章支付几百美元，还常常会提供文字编辑服务。</p>
+
+<p class="en">Relying on automated writing tools for feedback can dramatically improve the readability of your writing. This is true for both Hemingway Editor and Grammarly, as well as others.</p>
+<p class="zh">依靠自动化写作工具来获取反馈，能大幅提升你文章的可读性。Hemingway Editor 和 Grammarly 以及其他同类工具都是如此。</p>
+
+<p class="en">However, these tools will occasionally give suggestions that are either incorrect, or don't fit your style. Don't accept suggestions you disagree with, or ones you feel leave your writing in a worse state.</p>
+<p class="zh">不过，这些工具偶尔会给出要么不正确、要么不合你风格的建议。不要接受你不认同的建议，或你觉得会让文章变得更糟的建议。</p>
+
+<p class="en">The more confident you become with your style, the more suggestions you will ignore which the tool makes. In my case, I have learned which suggestions and rules to always ignore, which ones to consider based on the context, and which ones to accept and incorporate into my writing.</p>
+<p class="zh">你对自己的风格越有自信，就会越多地无视工具给出的建议。就我而言，我已经摸清了哪些建议和规则一律忽略、哪些视上下文而定、哪些接受并融入自己的写作。</p>
+
+<h2>Improving How You Write<span class="zh">提升你的写作方式</span></h2>
+
+<p class="en">There are several ways to improve your writing skills. Let's go through them.</p>
+<p class="zh">提升写作能力有好几种办法。我们逐一来看。</p>
+
+<img referrerpolicy="no-referrer" src="https://substackcdn.com/image/fetch/$s_!mWog!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2Fff00f9f1-4007-4df0-b8d7-0d82456832f3_1674x912.png">
+
+<h3>Observe and Copy Great Writing<span class="zh">观察并模仿优秀的写作</span></h3>
+
+<p class="en">What does great writing look like? Chances are, you already know. But have you paid conscious attention to it? Here are ways to be more deliberate in observing, saving and copying the ingredients of great writing.</p>
+<p class="zh">优秀的写作是什么样的？你很可能已经知道了。但你有没有有意识地去留意它？下面是一些方法，帮你更刻意地去观察、收藏并模仿优秀写作的各种要素。</p>
+
+<p class="en">Read fiction and find books you cannot put down, which you read every sentence of. Then revisit those books and analyse their style. How are sentences written? What made you want to read more and not skip ahead?</p>
+<p class="zh">读小说，找那些你放不下手、每一句都读的书。然后重新翻看这些书，分析它们的文风。句子是怎么写的？是什么让你想一直读下去、而不是跳着往前翻？</p>
+
+<p class="en">People pick up nonfiction writing because they want to learn something. It's because of this that nonfiction that is written poorly might still become popular.</p>
+<p class="zh">人们拿起非虚构作品，是因为想学点什么。正因如此，写得糟糕的非虚构仍然可能流行。</p>
+
+<p class="en">However, fiction needs to draw people in to read more. Good fiction uses a variety of techniques, including storytelling style, varying the length and rhythm of sentences and paragraphs, and many other elements.</p>
+<p class="zh">但小说必须把人吸引住、让人读下去。好的小说会用上多种技巧，包括叙事风格、让句子和段落的长短与节奏富于变化，以及许多其他元素。</p>
+
+<p class="en">But reading fiction won't make you a better writer by itself. However, finding great fiction will expose you to great writing which you willingly consume. I still frequently end my day picking up a novel, reading for up to an hour before bed.</p>
+<p class="zh">但光读小说本身不会让你成为更好的写作者。不过，找到出色的小说，会让你在心甘情愿阅读的过程中接触到优秀的写作。我至今仍常常在一天结束时拿起一本小说，睡前读上近一个小时。</p>
+
+<p class="en">Find and save some of the best professional writing you come across at work and outside work. Collect a few of the best-written examples of:</p>
+<p class="zh">把你在工作中和工作外遇到的一些最好的职场写作找出来、保存下来。收集几个写得最好的例子，涵盖：</p>
+
+<ul class="en">
+<li>Emails: Project status reports. Project launch announcements. Welcoming a new joiner. Organization-wide announcements. End-of-year summary.</li>
+<li>Engineering planning documents or proposals that are informative. Look for not just great writing, but great use of diagrams.</li>
+<li>Postmortems that are to the point.</li>
+<li>Product specifications like PRDs or other product planning documents that are easy to understand.</li>
+<li>Tickets defining work well.</li>
+<li>Discussion threads that are concise and to the point.</li>
+</ul>
+<ul class="zh">
+<li>邮件：项目进度报告、项目发布公告、欢迎新人、全组织范围的公告、年终总结。</li>
+<li>信息量充足的工程规划文档或提案。不光找文字写得好的，也找图示用得好的。</li>
+<li>切中要害的复盘报告。</li>
+<li>像 PRD 这样容易看懂的产品规格说明或其他产品规划文档。</li>
+<li>把工作定义得清楚的工单。</li>
+<li>简洁、切题的讨论串。</li>
+</ul>
+
+<p class="en">Analyze these written artifacts. What characteristics made them good to read?</p>
+<p class="zh">分析这些书面成品。是哪些特质让它们读起来舒服？</p>
+
+<p class="en">Use some of these artifacts as templates to copy from the next time you write something similar. For example, if you plan to put together an engineering proposal, copy the style of the proposal that resonated most with you. After you write your document, compare it with the inspiring one and aim to make yours equally clear as it.</p>
+<p class="zh">下次写类似的东西时，把其中一些成品当作模板来照着写。比如，如果你打算攒一份工程提案，就模仿最能打动你的那份提案的风格。写完你的文档后，拿它和那份给你灵感的对照，争取让你的写得和它一样清楚。</p>
+
+<h3>Build Writing Habits<span class="zh">养成写作习惯</span></h3>
+
+<p class="en">We've covered the theory of improving your professional writing. However, the only meaningful way to improve is to put all of the above into practice, then rinse and repeat.</p>
+<p class="zh">我们已经讲完了提升职场写作的理论。然而，唯一有意义的提升方式，就是把上面这一切付诸实践，然后反复练习。</p>
+
+<p class="en">Teach yourself touch typing if you do not yet type without looking. Until typing on the keyboard is seamless, you'll likely write less and slower, than when you can type without looking at the keys, and do it fast enough to not break your stream of thought. You can find countless courses online that help master this technique.</p>
+<p class="zh">如果你还不会盲打，就自学盲打。在打字还做不到行云流水之前，比起那种不用看键盘、而且快到不会打断思路的状态，你写得很可能又少又慢。网上能找到数不清的课程帮你掌握这项技能。</p>
+
+<p class="en">Put writing habits in place. Repeat activities where you make time for editing and getting feedback. These are efficient ways to improve your writing with deliberate practice. You'll also want to create the habit of observing great writing, and feed these observations back to your own improvement process.</p>
+<p class="zh">建立起写作习惯。反复去做那些你会专门腾出时间来编辑、获取反馈的事情。这些都是用刻意练习来提升写作的高效方式。你也会想养成观察优秀写作的习惯，并把这些观察反哺到自己的提升过程中。</p>
+
+<p class="en">Define writing activities where you commit to editing and seeking feedback. You write a lot throughout the day, and it's not realistic to add the overhead of an involved editing and feedback-seeking process to every document. However, you should define which existing or new writing activities, you'll pay more attention to.</p>
+<p class="zh">明确哪些写作活动是你会投入编辑和征求反馈的。你一天到晚写很多东西，给每份文档都加上一套繁复的编辑和求反馈流程并不现实。但你应当明确，有哪些现有的或新的写作活动是你要格外用心去对待的。</p>
+
+<p class="en">For example, if you already create lots of long-form writing during your day job, define the most important and most widely-circulated of it. Commit to spending more time editing these documents and ask your manager or a peer for feedback.</p>
+<p class="zh">比如，如果你在日常工作中本就写很多长文，那就挑出其中最重要、传播最广的那些。下决心花更多时间编辑这些文档，并向你的经理或同侪征求反馈。</p>
+
+<p class="en">Below are writing activities that are ideal for following a more involved editing and feedback process:</p>
+<p class="zh">下面这些写作活动，非常适合走一套更投入的编辑与反馈流程：</p>
+
+<ul class="en">
+<li>Start writing weekly 5-15 updates. Spend 15 minutes at the end of each week on a report that can be read in five minutes. Send this out to your manager and a few peers at work. This exercise is an excellent one to do for anyone in an engineering leadership position; I used it with great success. In reality, it will likely take more than 15 minutes to write and edit this report, but over time you'll get better at it.</li>
+<li>A weekly project summary to stakeholders. Are you leading a project at work? If so, start to put together a crisp summary of the overall progress, the risks, and what happened since the last update. Make this update easy to read and take inspiration from the best project update emails and documents you see in the organization. Subscribers have access to a 🔒Project reporting example to use as inspiration.</li>
+<li>Volunteer to take notes at meetings and send out summaries. Taking notes, then spending additional time writing up a crisp summary of decisions made in a meeting, might seem like a thankless task. True, it is time-consuming for you, but it can save time for many others, on top of helping you get better at summarizing.</li>
+<li>Initiative proposals. Do you have an idea for a project you or the team should do? Write up the idea, the problem it solves, the impact, and your ask. Edit it, and ask for feedback to make it more clear, then send it out to the relevant group, asking for comments. A well-written proposal is more likely to get the feedback it needs to succeed, than one that people stop reading midway.</li>
+<li>Design documents. Take time editing and getting feedback on design and planning documents you write. Use visuals to convey information more clearly. Collect great design documents and copy structures that work for them. Ask about tools others used to create easy-to-understand diagrams and images. Tools I recommend using for technical visualization are Excalidraw, Lucidchart and Miro.</li>
+<li>Documentation. For documentation you expect more than one person to read, follow similar advice to when writing design documents.</li>
+</ul>
+<ul class="zh">
+<li>开始写每周的「5-15 更新」。每周末花 15 分钟，写一份五分钟就能读完的报告。把它发给你的经理和几位同事。对任何身处工程领导岗位的人来说，这都是一项极好的练习；我用它取得了很好的效果。实际上，写并编辑这份报告很可能要花不止 15 分钟，但久而久之你会越写越熟练。</li>
+<li>给利益相关方写每周项目摘要。你在带一个项目吗？如果是，就开始攒一份利落的摘要，讲清整体进展、风险，以及上次更新之后发生了什么。让这份更新易读，并从你在组织里见过的最好的项目更新邮件和文档中汲取灵感。订阅者可以查看一份🔒「项目汇报示例」作为参考。</li>
+<li>主动在会上记录，并发出纪要。记笔记、再额外花时间把会上做出的决定写成一份利落的纪要，看似是件吃力不讨好的事。确实，这对你很耗时，但它能为许多其他人省下时间，还能顺带帮你把总结能力练得更好。</li>
+<li>倡议提案。你有没有一个你或团队应该去做的项目的点子？把这个点子、它解决的问题、带来的影响，以及你的诉求写下来。编辑它，征求反馈让它更清楚，然后发给相关群体、请大家评论。一份写得好的提案，比起那种让人读到一半就放弃的，更有可能拿到它要成功所需的反馈。</li>
+<li>设计文档。花时间编辑你写的设计和规划文档、并获取反馈。用视觉元素把信息传达得更清楚。收集优秀的设计文档，模仿其中行之有效的结构。打听别人用什么工具做出易懂的图示和图片。我推荐用于技术可视化的工具有 Excalidraw、Lucidchart 和 Miro。</li>
+<li>文档。对于你预期不止一个人会读的文档，参照写设计文档时类似的建议去做。</li>
+</ul>
+
+<h3>Continue Learning<span class="zh">持续学习</span></h3>
+
+<p class="en">Below are high-quality resources that can help you become a better writer.</p>
+<p class="zh">下面是一些能帮你成为更好写作者的高质量资源。</p>
+
+<p class="en"><strong>Free online resources</strong></p>
+<p class="zh"><strong>免费的在线资源</strong></p>
+
+<ul class="en">
+<li>The Writing Well Handbook by Julian Shapiro. An e-book for writing nonfiction blogs and books.</li>
+<li>A software developer's guide to writing: advice on writing tactics coming from software engineer Ankur Tyagi.</li>
+<li>Technical writing courses by Google. A collection of courses and learning resources to improve writing technical documentation.</li>
+<li>The craft of writing effectively: an hour and a half video from Leadership Lab. One of the best talks about technical writing. As senior staff engineer Stefan Buck summarized it: "Writing isn't about explaining what you think. It's about changing what the reader thinks."</li>
+</ul>
+<ul class="zh">
+<li>Julian Shapiro 的《The Writing Well Handbook》。一本关于如何写非虚构博客和书籍的电子书。</li>
+<li>《A software developer's guide to writing》：来自软件工程师 Ankur Tyagi 的写作技巧建议。</li>
+<li>Google 的技术写作课程。一套用于提升技术文档写作的课程与学习资源合集。</li>
+<li>《The craft of writing effectively》：来自 Leadership Lab 的一个一个半小时的视频。关于技术写作最好的演讲之一。正如高级 staff 工程师 Stefan Buck 总结的："写作不是为了解释你的想法，而是为了改变读者的想法。"</li>
+</ul>
+
+<p class="en"><strong>Books</strong></p>
+<p class="zh"><strong>书籍</strong></p>
+
+<ul class="en">
+<li>On Writing Well by William Zinsser. The classic guide to writing nonfiction. The book that helped me write more concisely.</li>
+<li>Dreyer's English by Benjamin Dreyer. An entertaining book to make you a better writer.</li>
+<li>The Elements of Style by William Strunk Jr and E.B. White. A succinct book to help eliminate clumsy and incorrect use of English.</li>
+</ul>
+<ul class="zh">
+<li>William Zinsser 的《On Writing Well》。非虚构写作的经典指南。正是这本书帮我写得更简洁。</li>
+<li>Benjamin Dreyer 的《Dreyer's English》。一本能让你成为更好写作者的、读来有趣的书。</li>
+<li>William Strunk Jr 和 E.B. White 的《The Elements of Style》。一本简洁的书，帮你消除笨拙、错误的英语用法。</li>
+</ul>
+
+<p class="en"><strong>Tools</strong></p>
+<p class="zh"><strong>工具</strong></p>
+
+<ul class="en">
+<li>Hemingway Editor for help making text easier to read.</li>
+<li>Grammarly for helping with both readability, grammar and tone.</li>
+</ul>
+<ul class="zh">
+<li>Hemingway Editor，帮你把文字变得更易读。</li>
+<li>Grammarly，在可读性、语法和语气三方面都能帮上忙。</li>
+</ul>
+
+<p class="en"><strong>Courses</strong></p>
+<p class="zh"><strong>课程</strong></p>
+
+<ul class="en">
+<li>There is an ever-growing collection of paid writing courses which aim to help improve writing via practice and feedback. I don't have first-hand experience with these: do your own research on them.</li>
+</ul>
+<ul class="zh">
+<li>有一批数量不断增长的付费写作课程，旨在通过练习和反馈帮人提升写作。这些我没有亲身体验：请自行去调研。</li>
+</ul>
+
+<h2>Takeaways<span class="zh">要点结论</span></h2>
+
+<p class="en">Writing becomes more important as you grow more senior, regardless of where you work within tech. For many people, their lack of writing skill becomes a blocker to progress beyond certain levels.</p>
+<p class="zh">无论你在科技行业的哪个岗位，随着资历变深，写作都会变得更重要。对许多人来说，写作能力的欠缺会成为晋升到某些层级之上的拦路石。</p>
+
+<p class="en">This issue was a summary of systemic approaches you can take to improve your writing skills:</p>
+<p class="zh">这一期是对你可以用来提升写作能力的一套系统方法的总结：</p>
+
+<ul class="en">
+<li>Edit your drafts before you publish them.</li>
+<li>Get feedback and iterate on some of your writing.</li>
+<li>Observe what great writing looks like, and copy elements that make it pleasant to read.</li>
+<li>Put habits in place so you work on your writing muscle on a regular basis - at the very least, weekly.</li>
+<li>Continue educating yourself about writing better through resources – books and courses – dedicated to this topic.</li>
+</ul>
+<ul class="zh">
+<li>在发布之前先编辑你的草稿。</li>
+<li>就你的一部分文章获取反馈并迭代。</li>
+<li>观察优秀的写作是什么样的，并模仿那些让它读起来舒服的要素。</li>
+<li>建立习惯，让你定期锻炼写作肌肉——至少每周一次。</li>
+<li>通过专门针对这一主题的资源（书和课程）持续自学如何写得更好。</li>
+</ul>
+
+<p class="en">This issue is packed with advice that is only worth something if you take action on it. I suggest you make a plan on how you will improve your writing. Subscribers have access to a 🔒Writing goals and accountability document to do so.</p>
+<p class="zh">这一期塞满了建议，而这些建议只有在你付诸行动时才有价值。我建议你为如何提升写作制定一个计划。订阅者可以查看一份🔒「写作目标与自我督促」文档来做这件事。</p>
+
+<p class="en">Technical skills combined with writing skills are a superpower in a world that is increasingly writing-heavy. Writing skill takes time to build and the best time to start doing so is now. Good luck on your writing journey!</p>
+<p class="zh">在一个越来越依赖文字的世界里，技术能力叠加写作能力就是一种超能力。写作能力需要时间来积累，而开始积累的最佳时机就是现在。祝你在写作之路上好运！</p>
+
+<p class="en">Thanks to Zsombor for reviewing this article.</p>
+<p class="zh">感谢 Zsombor 审阅本文。</p>
+
+<p class="note">中译供个人阅读参考，如与原文有出入以原文为准。</p>
+
+</body>
+</html>
